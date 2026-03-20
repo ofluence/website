@@ -1,0 +1,171 @@
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+<h2>Complete Design Summary</h2>
+<p class="subtitle">Full redesign spec — "Warm Kinetic" direction for Ofluence</p>
+
+<div style="max-width: 900px; margin: 0 auto;">
+
+  <!-- Design Identity -->
+  <div style="border: 1px solid #f97316; border-radius: 16px; padding: 28px; margin-bottom: 24px; background: rgba(249,115,22,0.03);">
+    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin: 0 0 12px 0;">Design Identity: "Warm Kinetic"</h3>
+    <p style="font-size: 14px; color: #aaa; line-height: 1.7; margin: 0;">Bold, energetic, modern. Light-first with warm accents. Rounded shapes, spring-based motion, interactive product showcases. Bridges the gap between enterprise credibility and creator-culture energy. Inspired by Linear.app, Framer.com, and modash.io.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+
+    <!-- Typography -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #f97316;">Typography</span>
+      <div style="margin-top: 12px;">
+        <p style="font-size: 13px; color: #aaa; margin: 0; line-height: 1.7;">
+          <strong style="color: #eee;">Display:</strong> Sora — 800 (hero), 700 (section), 600 (subsection)<br>
+          <strong style="color: #eee;">Body:</strong> Geist Sans — 400/450/500<br>
+          <strong style="color: #eee;">Hero scale:</strong> clamp(36px, 6vw, 64px), -2.5px tracking<br>
+          <strong style="color: #eee;">Overlines:</strong> Geist 600, 12px, uppercase, 2px tracking, orange
+        </p>
+      </div>
+    </div>
+
+    <!-- Colors -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #f97316;">Colors</span>
+      <div style="margin-top: 12px;">
+        <p style="font-size: 13px; color: #aaa; margin: 0; line-height: 1.7;">
+          <strong style="color: #eee;">Light BG:</strong> #fafaf8 warm white<br>
+          <strong style="color: #eee;">Dark BG:</strong> #0c0c0c true dark<br>
+          <strong style="color: #eee;">Accent:</strong> #f97316 solid orange<br>
+          <strong style="color: #eee;">Gradients:</strong> Radial glows only, ≤6% opacity<br>
+          <strong style="color: #eee;">Surface:</strong> #f5f5f0 (light) / #161616 (dark)
+        </p>
+      </div>
+    </div>
+
+    <!-- Layout -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #f97316;">Layout</span>
+      <div style="margin-top: 12px;">
+        <p style="font-size: 13px; color: #aaa; margin: 0; line-height: 1.7;">
+          <strong style="color: #eee;">Hero:</strong> Full-bleed rounded container, centered<br>
+          <strong style="color: #eee;">Features:</strong> Asymmetric bento grid (2 large + 2 std)<br>
+          <strong style="color: #eee;">Spacing:</strong> py-20 / py-28 balanced<br>
+          <strong style="color: #eee;">Max width:</strong> 1280px content container<br>
+          <strong style="color: #eee;">Radius:</strong> 20px containers, 16px cards, 10px buttons
+        </p>
+      </div>
+    </div>
+
+    <!-- Motion -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #f97316;">Motion</span>
+      <div style="margin-top: 12px;">
+        <p style="font-size: 13px; color: #aaa; margin: 0; line-height: 1.7;">
+          <strong style="color: #eee;">Engine:</strong> Spring physics (stiffness: 100, damping: 15)<br>
+          <strong style="color: #eee;">Entry:</strong> Fade-in + rise on section load, staggered<br>
+          <strong style="color: #eee;">Hover:</strong> Card lift (-4px) + shadow + border glow<br>
+          <strong style="color: #eee;">Ambient:</strong> Radial glow drift, dot grid texture<br>
+          <strong style="color: #eee;">Tabs:</strong> Layout-animated indicator, cross-fade content
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Map -->
+  <div style="border: 1px solid #333; border-radius: 12px; padding: 24px; margin-bottom: 24px; background: rgba(255,255,255,0.02);">
+    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #f97316;">Site Map</span>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px;">
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #333;">
+        <p style="font-size: 13px; font-weight: 700; margin: 0; color: #eee;">Home /</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">9 sections, full redesign</p>
+      </div>
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #333;">
+        <p style="font-size: 13px; font-weight: 700; margin: 0; color: #eee;">Pricing /pricing</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">Visual overhaul, same content</p>
+      </div>
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #f97316;">
+        <p style="font-size: 13px; font-weight: 700; margin: 0; color: #f97316;">Solutions /solutions</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">NEW: Use Cases + Integrations</p>
+      </div>
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #333;">
+        <p style="font-size: 13px; font-weight: 700; margin: 0; color: #eee;">Contact /contact</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">Visual overhaul</p>
+      </div>
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #333;">
+        <p style="font-size: 13px; font-weight: 700; margin: 0; color: #eee;">Legal pages</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">Spacing alignment to new system</p>
+      </div>
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #ef4444;">
+        <p style="font-size: 13px; font-weight: 700; margin: 0; color: #ef4444; text-decoration: line-through;">About /about</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">REMOVED → content to footer</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Landing Sections -->
+  <div style="border: 1px solid #333; border-radius: 12px; padding: 24px; margin-bottom: 24px; background: rgba(255,255,255,0.02);">
+    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #f97316;">Landing Page Flow</span>
+    <div style="margin-top: 16px; font-size: 13px; color: #aaa; line-height: 2;">
+      <span style="color: #f97316; font-weight: 700;">1</span> Navbar (glass, larger logo) →
+      <span style="color: #f97316; font-weight: 700;">2</span> Hero (full-bleed, interactive mockup) →
+      <span style="color: #f97316; font-weight: 700;">3</span> Social Proof (metrics bar) →
+      <span style="color: #f97316; font-weight: 700;">4</span> Features Bento Grid (interactive cards) →
+      <span style="color: #f97316; font-weight: 700;">5</span> How It Works (tabbed) →
+      <span style="color: #f97316; font-weight: 700;">6</span> Industry Pain Points (merged) →
+      <span style="color: #f97316; font-weight: 700;">7</span> Pricing Preview (compact) →
+      <span style="color: #f97316; font-weight: 700;">8</span> Final CTA (full-bleed) →
+      <span style="color: #f97316; font-weight: 700;">9</span> Footer (with About content)
+    </div>
+  </div>
+
+  <!-- Visual Content Strategy -->
+  <div style="border: 1px solid #333; border-radius: 12px; padding: 24px; margin-bottom: 24px; background: rgba(255,255,255,0.02);">
+    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #f97316;">Visual Content</span>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px;">
+      <div style="text-align: center;">
+        <div style="background: #1a1a1a; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; border: 1px solid #333;">
+          <span style="font-size: 20px;">📸</span>
+        </div>
+        <p style="font-size: 12px; color: #aaa; margin: 8px 0 0 0; font-weight: 600;">Product Screenshots</p>
+        <p style="font-size: 11px; color: #666; margin: 2px 0 0 0;">Features, hero mockup</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="background: #1a1a1a; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; border: 1px solid #333;">
+          <span style="font-size: 20px;">📷</span>
+        </div>
+        <p style="font-size: 12px; color: #aaa; margin: 8px 0 0 0; font-weight: 600;">Real Photography</p>
+        <p style="font-size: 11px; color: #666; margin: 2px 0 0 0;">Social proof, brand feel</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="background: #1a1a1a; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; border: 1px solid #333;">
+          <span style="font-size: 20px;">🎨</span>
+        </div>
+        <p style="font-size: 12px; color: #aaa; margin: 8px 0 0 0; font-weight: 600;">Illustrations</p>
+        <p style="font-size: 11px; color: #666; margin: 2px 0 0 0;">Concepts, how-it-works</p>
+      </div>
+    </div>
+    <p style="font-size: 12px; color: #666; margin: 12px 0 0 0; text-align: center;">All visual content is swappable — start with a mix, refine with real assets later.</p>
+  </div>
+
+  <!-- Key Interactions -->
+  <div style="border: 1px solid #333; border-radius: 12px; padding: 24px; background: rgba(255,255,255,0.02);">
+    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #f97316;">Key Interactions</span>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;">
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #333;">
+        <p style="font-size: 12px; font-weight: 600; margin: 0; color: #eee;">Interactive Hero Mockup</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">Tabbed product views — click Discovery/Campaigns/Analytics to see different UI states</p>
+      </div>
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #333;">
+        <p style="font-size: 12px; font-weight: 600; margin: 0; color: #eee;">Bento Feature Cards</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">Hover reveals interactive mini-mockup of each feature in action</p>
+      </div>
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #333;">
+        <p style="font-size: 12px; font-weight: 600; margin: 0; color: #eee;">How It Works Tabs</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">Smooth tab indicator + content cross-fade between audience workflows</p>
+      </div>
+      <div style="background: #1a1a1a; border-radius: 10px; padding: 14px; border: 1px solid #333;">
+        <p style="font-size: 12px; font-weight: 600; margin: 0; color: #eee;">Animated Counters</p>
+        <p style="font-size: 11px; color: #666; margin: 4px 0 0 0;">Spring-animated number counters on social proof + pain point stats</p>
+      </div>
+    </div>
+  </div>
+
+</div>

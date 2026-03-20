@@ -1,61 +1,37 @@
-import {
-  CustomerServiceIcon,
-  Mail01Icon,
-  PresentationBarChart01Icon,
-} from '@hugeicons/core-free-icons'
+import { ArrowRight01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import type { IconSvgElement } from '@hugeicons/react'
 import { useForm } from '@tanstack/react-form'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
 import { toast } from 'sonner'
 
-import { fadeInUp } from '@/utils/motion.utils'
-
-import {
-  AnimatedCard,
-  AnimatedStaggerGrid,
-  AnimatedStaggerItem,
-  FadeInView,
-} from '@/components/ui/animated-container'
+import { FadeInView } from '@/components/ui/animated-container'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { Seo } from '@/components/features/global/seo.component'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
 interface ContactMethod {
-  icon: IconSvgElement
   title: string
-  description: string
-  action: string
+  email: string
   href: string
-  gradient: string
 }
 
 const CONTACT_METHODS: ContactMethod[] = [
   {
-    icon: Mail01Icon,
     title: 'General Inquiries',
-    description: 'Questions about Ofluence? We are happy to help.',
-    action: 'hello@ofluence.ai',
+    email: 'hello@ofluence.ai',
     href: 'mailto:hello@ofluence.ai',
-    gradient: 'from-chart-1/10 via-chart-1/15 to-chart-1/5 bg-gradient-to-br',
   },
   {
-    icon: PresentationBarChart01Icon,
     title: 'Sales & Demos',
-    description: 'Want a personalized walkthrough? Talk to our sales team.',
-    action: 'sales@ofluence.ai',
+    email: 'sales@ofluence.ai',
     href: 'mailto:sales@ofluence.ai',
-    gradient: 'from-chart-2/10 via-chart-2/15 to-chart-2/5 bg-gradient-to-br',
   },
   {
-    icon: CustomerServiceIcon,
     title: 'Support',
-    description: 'Already a customer? Our support team is here for you.',
-    action: 'support@ofluence.ai',
+    email: 'support@ofluence.ai',
     href: 'mailto:support@ofluence.ai',
-    gradient: 'from-chart-4/10 via-chart-4/15 to-chart-4/5 bg-gradient-to-br',
   },
 ]
 
@@ -64,6 +40,9 @@ const SUBJECT_OPTIONS = [
   { value: 'sales', label: 'Sales & Demos' },
   { value: 'support', label: 'Support' },
 ] as const
+
+const inputClassName =
+  'border-border placeholder:text-muted-foreground focus:border-foreground w-full rounded-lg border bg-transparent px-4 py-3 text-base outline-none transition-colors'
 
 function ContactForm() {
   const form = useForm({
@@ -91,9 +70,9 @@ function ContactForm() {
           // form handles errors internally
         })
       }}
-      className="flex flex-col gap-5"
+      className="flex flex-col gap-10"
     >
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
         <form.Field
           name="name"
           validators={{
@@ -103,9 +82,12 @@ function ContactForm() {
           }}
         >
           {(field) => (
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor={field.name} className="text-sm font-medium">
-                Name <span className="text-destructive">*</span>
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor={field.name}
+                className="text-muted-foreground text-xs font-medium uppercase tracking-[0.2em]"
+              >
+                Name <span className="text-primary">*</span>
               </label>
               <input
                 id={field.name}
@@ -113,10 +95,10 @@ function ContactForm() {
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="Your name"
-                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
+                className={inputClassName}
               />
               {field.state.meta.errors.length > 0 && (
-                <p className="text-destructive text-xs">{field.state.meta.errors[0]}</p>
+                <p className="text-primary mt-1 text-xs">{field.state.meta.errors[0]}</p>
               )}
             </div>
           )}
@@ -132,9 +114,12 @@ function ContactForm() {
           }}
         >
           {(field) => (
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor={field.name} className="text-sm font-medium">
-                Email <span className="text-destructive">*</span>
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor={field.name}
+                className="text-muted-foreground text-xs font-medium uppercase tracking-[0.2em]"
+              >
+                Email <span className="text-primary">*</span>
               </label>
               <input
                 id={field.name}
@@ -143,21 +128,24 @@ function ContactForm() {
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="you@company.com"
-                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
+                className={inputClassName}
               />
               {field.state.meta.errors.length > 0 && (
-                <p className="text-destructive text-xs">{field.state.meta.errors[0]}</p>
+                <p className="text-primary mt-1 text-xs">{field.state.meta.errors[0]}</p>
               )}
             </div>
           )}
         </form.Field>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
         <form.Field name="company">
           {(field) => (
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor={field.name} className="text-sm font-medium">
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor={field.name}
+                className="text-muted-foreground text-xs font-medium uppercase tracking-[0.2em]"
+              >
                 Company
               </label>
               <input
@@ -166,7 +154,7 @@ function ContactForm() {
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="Your company (optional)"
-                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
+                className={inputClassName}
               />
             </div>
           )}
@@ -181,16 +169,19 @@ function ContactForm() {
           }}
         >
           {(field) => (
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor={field.name} className="text-sm font-medium">
-                Subject <span className="text-destructive">*</span>
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor={field.name}
+                className="text-muted-foreground text-xs font-medium uppercase tracking-[0.2em]"
+              >
+                Subject <span className="text-primary">*</span>
               </label>
               <select
                 id={field.name}
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
-                className="border-border bg-background text-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
+                className={`${inputClassName} cursor-pointer appearance-none`}
               >
                 <option value="" disabled>
                   Select a subject
@@ -202,7 +193,7 @@ function ContactForm() {
                 ))}
               </select>
               {field.state.meta.errors.length > 0 && (
-                <p className="text-destructive text-xs">{field.state.meta.errors[0]}</p>
+                <p className="text-primary mt-1 text-xs">{field.state.meta.errors[0]}</p>
               )}
             </div>
           )}
@@ -218,9 +209,12 @@ function ContactForm() {
         }}
       >
         {(field) => (
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor={field.name} className="text-sm font-medium">
-              Message <span className="text-destructive">*</span>
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor={field.name}
+              className="text-muted-foreground text-xs font-medium uppercase tracking-[0.2em]"
+            >
+              Message <span className="text-primary">*</span>
             </label>
             <textarea
               id={field.name}
@@ -229,22 +223,29 @@ function ContactForm() {
               onBlur={field.handleBlur}
               placeholder="Tell us how we can help..."
               rows={5}
-              className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
+              className={`${inputClassName} resize-none`}
             />
             {field.state.meta.errors.length > 0 && (
-              <p className="text-destructive text-xs">{field.state.meta.errors[0]}</p>
+              <p className="text-primary mt-1 text-xs">{field.state.meta.errors[0]}</p>
             )}
           </div>
         )}
       </form.Field>
 
-      <form.Subscribe selector={(state) => state.isSubmitting}>
-        {(isSubmitting) => (
-          <Button type="submit" size="lg" className="w-full md:w-auto" disabled={isSubmitting}>
-            {isSubmitting ? 'Sending...' : 'Send message'}
-          </Button>
-        )}
-      </form.Subscribe>
+      <div>
+        <form.Subscribe selector={(state) => state.isSubmitting}>
+          {(isSubmitting) => (
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Sending...' : 'Send message'}
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                className="size-4"
+                data-icon="inline-end"
+              />
+            </Button>
+          )}
+        </form.Subscribe>
+      </div>
     </form>
   )
 }
@@ -259,84 +260,104 @@ const ContactPage = () => {
       />
 
       {/* Hero */}
-      <section className="py-20 md:py-28">
-        <div className="mx-auto max-w-4xl px-6 text-center md:px-8">
-          <motion.div {...fadeInUp}>
-            <p className="text-primary mb-4 text-sm font-medium tracking-widest uppercase">
+      <section className="pb-16 pt-32 md:pb-24 md:pt-44">
+        <div className="mx-auto max-w-6xl px-6 md:px-8">
+          <FadeInView>
+            <p className="text-muted-foreground mb-6 text-xs font-medium uppercase tracking-[0.3em]">
               Contact
             </p>
-            <h1 className="font-display text-4xl leading-tight font-semibold tracking-tight md:text-5xl lg:text-6xl">
-              Get in touch
-            </h1>
-            <p className="text-muted-foreground mx-auto mt-6 max-w-2xl text-lg leading-relaxed">
-              Have questions about Ofluence? Want to see a demo? We&apos;d love to hear from you.
-              Reach out through any of the channels below and we&apos;ll get back to you promptly.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Contact methods */}
-      <section className="pb-16 md:pb-20">
-        <div className="mx-auto max-w-4xl px-6 md:px-8">
-          <AnimatedStaggerGrid className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {CONTACT_METHODS.map((method) => (
-              <AnimatedStaggerItem key={method.title}>
-                <AnimatedCard>
-                  <Card className={method.gradient}>
-                    <CardContent className="flex flex-col items-center gap-4 text-center">
-                      <div className="bg-background/60 flex size-12 items-center justify-center rounded-xl">
-                        <HugeiconsIcon icon={method.icon} className="text-foreground/70 size-6" />
-                      </div>
-                      <div>
-                        <h3 className="font-display text-lg font-semibold">{method.title}</h3>
-                        <p className="text-muted-foreground mt-1 text-sm">{method.description}</p>
-                      </div>
-                      <a
-                        href={method.href}
-                        className="text-primary text-sm font-medium hover:underline"
-                      >
-                        {method.action}
-                      </a>
-                    </CardContent>
-                  </Card>
-                </AnimatedCard>
-              </AnimatedStaggerItem>
-            ))}
-          </AnimatedStaggerGrid>
-        </div>
-      </section>
-
-      {/* Contact Form */}
-      <section className="bg-muted/30 py-20 md:py-28">
-        <div className="mx-auto max-w-2xl px-6 md:px-8">
+          </FadeInView>
           <FadeInView>
-            <h2 className="font-display mb-2 text-2xl font-semibold tracking-tight md:text-3xl">
-              Send us a message
-            </h2>
-            <p className="text-muted-foreground mb-8 text-lg leading-relaxed">
-              Fill out the form below and we&apos;ll get back to you within 1-2 business days.
-            </p>
-            <ContactForm />
+            <h1 className="text-display-hero">Let&apos;s talk.</h1>
           </FadeInView>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-mesh-warm py-20 md:py-28">
-        <FadeInView className="mx-auto max-w-3xl px-6 text-center md:px-8">
-          <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
-            Ready to get started?
-          </h2>
-          <p className="text-muted-foreground mx-auto mt-4 max-w-lg text-lg leading-relaxed">
-            Start your 14-day free trial today. No credit card required.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button size="lg" render={<Link to="/contact" />}>
-              Try for free
-            </Button>
+      {/* Contact methods */}
+      <section className="pb-24 md:pb-32">
+        <div className="mx-auto max-w-6xl px-6 md:px-8">
+          {CONTACT_METHODS.map((method, index) => (
+            <div key={method.title}>
+              {index > 0 && <Separator />}
+              <FadeInView>
+                <div className="flex flex-col justify-between gap-2 py-10 md:flex-row md:items-center md:py-14">
+                  <h3 className="font-display text-2xl md:text-3xl">{method.title}</h3>
+                  <a
+                    href={method.href}
+                    className="text-muted-foreground hover:text-foreground group inline-flex items-center gap-2 text-lg transition-colors"
+                  >
+                    {method.email}
+                    <HugeiconsIcon
+                      icon={ArrowRight01Icon}
+                      className="size-4 transition-transform group-hover:translate-x-1"
+                    />
+                  </a>
+                </div>
+              </FadeInView>
+            </div>
+          ))}
+          <Separator />
+        </div>
+      </section>
+
+      {/* Contact Form */}
+      <section className="pb-32 md:pb-40">
+        <div className="mx-auto max-w-6xl px-6 md:px-8">
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-24">
+            <div className="lg:col-span-4">
+              <FadeInView>
+                <p className="text-muted-foreground mb-4 text-xs font-medium uppercase tracking-[0.3em]">
+                  Write to us
+                </p>
+                <h2 className="text-display-subsection">
+                  Send us a message
+                </h2>
+                <p className="text-muted-foreground mt-6 text-base leading-relaxed">
+                  Fill out the form and we&apos;ll get back to you within 1-2 business days.
+                </p>
+              </FadeInView>
+            </div>
+            <div className="lg:col-span-8">
+              <FadeInView>
+                <ContactForm />
+              </FadeInView>
+            </div>
           </div>
-        </FadeInView>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="pb-32 md:pb-40">
+        <div className="mx-auto max-w-6xl px-6 md:px-8">
+          <Separator />
+          <div className="py-20 md:py-28">
+            <FadeInView>
+              <p className="text-muted-foreground mb-6 text-xs font-medium uppercase tracking-[0.3em]">
+                Get started
+              </p>
+              <h2 className="text-display-section max-w-3xl">
+                Ready to transform your influencer marketing?
+              </h2>
+              <div className="mt-10">
+                <motion.div
+                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.2 }}
+                  className="inline-block"
+                >
+                  <Button variant="ghost" render={<Link to="/pricing" />}>
+                    Start your 14-day free trial
+                    <HugeiconsIcon
+                      icon={ArrowRight01Icon}
+                      className="size-5"
+                      data-icon="inline-end"
+                    />
+                  </Button>
+                </motion.div>
+              </div>
+            </FadeInView>
+          </div>
+          <Separator />
+        </div>
       </section>
     </LandingPageLayout>
   )

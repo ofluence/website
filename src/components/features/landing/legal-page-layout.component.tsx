@@ -5,7 +5,6 @@ import { HugeiconsIcon } from '@hugeicons/react'
 
 import { cn } from '@/utils/global.utils'
 
-import { Card, CardContent } from '@/components/ui/card'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
 interface TocSection {
@@ -43,19 +42,18 @@ function LegalPageLayout({
   return (
     <LandingPageLayout>
       <article className="mx-auto max-w-4xl px-6 py-20 md:px-8 md:py-28">
-        <h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{title}</h1>
-        <p className="text-muted-foreground mt-2 text-sm">Last updated: {lastUpdated}</p>
+        <h1 className="text-display-section">{title}</h1>
+        <p className="text-muted-foreground mt-2 text-xs font-medium tracking-[0.1em] uppercase">
+          Last updated: {lastUpdated}
+        </p>
 
-        {/* Summary box */}
-        <Card className="from-primary/5 to-primary/2 mt-8 border-0 bg-gradient-to-br">
-          <CardContent className="flex gap-3">
-            <div className="text-primary mt-0.5 text-lg font-bold">&ldquo;</div>
-            <p className="text-foreground/80 text-sm leading-relaxed">{summary}</p>
-          </CardContent>
-        </Card>
+        {/* Summary — editorial pull quote style */}
+        <div className="border-primary mt-10 border-l-2 py-1 pl-6">
+          <p className="text-foreground/80 text-sm leading-relaxed">{summary}</p>
+        </div>
 
         {/* Mobile TOC */}
-        <div className="mt-8 lg:hidden">
+        <div className="mt-10 lg:hidden">
           <button
             onClick={() => setTocOpen(!tocOpen)}
             className="border-border flex w-full items-center justify-between rounded-lg border px-4 py-3 text-sm font-medium"
@@ -70,7 +68,7 @@ function LegalPageLayout({
                   <li key={section.id}>
                     <button
                       onClick={() => scrollToSection(section.id)}
-                      className="text-muted-foreground hover:text-primary text-left text-sm transition-colors"
+                      className="text-muted-foreground hover:text-foreground text-left text-sm transition-colors"
                     >
                       {index + 1}. {section.title}
                     </button>
@@ -82,20 +80,20 @@ function LegalPageLayout({
         </div>
 
         {/* Desktop layout: sidebar TOC + content */}
-        <div className="mt-12 flex gap-12">
-          {/* Sticky sidebar TOC */}
+        <div className="mt-16 flex gap-16">
+          {/* Sticky sidebar TOC — editorial numbering */}
           <nav className="hidden w-56 shrink-0 lg:block">
             <div className="sticky top-24">
-              <p className="text-muted-foreground mb-3 text-xs font-semibold tracking-widest uppercase">
+              <p className="text-muted-foreground mb-4 text-xs font-medium tracking-[0.2em] uppercase">
                 Contents
               </p>
-              <ol className="border-border flex flex-col gap-2 border-l pl-4">
+              <ol className="border-border flex flex-col gap-2.5 border-l pl-4">
                 {sections.map((section, index) => (
                   <li key={section.id}>
                     <button
                       onClick={() => scrollToSection(section.id)}
                       className={cn(
-                        'text-muted-foreground hover:text-primary text-left text-sm transition-colors'
+                        'text-muted-foreground hover:text-foreground text-left text-sm transition-colors'
                       )}
                     >
                       {index + 1}. {section.title}

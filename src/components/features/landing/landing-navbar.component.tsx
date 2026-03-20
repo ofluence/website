@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { DashboardSquare01Icon, Menu01Icon } from '@hugeicons/core-free-icons'
+import { ArrowRight01Icon, Menu01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
 
@@ -40,7 +40,6 @@ function NavLink({
     )
   }
 
-  // Non-hash links are valid TanStack Router paths (e.g. "/pricing")
   const path = link.href as '/'
   return (
     <Link to={path} className={className}>
@@ -61,64 +60,83 @@ function LandingNavbar() {
   return (
     <nav
       className={cn(
-        'fixed inset-x-0 top-0 z-50 h-16 transition-all duration-300',
-        scrolled ? 'glass shadow-soft-sm' : 'bg-transparent'
+        'fixed z-50 h-16 transition-all duration-500',
+        scrolled
+          ? 'top-3 inset-x-3 md:inset-x-auto md:left-1/2 md:w-full md:max-w-5xl md:-translate-x-1/2 bg-card/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-soft'
+          : 'inset-x-0 top-0 bg-transparent'
       )}
     >
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 md:px-8">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <div className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-md">
-            <HugeiconsIcon icon={DashboardSquare01Icon} size={16} />
-          </div>
-          <span className="font-display text-xl font-semibold">Ofluence</span>
+        {/* Wordmark */}
+        <Link to="/" className="font-display text-xl font-bold">
+          Ofluence
         </Link>
 
-        {/* Desktop nav links */}
+        {/* Desktop nav */}
         <div className="hidden items-center gap-8 md:flex">
           {LANDING_NAV_LINKS.map((link) => (
             <NavLink
               key={link.href}
               link={link}
-              className="text-muted-foreground hover:text-foreground group relative text-sm font-medium transition-colors"
+              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
             >
               {link.label}
-              <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full" />
             </NavLink>
           ))}
         </div>
 
-        {/* Desktop CTAs */}
-        <div className="hidden items-center gap-3 md:flex">
-          <Button variant="ghost" render={<Link to="/contact" />}>
+        {/* Desktop CTA */}
+        <div className="hidden items-center gap-4 md:flex">
+          <Link
+            to="/contact"
+            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+          >
             Contact
+          </Link>
+          <Button size="sm" render={<Link to="/pricing" />}>
+            Get started
+            <HugeiconsIcon
+              icon={ArrowRight01Icon}
+              className="size-4"
+              data-icon="inline-end"
+            />
           </Button>
-          <Button render={<Link to="/pricing" />}>Get Started</Button>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile — fullscreen overlay menu */}
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger render={<Button variant="ghost" size="icon" />}>
               <HugeiconsIcon icon={Menu01Icon} size={20} />
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
+            <SheetContent side="right" className="w-full sm:max-w-full">
               <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
+                <SheetTitle className="font-display text-xl font-bold">Ofluence</SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col gap-4 px-4 pt-4">
+              <div className="flex flex-col gap-8 px-6 pt-12">
                 {LANDING_NAV_LINKS.map((link) => (
                   <SheetClose key={link.href}>
-                    <NavLink link={link} className="text-foreground text-base font-medium">
+                    <NavLink
+                      link={link}
+                      className="font-display text-foreground text-3xl transition-colors"
+                    >
                       {link.label}
                     </NavLink>
                   </SheetClose>
                 ))}
-                <div className="border-border mt-4 flex flex-col gap-3 border-t pt-4">
-                  <Button variant="outline" render={<Link to="/contact" />}>
-                    Contact
-                  </Button>
-                  <Button render={<Link to="/pricing" />}>Get Started</Button>
+                <div className="mt-4 border-t border-border pt-4">
+                  <div className="flex flex-col gap-4">
+                    <Link
+                      to="/contact"
+                      className="text-muted-foreground text-sm font-medium"
+                    >
+                      Contact
+                    </Link>
+                    <Button render={<Link to="/pricing" />}>
+                      Get started
+                      <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" data-icon="inline-end" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </SheetContent>

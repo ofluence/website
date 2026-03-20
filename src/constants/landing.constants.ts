@@ -7,11 +7,11 @@ import {
 import type { IconSvgElement } from '@hugeicons/react'
 
 export interface LandingFeature {
+  number: string
   title: string
   headline: string
   description: string
-  badgeVariant: 'coral' | 'sage' | 'lavender' | 'sky'
-  gradient: string
+  badgeVariant: 'accent' | 'ink' | 'stone' | 'mist'
   icon: IconSvgElement
 }
 
@@ -45,46 +45,46 @@ export interface LandingFooterLinkGroup {
 }
 
 export const LANDING_STATS: LandingStat[] = [
-  { value: 2, label: 'Platforms Supported', prefix: '', suffix: '' },
-  { value: 180, label: 'Countries Coverage', suffix: '+' },
+  { value: 2, label: 'Platforms', prefix: '', suffix: '' },
+  { value: 180, label: 'Countries', suffix: '+' },
   { value: 5, label: 'Minute Setup', suffix: ' min' },
 ]
 
 export const LANDING_FEATURES: LandingFeature[] = [
   {
-    title: 'Discover Creators',
-    headline: 'Find your next brand partner with smart filters',
+    number: '01',
+    title: 'Discover',
+    headline: 'Find creators who actually convert.',
     description:
-      'Search creators by niche, engagement rate, audience demographics, location, and brand affinity. AI-powered matching goes beyond follower counts to find creators who actually drive results.',
-    badgeVariant: 'coral',
-    gradient: 'from-chart-1/10 via-chart-1/15 to-chart-1/5 bg-gradient-to-br',
+      'Search by niche, engagement rate, audience demographics, and brand affinity. Go beyond follower counts to find creators who drive real results for your brand.',
+    badgeVariant: 'accent',
     icon: Search01Icon,
   },
   {
-    title: 'Manage Campaigns',
-    headline: 'Keep every collaboration organized from start to finish',
+    number: '02',
+    title: 'Manage',
+    headline: 'One workspace. Every partnership.',
     description:
-      'Unified workspace for partnerships, affiliates, and gifting. Create briefs, manage deliverables, and coordinate creators — no more scattered spreadsheets or endless email threads.',
-    badgeVariant: 'sage',
-    gradient: 'from-chart-2/10 via-chart-2/15 to-chart-2/5 bg-gradient-to-br',
+      'Partnerships, affiliates, and gifting campaigns — all in one place. Create briefs, manage deliverables, and coordinate creators without the scattered tools.',
+    badgeVariant: 'ink',
     icon: Megaphone01Icon,
   },
   {
-    title: 'Track Performance',
-    headline: 'Auto-track content, reach, and ROI across every campaign',
+    number: '03',
+    title: 'Measure',
+    headline: 'Real-time tracking that proves impact.',
     description:
-      'Automatic post capture tracks reach, clicks, sales, EMV, and ROAS. Generate reports that prove real impact to stakeholders without manual screenshot hunting.',
-    badgeVariant: 'lavender',
-    gradient: 'from-chart-3/10 via-chart-3/15 to-chart-3/5 bg-gradient-to-br',
+      'Automatic post capture tracks reach, clicks, sales, and ROAS. Generate reports that prove ROI to stakeholders — no more manual screenshot hunting.',
+    badgeVariant: 'stone',
     icon: AnalyticsUpIcon,
   },
   {
-    title: 'Pay Creators',
-    headline: 'Send fast, secure payments to creators worldwide',
+    number: '04',
+    title: 'Pay',
+    headline: 'Payments in 180+ countries. On time, every time.',
     description:
-      'Process payments in 180+ countries with customizable commissions, automated payouts, and built-in tax compliance. Creators get paid on time, every time.',
-    badgeVariant: 'sky',
-    gradient: 'from-chart-4/10 via-chart-4/15 to-chart-4/5 bg-gradient-to-br',
+      'Customizable commissions, automated payouts, and built-in tax compliance. Creators get paid fast and securely, wherever they are.',
+    badgeVariant: 'mist',
     icon: CreditCardIcon,
   },
 ]

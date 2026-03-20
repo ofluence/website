@@ -1,10 +1,14 @@
-import { motion } from 'motion/react'
+import { motion, useInView, useMotionValue, useSpring } from 'motion/react'
+import { useEffect, useRef } from 'react'
 
 import { cn } from '@/utils/global.utils'
 import {
-  cardHover,
+  defaultSpring,
   fadeInUp,
   pageTransition,
+  scrollStagger,
+  scrollStaggerItem,
+  snappySpring,
   staggerContainer,
   staggerItem,
 } from '@/utils/motion.utils'
@@ -44,10 +48,14 @@ function AnimatedStaggerItem({
   )
 }
 
-/** Card wrapper with hover lift effect */
+/** Card wrapper — hover lift + shadow */
 function AnimatedCard({ className, children, ...props }: React.ComponentProps<typeof motion.div>) {
   return (
-    <motion.div className={cn('will-change-transform', className)} {...cardHover} {...props}>
+    <motion.div
+      className={cn('transition-all duration-200', className)}
+      whileHover={{ y: -4, transition: { type: 'spring', ...snappySpring } }}
+      {...props}
+    >
       {children}
     </motion.div>
   )
@@ -62,4 +70,78 @@ function FadeInView({ className, children, ...props }: React.ComponentProps<type
   )
 }
 
-export { AnimatedPage, AnimatedStaggerGrid, AnimatedStaggerItem, AnimatedCard, FadeInView }
+/** Spring-animated number counter — counts up when scrolled into view */
+function SpringCounter({
+  value,
+  suffix = '',
+  prefix = '',
+  className,
+}: {
+  value: number
+  suffix?: string
+  prefix?: string
+  className?: string
+}) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const motionValue = useMotionValue(0)
+  const springValue = useSpring(motionValue, { ...defaultSpring })
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+
+  useEffect(() => {
+    if (isInView) {
+      motionValue.set(value)
+    }
+  }, [isInView, motionValue, value])
+
+  useEffect(() => {
+    const unsubscribe = springValue.on('change', (latest) => {
+      if (ref.current) {
+        ref.current.textContent = `${prefix}${Math.round(latest)}${suffix}`
+      }
+    })
+    return unsubscribe
+  }, [springValue, prefix, suffix])
+
+  return (
+    <span ref={ref} className={className}>
+      {prefix}0{suffix}
+    </span>
+  )
+}
+
+/** Scroll-triggered stagger container */
+function ScrollStaggerContainer({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof motion.div>) {
+  return (
+    <motion.div className={className} {...scrollStagger} {...props}>
+      {children}
+    </motion.div>
+  )
+}
+
+/** Single item inside a ScrollStaggerContainer */
+function ScrollStaggerItem({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof motion.div>) {
+  return (
+    <motion.div className={className} {...scrollStaggerItem} {...props}>
+      {children}
+    </motion.div>
+  )
+}
+
+export {
+  AnimatedPage,
+  AnimatedStaggerGrid,
+  AnimatedStaggerItem,
+  AnimatedCard,
+  FadeInView,
+  SpringCounter,
+  ScrollStaggerContainer,
+  ScrollStaggerItem,
+}

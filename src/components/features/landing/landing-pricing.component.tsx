@@ -61,7 +61,7 @@ function LandingPricing() {
                   >
                     {tier.highlighted && (
                       <div className="absolute -top-3 right-4">
-                        <Badge variant="coral">Most Popular</Badge>
+                        <Badge variant="accent">Most Popular</Badge>
                       </div>
                     )}
                     <CardHeader>

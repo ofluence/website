@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import {
   ArrowUp01Icon,
-  DashboardSquare01Icon,
   InstagramIcon,
   Linkedin01Icon,
   SecurityCheckIcon,
@@ -15,7 +14,6 @@ import { toast } from 'sonner'
 import { useLocaleContent } from '@/hooks/use-locale-content'
 import { useScrollToSection } from '@/hooks/use-scroll-to-section'
 
-import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/features/global/theme-toggle.component'
 
 import { LANDING_FOOTER_LINKS } from '@/constants/landing.constants'
@@ -27,7 +25,8 @@ const scrollToTop = () => {
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   const scrollToSection = useScrollToSection()
   const isHash = href.startsWith('/#')
-  const linkClass = 'text-sm text-footer-muted transition-colors hover:text-footer-fg'
+  const linkClass =
+    'text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground transition-colors hover:text-foreground'
 
   if (isHash) {
     const sectionId = href.slice(2)
@@ -59,15 +58,20 @@ function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
+    <form onSubmit={handleSubmit} className="mt-6 flex gap-3">
       <input
         type="email"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        placeholder="Enter your email"
-        className="border-footer-border bg-footer-input-bg text-footer-fg placeholder:text-footer-input-placeholder focus:border-footer-accent flex-1 rounded-md border px-3 py-2 text-sm focus:outline-none"
+        placeholder="your@email.com"
+        className="border-border bg-transparent text-foreground placeholder:text-muted-foreground/50 flex-1 border-b px-0 py-2 text-sm outline-none transition-colors focus:border-primary"
       />
-      <Button type="submit">Subscribe</Button>
+      <button
+        type="submit"
+        className="text-muted-foreground hover:text-foreground text-xs font-medium tracking-[0.1em] uppercase transition-colors"
+      >
+        Subscribe
+      </button>
     </form>
   )
 }
@@ -76,68 +80,64 @@ function LandingFooter() {
   const { compliance } = useLocaleContent()
 
   return (
-    <footer className="bg-footer-bg text-footer-fg py-16">
+    <footer className="bg-card text-foreground py-20">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
-        {/* Newsletter */}
-        <div className="border-footer-border mb-12 border-b pb-12">
-          <div className="mx-auto max-w-md text-center">
-            <h3 className="font-display text-xl font-semibold">Stay in the loop</h3>
-            <p className="text-footer-muted mt-2 text-sm">
-              Get the latest on influencer marketing trends, product updates, and industry insights.
-            </p>
-            <NewsletterForm />
+        {/* Editorial masthead */}
+        <div className="border-border mb-16 border-b pb-16">
+          <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr]">
+            <div>
+              <span className="font-display text-4xl font-bold md:text-5xl">Ofluence</span>
+              <p className="text-muted-foreground mt-4 max-w-sm text-sm leading-relaxed">
+                The modern influencer marketing platform for brands, agencies, and creators who want
+                to do their best work together.
+              </p>
+              {/* Social icons — static, muted */}
+              <div className="mt-6 flex gap-5">
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                  aria-label="Instagram"
+                >
+                  <HugeiconsIcon icon={InstagramIcon} size={18} />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                  aria-label="YouTube"
+                >
+                  <HugeiconsIcon icon={YoutubeIcon} size={18} />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <HugeiconsIcon icon={Linkedin01Icon} size={18} />
+                </a>
+              </div>
+            </div>
+            {/* Newsletter */}
+            <div>
+              <p className="font-display text-lg font-medium">Stay informed.</p>
+              <p className="text-muted-foreground mt-2 text-sm">
+                Product updates, industry insights, and the occasional opinion.
+              </p>
+              <NewsletterForm />
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-5">
-          {/* Brand column */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2">
-              <div className="bg-footer-accent flex size-7 items-center justify-center rounded-md">
-                <HugeiconsIcon icon={DashboardSquare01Icon} size={16} className="text-footer-bg" />
-              </div>
-              <span className="font-display text-xl font-semibold">Ofluence</span>
-            </div>
-            <p className="text-footer-muted mt-4 max-w-xs text-sm leading-relaxed">
-              The modern influencer marketing platform for brands, agencies, and creators who want
-              to do their best work together.
-            </p>
-            {/* Social icons with hover effects */}
-            <div className="mt-6 flex gap-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-footer-muted hover:text-footer-fg transition-all duration-200 hover:scale-110"
-                aria-label="Instagram"
-              >
-                <HugeiconsIcon icon={InstagramIcon} size={20} />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-footer-muted hover:text-footer-fg transition-all duration-200 hover:scale-110"
-                aria-label="YouTube"
-              >
-                <HugeiconsIcon icon={YoutubeIcon} size={20} />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-footer-muted hover:text-footer-fg transition-all duration-200 hover:scale-110"
-                aria-label="LinkedIn"
-              >
-                <HugeiconsIcon icon={Linkedin01Icon} size={20} />
-              </a>
-            </div>
-          </div>
-
-          {/* Link columns */}
+        {/* Link columns */}
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-3">
           {LANDING_FOOTER_LINKS.map((group) => (
             <div key={group.title}>
-              <h3 className="text-footer-accent mb-4 text-sm font-semibold tracking-wider uppercase">
+              <h3 className="text-primary mb-5 text-xs font-medium tracking-[0.2em] uppercase">
                 {group.title}
               </h3>
               <ul className="flex flex-col gap-3">
@@ -152,31 +152,31 @@ function LandingFooter() {
         </div>
 
         {/* Trust badges */}
-        <div className="border-footer-border mt-12 flex flex-wrap items-center justify-center gap-3 border-t pt-8">
+        <div className="border-border mt-16 flex flex-wrap items-center justify-center gap-4 border-t pt-8">
           {compliance.map((badge) => (
             <span
               key={badge}
-              className="border-footer-badge-border text-footer-badge-text inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs"
+              className="text-muted-foreground/60 inline-flex items-center gap-1 text-[10px] font-medium tracking-[0.1em] uppercase"
             >
-              <HugeiconsIcon icon={SecurityCheckIcon} size={12} />
+              <HugeiconsIcon icon={SecurityCheckIcon} size={10} />
               {badge}
             </span>
           ))}
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-6 flex items-center justify-between">
-          <p className="text-footer-dim text-sm">
-            &copy; {new Date().getFullYear()} Ofluence. All rights reserved.
+        <div className="border-border mt-8 flex items-center justify-between border-t pt-8">
+          <p className="text-muted-foreground/50 text-xs tracking-wider">
+            &copy; {new Date().getFullYear()} Ofluence
           </p>
-          <div className="flex items-center gap-2">
-            <ThemeToggle className="text-footer-dim hover:text-footer-fg" side="top" />
+          <div className="flex items-center gap-3">
+            <ThemeToggle className="text-muted-foreground/50 hover:text-foreground" side="top" />
             <button
               onClick={scrollToTop}
-              className="text-footer-dim hover:text-footer-fg transition-colors"
+              className="text-muted-foreground/50 hover:text-foreground transition-colors"
               aria-label="Back to top"
             >
-              <HugeiconsIcon icon={ArrowUp01Icon} size={20} />
+              <HugeiconsIcon icon={ArrowUp01Icon} size={18} />
             </button>
           </div>
         </div>

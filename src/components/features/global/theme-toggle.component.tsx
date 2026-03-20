@@ -49,7 +49,7 @@ function ThemeToggle({ className, side = 'bottom' }: ThemeToggleProps) {
           <DropdownMenuItem
             key={option.value}
             className={cn(theme === option.value && 'bg-accent')}
-            onSelect={() => setThemeMode(option.value)}
+            onClick={() => setThemeMode(option.value)}
           >
             <HugeiconsIcon icon={option.icon} strokeWidth={2} />
             {option.label}

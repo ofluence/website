@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as UseCasesRouteImport } from './pages/use-cases'
 import { Route as TermsOfServiceRouteImport } from './pages/terms-of-service'
+import { Route as SolutionsRouteImport } from './pages/solutions'
 import { Route as PrivacyPolicyRouteImport } from './pages/privacy-policy'
 import { Route as PricingRouteImport } from './pages/pricing'
 import { Route as IntegrationsRouteImport } from './pages/integrations'
@@ -29,6 +30,11 @@ const UseCasesRoute = UseCasesRouteImport.update({
 const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
   id: '/terms-of-service',
   path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/integrations': typeof IntegrationsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/solutions': typeof SolutionsRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/use-cases': typeof UseCasesRoute
 }
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/integrations': typeof IntegrationsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/solutions': typeof SolutionsRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/use-cases': typeof UseCasesRoute
 }
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/integrations': typeof IntegrationsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/solutions': typeof SolutionsRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/use-cases': typeof UseCasesRoute
 }
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/integrations'
     | '/pricing'
     | '/privacy-policy'
+    | '/solutions'
     | '/terms-of-service'
     | '/use-cases'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/integrations'
     | '/pricing'
     | '/privacy-policy'
+    | '/solutions'
     | '/terms-of-service'
     | '/use-cases'
   id:
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/integrations'
     | '/pricing'
     | '/privacy-policy'
+    | '/solutions'
     | '/terms-of-service'
     | '/use-cases'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,7 @@ export interface RootRouteChildren {
   IntegrationsRoute: typeof IntegrationsRoute
   PricingRoute: typeof PricingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  SolutionsRoute: typeof SolutionsRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
   UseCasesRoute: typeof UseCasesRoute
 }
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/terms-of-service'
       fullPath: '/terms-of-service'
       preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -265,6 +285,7 @@ const rootRouteChildren: RootRouteChildren = {
   IntegrationsRoute: IntegrationsRoute,
   PricingRoute: PricingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  SolutionsRoute: SolutionsRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
   UseCasesRoute: UseCasesRoute,
 }

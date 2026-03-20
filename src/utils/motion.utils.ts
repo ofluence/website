@@ -1,28 +1,31 @@
 /**
- * Reusable motion presets for the Soft Modern aesthetic.
- * Use with motion/react components: <motion.div {...motionPresets.fadeInUp} />
+ * Warm Kinetic motion presets — spring physics for natural, alive feel.
+ * Use with motion/react components: <motion.div {...fadeInUp} />
  */
 
-/** Soft ease-out curve */
-const softEase = [0.25, 0.46, 0.45, 0.94] as const
+/** Default spring — natural, smooth */
+export const defaultSpring = { stiffness: 100, damping: 15 } as const
+
+/** Snappy spring — buttons, quick interactions */
+export const snappySpring = { stiffness: 200, damping: 20 } as const
 
 /** Page enter/exit transitions */
 export const pageTransition = {
-  initial: { opacity: 0, y: 8 },
+  initial: { opacity: 0, y: 12 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
-  transition: { duration: 0.3, ease: softEase },
+  exit: { opacity: 0, y: -12 },
+  transition: { type: 'spring' as const, ...defaultSpring },
 } as const
 
 /** Stagger container — apply to parent grid/flex */
 export const staggerContainer = {
-  initial: 'hidden',
-  animate: 'visible',
+  initial: 'hidden' as const,
+  animate: 'visible' as const,
   variants: {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.06,
+        staggerChildren: 0.08,
         delayChildren: 0.1,
       },
     },
@@ -32,65 +35,90 @@ export const staggerContainer = {
 /** Stagger item — apply to each child in a stagger container */
 export const staggerItem = {
   variants: {
-    hidden: { opacity: 0, y: 12 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, ease: softEase },
+      transition: { type: 'spring' as const, ...defaultSpring },
     },
   },
 } as const
 
-/** Card hover lift — subtle y translation */
-export const cardHover = {
-  whileHover: { y: -2, transition: { duration: 0.2, ease: 'easeOut' } },
-} as const
-
-/** Scroll-triggered fade in from below */
-export const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-50px' },
-  transition: { duration: 0.5, ease: softEase },
-} as const
-
-/** Hero section — large dramatic entrance */
-export const heroReveal = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: softEase },
-  },
-} as const
-
-/** Hero section stagger container */
+/** Hero section stagger */
 export const heroStagger = {
-  initial: 'hidden',
-  animate: 'visible',
+  initial: 'hidden' as const,
+  animate: 'visible' as const,
   variants: {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.3,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
     },
   },
 } as const
 
-/** Scroll-triggered fade in from left */
-export const fadeInLeft = {
-  initial: { opacity: 0, x: -30 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true, margin: '-50px' },
-  transition: { duration: 0.6, ease: softEase },
+/** Hero item reveal */
+export const heroReveal = {
+  variants: {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: 'spring' as const, ...defaultSpring },
+    },
+  },
 } as const
 
-/** Scroll-triggered fade in from right */
-export const fadeInRight = {
-  initial: { opacity: 0, x: 30 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true, margin: '-50px' },
-  transition: { duration: 0.6, ease: softEase },
+/** Scroll-triggered fade + rise — general purpose */
+export const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-80px' },
+  transition: { type: 'spring' as const, ...defaultSpring },
+} as const
+
+/** Scroll-triggered stagger container */
+export const scrollStagger = {
+  initial: 'hidden' as const,
+  whileInView: 'visible' as const,
+  viewport: { once: true, margin: '-80px' },
+  variants: {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+    },
+  },
+} as const
+
+/** Scroll stagger item */
+export const scrollStaggerItem = {
+  variants: {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: 'spring' as const, ...defaultSpring },
+    },
+  },
+} as const
+
+/** Card hover — lift + shadow */
+export const cardHover = {
+  whileHover: {
+    y: -4,
+    transition: { type: 'spring' as const, ...snappySpring },
+  },
+} as const
+
+/** Button hover — scale */
+export const buttonHover = {
+  whileHover: {
+    scale: 1.02,
+    transition: { type: 'spring' as const, ...snappySpring },
+  },
+  whileTap: {
+    scale: 0.98,
+  },
 } as const

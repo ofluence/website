@@ -2,14 +2,15 @@ import { useState } from 'react'
 
 import { Search01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { AnimatePresence, motion } from 'motion/react'
+import { motion } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
-import { fadeInLeft, fadeInRight, fadeInUp } from '@/utils/motion.utils'
+import { scrollStagger, scrollStaggerItem } from '@/utils/motion.utils'
 import { useLocaleContent } from '@/hooks/use-locale-content'
 
+import { FadeInView } from '@/components/ui/animated-container'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { BentoCard, BentoGrid } from '@/components/ui/bento-grid'
 
 import { LANDING_FEATURES } from '@/constants/landing.constants'
 import type {
@@ -18,7 +19,79 @@ import type {
   LocalePayment,
 } from '@/constants/locale/locale.constants'
 
-/* ─── Discover Mockup ─── */
+/* ─── Discover Mockup — Pinterest-style Masonry Grid ─── */
+
+/** Varying aspect ratios for masonry effect */
+const MASONRY_RATIOS = [
+  'aspect-[3/4]',
+  'aspect-[2/3]',
+  'aspect-[4/5]',
+  'aspect-[3/5]',
+  'aspect-[3/4]',
+  'aspect-[4/5]',
+  'aspect-[2/3]',
+  'aspect-[3/5]',
+  'aspect-[4/5]',
+  'aspect-[3/4]',
+  'aspect-[2/3]',
+  'aspect-[3/5]',
+  'aspect-[3/4]',
+  'aspect-[4/5]',
+  'aspect-[2/3]',
+  'aspect-[3/4]',
+  'aspect-[3/5]',
+  'aspect-[4/5]',
+] as const
+
+function CreatorCard({ creator, index }: { creator: LocaleCreator; index: number }) {
+  const aspectRatio = MASONRY_RATIOS[index % MASONRY_RATIOS.length]
+
+  return (
+    <div className="group/creator relative mb-2.5 cursor-default break-inside-avoid overflow-hidden rounded-xl">
+      <div className={cn('relative w-full', aspectRatio)}>
+        {creator.thumbnail ? (
+          <img
+            src={creator.thumbnail}
+            alt={`${creator.name} content`}
+            className="size-full object-cover transition-transform duration-300 group-hover/creator:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className={cn('size-full bg-linear-to-br', creator.gradient)} />
+        )}
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
+
+        {/* Category badge — top-right */}
+        <Badge
+          variant="accent"
+          className="absolute top-2 right-2 h-4 px-1.5 text-[9px] backdrop-blur-sm"
+        >
+          {creator.niche}
+        </Badge>
+
+        {/* Overlaid creator details — bottom */}
+        <div className="absolute inset-x-0 bottom-0 p-2.5">
+          <p className="text-xs font-semibold text-white">{creator.name}</p>
+          <p className="text-[10px] text-white/70">{creator.followers} followers</p>
+          <div className="mt-1 flex flex-wrap items-center gap-1">
+            {creator.location && (
+              <span className="rounded-full bg-white/15 px-1.5 py-0.5 text-[8px] font-medium text-white/90 backdrop-blur-sm">
+                {creator.location}
+              </span>
+            )}
+            {creator.demographic && (
+              <span className="rounded-full bg-white/15 px-1.5 py-0.5 text-[8px] font-medium text-white/90 backdrop-blur-sm">
+                {creator.demographic}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
   const [searchQuery, setSearchQuery] = useState('')
@@ -28,70 +101,43 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
     const query = searchQuery.toLowerCase()
     return (
       creator.name.toLowerCase().includes(query) ||
-      creator.handle.toLowerCase().includes(query) ||
-      creator.niche.toLowerCase().includes(query)
+      creator.niche.toLowerCase().includes(query) ||
+      (creator.location?.toLowerCase().includes(query) ?? false)
     )
   })
 
   return (
-    <div className="flex min-h-[196px] flex-col gap-3">
-      {/* Search bar — functional */}
-      <div className="bg-background/80 focus-within:ring-primary/20 flex items-center gap-2 rounded-lg px-3 py-2 transition-shadow focus-within:ring-2">
-        <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground size-4 shrink-0" />
+    <div className="flex flex-col gap-3">
+      {/* Search bar */}
+      <div className="bg-background focus-within:ring-primary/20 flex items-center gap-2 rounded-xl px-4 py-3 transition-shadow focus-within:ring-2">
+        <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground size-5 shrink-0" />
         <input
           type="text"
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
-          placeholder="Search creators by niche, location..."
-          className="text-foreground placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent text-xs outline-none"
+          placeholder="Search by niche, location..."
+          className="text-foreground placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent text-sm outline-none"
         />
         {searchQuery && (
           <button
             onClick={() => setSearchQuery('')}
-            className="text-muted-foreground hover:text-foreground text-[10px] transition-colors"
+            className="text-muted-foreground hover:text-foreground text-xs transition-colors"
           >
             Clear
           </button>
         )}
       </div>
-      {/* Creator cards */}
-      <AnimatePresence mode="popLayout">
-        {filtered.length > 0 ? (
-          filtered.slice(0, 3).map((creator) => (
-            <motion.div
-              key={creator.handle}
-              layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="bg-background/60 hover:bg-background/80 flex cursor-default items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 hover:shadow-sm"
-            >
-              <div
-                className={cn('size-9 shrink-0 rounded-full bg-gradient-to-br', creator.gradient)}
-              />
-              <div className="flex-1">
-                <p className="text-xs font-semibold">{creator.name}</p>
-                <p className="text-muted-foreground text-[10px]">{creator.handle}</p>
-              </div>
-              <div className="text-right">
-                <p className="font-display text-xs font-semibold">{creator.followers}</p>
-                <Badge variant="coral" className="h-4 px-1.5 text-[9px]">
-                  {creator.niche}
-                </Badge>
-              </div>
-            </motion.div>
-          ))
-        ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-muted-foreground flex min-h-[130px] items-center justify-center text-xs"
-          >
-            No creators match your search.
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+      {/* Masonry grid — clipped with fade-out */}
+      <div className="relative max-h-160 overflow-hidden">
+        <div className="columns-3 gap-2.5">
+          {filtered.map((creator, index) => (
+            <CreatorCard key={creator.handle} creator={creator} index={index} />
+          ))}
+        </div>
+        {/* Fade-out gradient at bottom */}
+        <div className="from-card pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t to-transparent" />
+      </div>
     </div>
   )
 }
@@ -107,7 +153,7 @@ function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
   ]
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-background/60 hover:bg-background/80 cursor-default rounded-xl px-4 py-3 transition-all duration-200 hover:shadow-sm">
+      <div className="bg-background rounded-lg px-4 py-3">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold">{campaigns[0].name}</p>
@@ -119,7 +165,6 @@ function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
             {campaigns[0].status}
           </Badge>
         </div>
-        {/* Timeline */}
         <div className="mt-3 flex items-center gap-1">
           {stages.map((stage, index_) => (
             <div key={stage.label} className="flex flex-1 flex-col items-center gap-1">
@@ -147,7 +192,7 @@ function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
         </div>
       </div>
       {campaigns[1] && (
-        <div className="bg-background/60 hover:bg-background/80 cursor-default rounded-xl px-4 py-3 transition-all duration-200 hover:shadow-sm">
+        <div className="bg-background rounded-lg px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold">{campaigns[1].name}</p>
@@ -192,21 +237,16 @@ function AnalyticsMockup() {
   ]
   return (
     <div className="flex flex-col gap-3">
-      {/* Metrics row */}
       <div className="grid grid-cols-3 gap-2">
         {metrics.map((metric) => (
-          <div
-            key={metric.label}
-            className="bg-background/60 hover:bg-background/80 cursor-default rounded-lg px-2.5 py-2 text-center transition-all duration-200 hover:shadow-sm"
-          >
-            <p className="font-display text-sm font-bold">{metric.value}</p>
+          <div key={metric.label} className="bg-background rounded-lg px-2.5 py-2 text-center">
+            <p className="font-display text-sm font-semibold">{metric.value}</p>
             <p className="text-muted-foreground text-[9px]">{metric.label}</p>
-            <p className="text-[9px] font-medium text-[oklch(0.55_0.1_155)]">{metric.change}</p>
+            <p className="text-success text-[9px] font-medium">{metric.change}</p>
           </div>
         ))}
       </div>
-      {/* Bar chart */}
-      <div className="bg-background/60 rounded-xl p-3">
+      <div className="bg-background rounded-lg p-3">
         <p className="text-muted-foreground mb-2 text-[10px] font-medium">Weekly Performance</p>
         <div className="flex items-end gap-1.5" style={{ height: '60px' }}>
           {ANALYTICS_BARS.map((bar, index_) => (
@@ -218,16 +258,16 @@ function AnalyticsMockup() {
               onMouseLeave={() => setHoveredBar(null)}
             >
               {hoveredBar === index_ && (
-                <div className="absolute -top-6 left-1/2 z-10 -translate-x-1/2 rounded-md bg-[oklch(0.2_0.01_60)] px-1.5 py-0.5 text-[8px] font-medium whitespace-nowrap text-[oklch(0.9_0.02_60)]">
+                <div className="bg-foreground text-background absolute -top-6 left-1/2 z-10 -translate-x-1/2 rounded-md px-1.5 py-0.5 text-[8px] font-medium whitespace-nowrap">
                   {bar.value}
                 </div>
               )}
               <div
                 className={cn(
-                  'absolute inset-x-0 bottom-0 cursor-default rounded-t bg-gradient-to-t transition-all duration-200',
+                  'absolute inset-x-0 bottom-0 cursor-default rounded-t-md bg-linear-to-t transition-all duration-200',
                   hoveredBar === index_
-                    ? 'from-chart-3/80 to-chart-3/50'
-                    : 'from-chart-3/60 to-chart-3/30'
+                    ? 'from-foreground/40 to-foreground/20'
+                    : 'from-foreground/25 to-foreground/10'
                 )}
                 style={{ height: `${bar.height}%` }}
               />
@@ -250,21 +290,19 @@ function PaymentsMockup({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      {/* Header */}
-      <div className="bg-background/60 hover:bg-background/80 cursor-default rounded-xl px-4 py-2.5 transition-all duration-200 hover:shadow-sm">
+      <div className="bg-background rounded-lg px-4 py-2.5">
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold">Recent Payments</p>
-          <p className="font-display text-sm font-bold">{paymentTotal}</p>
+          <p className="font-display text-sm font-semibold">{paymentTotal}</p>
         </div>
         <p className="text-muted-foreground text-[10px]">3 of 12 creators paid this month</p>
       </div>
-      {/* Payment rows */}
       {payments.map((payment) => (
         <div
           key={payment.name}
-          className="bg-background/60 hover:bg-background/80 flex cursor-default items-center gap-3 rounded-xl px-4 py-2.5 transition-all duration-200 hover:shadow-sm"
+          className="bg-background flex items-center gap-3 rounded-lg px-4 py-2.5"
         >
-          <div className="from-chart-4/30 to-chart-4/10 size-8 shrink-0 rounded-full bg-gradient-to-br" />
+          <div className="bg-muted size-8 shrink-0 rounded-full" />
           <div className="flex-1">
             <p className="text-xs font-semibold">{payment.name}</p>
           </div>
@@ -280,6 +318,8 @@ function PaymentsMockup({
   )
 }
 
+/* ─── Main Features Section — Bento Grid ─── */
+
 function LandingFeatures() {
   const locale = useLocaleContent()
 
@@ -294,62 +334,60 @@ function LandingFeatures() {
     <section id="features" className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         {/* Section header */}
-        <motion.div className="mb-16 text-center md:mb-24" {...fadeInUp}>
-          <p className="text-primary mb-3 text-sm font-medium tracking-widest uppercase">
-            Platform
-          </p>
-          <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
-            One platform. Every workflow.
+        <FadeInView className="mb-12 text-center">
+          <p className="text-overline mb-3">Features</p>
+          <h2 className="text-display-section text-foreground">
+            Everything you need to run
+            <br className="hidden sm:block" /> influencer campaigns
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
-            Replace scattered tools with a single, connected platform that handles discovery,
-            campaigns, tracking, and payments.
+            From discovery to payment, manage your entire influencer workflow in one platform.
           </p>
-        </motion.div>
+        </FadeInView>
 
-        {/* Feature blocks */}
-        <div className="flex flex-col gap-20 md:gap-28">
-          {LANDING_FEATURES.map((feature, index) => {
-            const isEven = index % 2 === 1
-            const MockupComponent = featureMockups[index]
-            return (
-              <div
-                key={feature.title}
-                className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16"
-              >
-                {/* Text */}
+        {/* Bento grid — asymmetric: 1 hero (2×2), 2 standard, 1 full-width */}
+        <motion.div {...scrollStagger}>
+          <BentoGrid cols={3}>
+            {LANDING_FEATURES.map((feature, index) => {
+              const MockupComponent = featureMockups[index]
+              const colSpan = index === 0 ? 2 : index === 3 ? 3 : 1
+              const rowSpan = index === 0 ? 2 : 1
+              return (
                 <motion.div
-                  className={cn('flex flex-col gap-4', isEven && 'lg:order-last')}
-                  {...(isEven ? fadeInRight : fadeInLeft)}
+                  key={feature.title}
+                  className={cn(
+                    colSpan === 2 && 'md:col-span-2',
+                    colSpan === 3 && 'md:col-span-2 lg:col-span-3',
+                    rowSpan === 2 && 'md:row-span-2'
+                  )}
+                  {...scrollStaggerItem}
                 >
-                  <Badge variant={feature.badgeVariant} className="w-fit">
-                    {feature.title}
-                  </Badge>
-                  <h3 className="font-display text-2xl font-semibold tracking-tight md:text-3xl lg:text-4xl">
-                    {feature.headline}
-                  </h3>
-                  <p className="text-muted-foreground max-w-lg text-lg leading-relaxed">
-                    {feature.description}
-                  </p>
-                </motion.div>
-
-                {/* Visual mockup card */}
-                <motion.div {...(isEven ? fadeInLeft : fadeInRight)}>
-                  <Card
-                    className={cn(
-                      'hover:shadow-soft-lg border-0 transition-shadow duration-300',
-                      feature.gradient
-                    )}
-                  >
-                    <CardContent className="p-4 md:p-6">
+                  <BentoCard className="flex h-full flex-col gap-5">
+                    <div className="flex items-center gap-3">
+                      {/* <div className="bg-primary/10 flex size-10 items-center justify-center rounded-md">
+                        <HugeiconsIcon icon={feature.icon} className="text-primary size-5" />
+                      </div> */}
+                      <div>
+                        <Badge variant="accent" className="mb-1">
+                          {feature.title}
+                        </Badge>
+                        <h3 className="text-display-subsection text-foreground">
+                          {feature.headline}
+                        </h3>
+                      </div>
+                    </div>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {feature.description}
+                    </p>
+                    <div className={cn('border-border/60 bg-card mt-5 rounded-[12px] border p-4')}>
                       <MockupComponent />
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </BentoCard>
                 </motion.div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </BentoGrid>
+        </motion.div>
       </div>
     </section>
   )

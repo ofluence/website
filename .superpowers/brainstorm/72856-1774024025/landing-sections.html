@@ -1,0 +1,179 @@
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+<h2>Landing Page Sections</h2>
+<p class="subtitle">Proposed section flow for the redesigned homepage — top to bottom</p>
+
+<div style="max-width: 900px; margin: 0 auto;">
+
+  <!-- Section Flow -->
+  <div style="display: flex; flex-direction: column; gap: 4px;">
+
+    <!-- 1. Navbar -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02); position: relative;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">1</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">Navbar</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">Sticky glass navbar. Larger Ofluence logo. Links: Features, Solutions, Pricing, Contact. CTA: "Get started". Theme toggle.</p>
+        </div>
+        <span style="font-size: 11px; color: #f97316; border: 1px solid rgba(249,115,22,0.3); padding: 2px 10px; border-radius: 999px;">updated</span>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="text-align: center; color: #333; font-size: 18px;">↓</div>
+
+    <!-- 2. Hero -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">2</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">Hero</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">Full-bleed container. Centered headline + subtext + dual CTAs. <strong style="color: #ccc;">Interactive product mockup</strong> below — clickable tabs showing Discovery / Campaigns / Analytics views. Fade-in on load with staggered reveal.</p>
+        </div>
+        <span style="font-size: 11px; color: #f97316; border: 1px solid rgba(249,115,22,0.3); padding: 2px 10px; border-radius: 999px;">new</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #333; font-size: 18px;">↓</div>
+
+    <!-- 3. Social Proof -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">3</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">Social Proof Bar</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">Compact row of key metrics: "2+ Platforms", "180+ Countries", "5 min setup". Spring-animated counters on scroll. Minimal styling — let the numbers speak.</p>
+        </div>
+        <span style="font-size: 11px; color: #666; border: 1px solid #333; padding: 2px 10px; border-radius: 999px;">keep</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #333; font-size: 18px;">↓</div>
+
+    <!-- 4. Features Bento -->
+    <div style="border: 1px solid #f97316; border-radius: 12px; padding: 20px; background: rgba(249,115,22,0.03);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">4</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">Features — Bento Grid ⭐</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">4 capabilities (Discover, Manage, Measure, Pay) in an <strong style="color: #ccc;">asymmetric bento grid</strong>. Each card has: icon, title, description, and an <strong style="color: #ccc;">interactive mini-mockup</strong> showing the feature in action. Cards are different sizes — 2 large (span 2 cols) + 2 standard. Hover reveals more detail. Replaces the alternating L/R magazine layout.</p>
+        </div>
+        <span style="font-size: 11px; color: #f97316; border: 1px solid rgba(249,115,22,0.3); padding: 2px 10px; border-radius: 999px;">new</span>
+      </div>
+      <!-- Bento wireframe -->
+      <div style="margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto; gap: 8px; max-width: 400px; margin-left: 44px;">
+        <div style="grid-column: span 2; background: #1a1a1a; border-radius: 10px; padding: 12px; border: 1px solid #333; min-height: 70px;">
+          <span style="font-size: 10px; color: #f97316; font-weight: 600;">DISCOVER</span>
+          <p style="font-size: 10px; color: #666; margin: 4px 0 0 0;">Interactive search + creator cards</p>
+        </div>
+        <div style="background: #1a1a1a; border-radius: 10px; padding: 12px; border: 1px solid #333;">
+          <span style="font-size: 10px; color: #f97316; font-weight: 600;">MANAGE</span>
+          <p style="font-size: 10px; color: #666; margin: 4px 0 0 0;">Campaign flow</p>
+        </div>
+        <div style="background: #1a1a1a; border-radius: 10px; padding: 12px; border: 1px solid #333;">
+          <span style="font-size: 10px; color: #f97316; font-weight: 600;">MEASURE</span>
+          <p style="font-size: 10px; color: #666; margin: 4px 0 0 0;">Analytics</p>
+        </div>
+        <div style="grid-column: span 2; background: #1a1a1a; border-radius: 10px; padding: 12px; border: 1px solid #333; min-height: 70px;">
+          <span style="font-size: 10px; color: #f97316; font-weight: 600;">PAY</span>
+          <p style="font-size: 10px; color: #666; margin: 4px 0 0 0;">Payment tracking + invoicing</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #333; font-size: 18px;">↓</div>
+
+    <!-- 5. How It Works -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">5</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">How It Works</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">Tabbed section: Brands / Agencies / Creators. Each tab shows a 3-4 step workflow with numbered steps, icons, and brief descriptions. Tab indicator slides smoothly (layout animation). Content cross-fades between tabs.</p>
+        </div>
+        <span style="font-size: 11px; color: #666; border: 1px solid #333; padding: 2px 10px; border-radius: 999px;">updated</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #333; font-size: 18px;">↓</div>
+
+    <!-- 6. Problem → Solution -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">6</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">Industry Pain Points</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">Consolidates current "editorial statement" + "problem statement" into one punchy section. 3 pain point stats in cards with animated counters. Headline like: "The $24B problem no one's solving right." Shorter, more impactful.</p>
+        </div>
+        <span style="font-size: 11px; color: #f97316; border: 1px solid rgba(249,115,22,0.3); padding: 2px 10px; border-radius: 999px;">merged</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #333; font-size: 18px;">↓</div>
+
+    <!-- 7. Pricing Preview -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">7</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">Pricing Preview</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">Compact pricing cards (not the full comparison table — that lives on /pricing). Shows tier names, prices, and key differentiator. "See full pricing →" link. Removes friction for price-curious visitors.</p>
+        </div>
+        <span style="font-size: 11px; color: #666; border: 1px solid #333; padding: 2px 10px; border-radius: 999px;">keep</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #333; font-size: 18px;">↓</div>
+
+    <!-- 8. CTA -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">8</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">Final CTA</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">Full-bleed container (mirrors hero). Bold headline + dual CTAs. Simple, direct. "Ready to grow? Start your free trial."</p>
+        </div>
+        <span style="font-size: 11px; color: #666; border: 1px solid #333; padding: 2px 10px; border-radius: 999px;">keep</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #333; font-size: 18px;">↓</div>
+
+    <!-- 9. Footer -->
+    <div style="border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #000; flex-shrink: 0;">9</div>
+        <div style="flex: 1;">
+          <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;">Footer</h4>
+          <p style="margin: 4px 0 0 0; font-size: 13px; color: #888;">Dark section. Now includes <strong style="color: #ccc;">About content</strong>: brief mission statement, key team/company info. Newsletter signup. Link columns (Product, Solutions, Company, Legal). Social icons. Compliance badges. Theme toggle.</p>
+        </div>
+        <span style="font-size: 11px; color: #f97316; border: 1px solid rgba(249,115,22,0.3); padding: 2px 10px; border-radius: 999px;">expanded</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Section Removals -->
+  <div style="margin-top: 24px; border: 1px solid #333; border-radius: 12px; padding: 20px; background: rgba(255,255,255,0.02);">
+    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #666;">Removed / Merged Sections</span>
+    <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: #ef4444; font-size: 14px;">×</span>
+        <span style="font-size: 13px; color: #888; text-decoration: line-through;">Editorial Statement</span>
+        <span style="font-size: 11px; color: #666;">→ merged into Industry Pain Points (#6)</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: #ef4444; font-size: 14px;">×</span>
+        <span style="font-size: 13px; color: #888; text-decoration: line-through;">Problem Statement</span>
+        <span style="font-size: 11px; color: #666;">→ merged into Industry Pain Points (#6)</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: #ef4444; font-size: 14px;">×</span>
+        <span style="font-size: 13px; color: #888; text-decoration: line-through;">Product Preview (standalone)</span>
+        <span style="font-size: 11px; color: #666;">→ interactive mockups now inside Hero (#2) and Features (#4)</span>
+      </div>
+    </div>
+  </div>
+
+</div>

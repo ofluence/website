@@ -16,14 +16,15 @@ const badgeVariants = cva(
         outline: 'border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground',
         ghost: 'hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50',
         link: 'text-primary underline-offset-4 hover:underline',
-        coral:
-          'bg-[oklch(0.95_0.03_25)] text-[oklch(0.45_0.12_25)] dark:bg-[oklch(0.30_0.05_25)] dark:text-[oklch(0.80_0.08_25)]',
-        sage: 'bg-[oklch(0.95_0.03_155)] text-[oklch(0.40_0.10_155)] dark:bg-[oklch(0.30_0.05_155)] dark:text-[oklch(0.80_0.08_155)]',
-        lavender:
-          'bg-[oklch(0.95_0.03_300)] text-[oklch(0.40_0.08_300)] dark:bg-[oklch(0.30_0.05_300)] dark:text-[oklch(0.80_0.06_300)]',
-        sky: 'bg-[oklch(0.95_0.03_230)] text-[oklch(0.40_0.10_230)] dark:bg-[oklch(0.30_0.05_230)] dark:text-[oklch(0.80_0.08_230)]',
-        amber:
-          'bg-[oklch(0.95_0.03_85)] text-[oklch(0.40_0.10_85)] dark:bg-[oklch(0.30_0.05_85)] dark:text-[oklch(0.80_0.08_85)]',
+        accent:
+          'bg-[#fff7ed] text-[#c2410c] dark:bg-[#431407] dark:text-[#fdba74]',
+        vermillion:
+          'bg-[#fff7ed] text-[#c2410c] dark:bg-[#431407] dark:text-[#fdba74]',
+        ink: 'bg-[#f1f5f9] text-[#1e293b] dark:bg-[#1e293b] dark:text-[#cbd5e1]',
+        stone:
+          'bg-[#fafaf9] text-[#57534e] dark:bg-[#292524] dark:text-[#d6d3d1]',
+        cream: 'bg-[#fefce8] text-[#713f12] dark:bg-[#422006] dark:text-[#fde68a]',
+        mist: 'bg-[#f0f9ff] text-[#075985] dark:bg-[#0c4a6e] dark:text-[#bae6fd]',
       },
     },
     defaultVariants: {
