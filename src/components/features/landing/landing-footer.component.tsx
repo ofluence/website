@@ -26,7 +26,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   const scrollToSection = useScrollToSection()
   const isHash = href.startsWith('/#')
   const linkClass =
-    'text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground transition-colors hover:text-foreground'
+    'text-xs font-medium tracking-widest uppercase text-muted-foreground transition-colors hover:text-foreground'
 
   if (isHash) {
     const sectionId = href.slice(2)
@@ -64,11 +64,11 @@ function NewsletterForm() {
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="your@email.com"
-        className="border-border bg-transparent text-foreground placeholder:text-muted-foreground/50 flex-1 border-b px-0 py-2 text-sm outline-none transition-colors focus:border-primary"
+        className="border-border text-foreground placeholder:text-muted-foreground/50 focus:border-primary flex-1 border-b bg-transparent px-0 py-2 text-sm transition-colors outline-none"
       />
       <button
         type="submit"
-        className="text-muted-foreground hover:text-foreground text-xs font-medium tracking-[0.1em] uppercase transition-colors"
+        className="text-muted-foreground hover:text-foreground text-xs font-medium tracking-widest uppercase transition-colors"
       >
         Subscribe
       </button>
@@ -158,7 +158,7 @@ function LandingFooter() {
           {compliance.map((badge) => (
             <span
               key={badge}
-              className="text-muted-foreground/60 inline-flex items-center gap-1 text-[10px] font-medium tracking-[0.1em] uppercase"
+              className="text-muted-foreground/60 inline-flex items-center gap-1 text-[10px] font-medium tracking-widest uppercase"
             >
               <HugeiconsIcon icon={SecurityCheckIcon} size={10} />
               {badge}

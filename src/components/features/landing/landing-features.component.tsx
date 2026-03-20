@@ -384,7 +384,8 @@ function LandingFeatures() {
           <BentoGrid cols={3}>
             {LANDING_FEATURES.map((feature, index) => {
               const MockupComponent = featureMockups[index]
-              const colSpan = index === 0 ? 2 : index === 3 ? 3 : 1
+              const colSpanIndex = index === 3 ? 3 : 1
+              const colSpan = index === 0 ? 2 : colSpanIndex
               const rowSpan = index === 0 ? 2 : 1
               return (
                 <motion.div
@@ -396,7 +397,7 @@ function LandingFeatures() {
                   )}
                   {...scrollStaggerItem}
                 >
-                  <MagicCard className="rounded-[16px]">
+                  <MagicCard className="rounded-lg">
                     <div className="flex h-full flex-col gap-3 p-6">
                       <div className="flex items-center gap-3">
                         <div>

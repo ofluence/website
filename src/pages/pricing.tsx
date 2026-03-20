@@ -9,10 +9,10 @@ import { cn } from '@/utils/global.utils'
 import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import { FadeInView } from '@/components/ui/animated-container'
-import { MagicCard } from '@/components/ui/magic-card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { MagicCard } from '@/components/ui/magic-card'
 import { Separator } from '@/components/ui/separator'
 import { Seo } from '@/components/features/global/seo.component'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
@@ -165,67 +165,68 @@ const PricingPage = () => {
                   <MagicCard
                     className={cn(
                       'h-full rounded-lg',
-                      tier.highlighted && '[&>div:nth-child(2)]:border-t-primary [&>div:nth-child(2)]:border-t-2'
+                      tier.highlighted &&
+                        '[&>div:nth-child(2)]:border-t-primary [&>div:nth-child(2)]:border-t-2'
                     )}
                   >
                     <div className="flex h-full flex-col p-8">
-                    {tier.highlighted && (
-                      <Badge variant="accent" className="mb-4 self-start text-xs">
-                        Most Popular
-                      </Badge>
-                    )}
-
-                    <h3 className="font-display text-lg tracking-wide">{tier.name}</h3>
-                    <p className="text-muted-foreground mt-1 text-sm">{tier.description}</p>
-
-                    <div className="mt-6 flex items-baseline gap-1">
-                      <span className="font-display text-4xl">{displayPrice}</span>
-                      {tier.period && (
-                        <span className="text-muted-foreground text-sm">
-                          {isAnnual && localePricing.annualPrice
-                            ? '/mo, billed annually'
-                            : tier.period}
-                        </span>
+                      {tier.highlighted && (
+                        <Badge variant="accent" className="mb-4 self-start text-xs">
+                          Most Popular
+                        </Badge>
                       )}
-                    </div>
 
-                    <Separator className="my-6" />
+                      <h3 className="font-display text-lg tracking-wide">{tier.name}</h3>
+                      <p className="text-muted-foreground mt-1 text-sm">{tier.description}</p>
 
-                    <ul className="flex flex-1 flex-col gap-3">
-                      {tier.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2.5">
-                          <HugeiconsIcon
-                            icon={Tick01Icon}
-                            className="text-foreground mt-0.5 size-3.5 shrink-0"
-                          />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    {tier.ctaHref ? (
-                      <Link
-                        to={tier.ctaHref}
-                        className={cn(
-                          'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
-                          'border-border text-foreground hover:bg-muted border'
+                      <div className="mt-6 flex items-baseline gap-1">
+                        <span className="font-display text-4xl">{displayPrice}</span>
+                        {tier.period && (
+                          <span className="text-muted-foreground text-sm">
+                            {isAnnual && localePricing.annualPrice
+                              ? '/mo, billed annually'
+                              : tier.period}
+                          </span>
                         )}
-                      >
-                        {tier.cta}
-                      </Link>
-                    ) : (
-                      <a
-                        href={`${import.meta.env.VITE_APP_URL}/login`}
-                        className={cn(
-                          'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
-                          tier.highlighted
-                            ? 'bg-foreground text-background hover:bg-foreground/90'
-                            : 'border-border text-foreground hover:bg-muted border'
-                        )}
-                      >
-                        {tier.cta}
-                      </a>
-                    )}
+                      </div>
+
+                      <Separator className="my-6" />
+
+                      <ul className="flex flex-1 flex-col gap-3">
+                        {tier.features.map((feature) => (
+                          <li key={feature} className="flex items-start gap-2.5">
+                            <HugeiconsIcon
+                              icon={Tick01Icon}
+                              className="text-foreground mt-0.5 size-3.5 shrink-0"
+                            />
+                            <span className="text-sm">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {tier.ctaHref ? (
+                        <Link
+                          to={tier.ctaHref}
+                          className={cn(
+                            'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
+                            'border-border text-foreground hover:bg-muted border'
+                          )}
+                        >
+                          {tier.cta}
+                        </Link>
+                      ) : (
+                        <a
+                          href={`${import.meta.env.VITE_APP_URL}/login`}
+                          className={cn(
+                            'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
+                            tier.highlighted
+                              ? 'bg-foreground text-background hover:bg-foreground/90'
+                              : 'border-border text-foreground hover:bg-muted border'
+                          )}
+                        >
+                          {tier.cta}
+                        </a>
+                      )}
                     </div>
                   </MagicCard>
                 </FadeInView>
@@ -245,32 +246,32 @@ const PricingPage = () => {
                   gradientOpacity={0.05}
                 >
                   <div className="flex flex-col gap-8 p-8 md:flex-row md:items-center md:justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-display text-lg tracking-wide">{enterprise.name}</h3>
-                    <p className="text-muted-foreground mt-1 text-sm">{enterprise.description}</p>
-                    <div className="mt-4 flex items-baseline gap-1">
-                      <span className="font-display text-4xl">{enterprisePricing.price}</span>
+                    <div className="flex-1">
+                      <h3 className="font-display text-lg tracking-wide">{enterprise.name}</h3>
+                      <p className="text-muted-foreground mt-1 text-sm">{enterprise.description}</p>
+                      <div className="mt-4 flex items-baseline gap-1">
+                        <span className="font-display text-4xl">{enterprisePricing.price}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <ul className="flex flex-1 flex-wrap gap-x-8 gap-y-3">
-                    {enterprise.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2.5">
-                        <HugeiconsIcon
-                          icon={Tick01Icon}
-                          className="text-foreground mt-0.5 size-3.5 shrink-0"
-                        />
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <ul className="flex flex-1 flex-wrap gap-x-8 gap-y-3">
+                      {enterprise.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2.5">
+                          <HugeiconsIcon
+                            icon={Tick01Icon}
+                            className="text-foreground mt-0.5 size-3.5 shrink-0"
+                          />
+                          <span className="text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
 
-                  <Link
-                    to="/contact"
-                    className="border-border text-foreground hover:bg-muted block shrink-0 rounded-lg border px-8 py-3 text-center text-sm font-medium tracking-wide transition-colors"
-                  >
-                    {enterprise.cta}
-                  </Link>
+                    <Link
+                      to="/contact"
+                      className="border-border text-foreground hover:bg-muted block shrink-0 rounded-lg border px-8 py-3 text-center text-sm font-medium tracking-wide transition-colors"
+                    >
+                      {enterprise.cta}
+                    </Link>
                   </div>
                 </MagicCard>
               </FadeInView>
@@ -344,11 +345,11 @@ const PricingPage = () => {
                   <Collapsible className="py-6">
                     <CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between text-left">
                       <span className="font-display text-lg">{item.question}</span>
-                      <span className="text-muted-foreground ml-6 text-lg transition-transform [[data-panel-open]_&]:rotate-45">
+                      <span className="text-muted-foreground ml-6 text-lg transition-transform in-data-panel-open:rotate-45">
                         +
                       </span>
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="overflow-hidden transition-all duration-300 data-[ending-style]:h-0 data-[starting-style]:h-0">
+                    <CollapsibleContent className="overflow-hidden transition-all duration-300 data-ending-style:h-0 data-starting-style:h-0">
                       <p className="text-muted-foreground mt-4 max-w-2xl leading-relaxed">
                         {item.answer}
                       </p>

@@ -25,6 +25,13 @@ function useActiveNavLink() {
   const pathname = location.pathname
   const [visibleSection, setVisibleSection] = useState<string | null>(null)
 
+  // Reset visible section when route changes (React "store previous value" pattern)
+  const [previousPathname, setPreviousPathname] = useState(pathname)
+  if (previousPathname !== pathname) {
+    setPreviousPathname(pathname)
+    setVisibleSection(null)
+  }
+
   useEffect(() => {
     const sectionIds = LANDING_NAV_LINKS.filter((l) => l.href.startsWith('/#')).map((l) =>
       l.href.slice(2)
@@ -33,27 +40,24 @@ function useActiveNavLink() {
       .map((id) => document.querySelector(`#${id}`))
       .filter(Boolean) as Element[]
 
-    if (elements.length === 0) {
-      setVisibleSection(null)
-      return
-    }
+    if (elements.length === 0) return
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             setVisibleSection(entry.target.id)
-          } else if (entry.target.id === visibleSection) {
-            setVisibleSection(null)
+          } else {
+            setVisibleSection((current) => (entry.target.id === current ? null : current))
           }
         }
       },
       { threshold: 0.3 }
     )
 
-    for (const el of elements) observer.observe(el)
+    for (const element of elements) observer.observe(element)
     return () => observer.disconnect()
-  }, [pathname, visibleSection])
+  }, [pathname])
 
   return (href: string) => {
     if (href.startsWith('/#')) {
@@ -82,7 +86,10 @@ function NavLink({
   if (link.href.startsWith('/#')) {
     const sectionId = link.href.slice(2)
     return (
-      <button className={cn(className, active && activeClassName)} onClick={() => scrollToSection(sectionId)}>
+      <button
+        className={cn(className, active && activeClassName)}
+        onClick={() => scrollToSection(sectionId)}
+      >
         {children}
       </button>
     )
@@ -154,11 +161,7 @@ function LandingNavbar() {
           <div className="hidden items-center gap-4 md:flex">
             <Button size="sm" render={<a href={`${import.meta.env.VITE_APP_URL}/login`} />}>
               Get started
-              <HugeiconsIcon
-                icon={ArrowRight01Icon}
-                className="size-4"
-                data-icon="inline-end"
-              />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" data-icon="inline-end" />
             </Button>
           </div>
 
@@ -171,9 +174,9 @@ function LandingNavbar() {
               <SheetContent side="right" className="w-full sm:max-w-full">
                 <SheetHeader>
                   <SheetTitle className="flex items-center gap-2">
-                  <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-7" />
-                  <span className="font-display text-xl font-bold">Ofluence</span>
-                </SheetTitle>
+                    <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-7" />
+                    <span className="font-display text-xl font-bold">Ofluence</span>
+                  </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-8 px-6 pt-12">
                   {LANDING_NAV_LINKS.map((link) => (
@@ -187,11 +190,15 @@ function LandingNavbar() {
                       </NavLink>
                     </SheetClose>
                   ))}
-                  <div className="mt-4 border-t border-border pt-4">
+                  <div className="border-border mt-4 border-t pt-4">
                     <div className="flex flex-col gap-4">
                       <Button render={<a href={`${import.meta.env.VITE_APP_URL}/login`} />}>
                         Get started
-                        <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" data-icon="inline-end" />
+                        <HugeiconsIcon
+                          icon={ArrowRight01Icon}
+                          className="size-4"
+                          data-icon="inline-end"
+                        />
                       </Button>
                     </div>
                   </div>

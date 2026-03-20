@@ -9,7 +9,7 @@ function LandingCta() {
   return (
     <section className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
-        <div className="bg-card rounded-[20px] border border-border">
+        <div className="bg-card border-border rounded-xl border">
           <FadeInView className="mx-auto max-w-3xl px-6 py-20 text-center md:px-8 md:py-28">
             <h2 className="text-display-section text-foreground">
               Stop managing campaigns. Start building partnerships.
@@ -32,7 +32,7 @@ function LandingCta() {
             </div>
 
             {/* Benefit text — minimal */}
-            <p className="text-muted-foreground/50 mt-8 text-xs font-medium tracking-[0.1em] uppercase">
+            <p className="text-muted-foreground/50 mt-8 text-xs font-medium tracking-widest uppercase">
               14-day free trial · No credit card · Cancel anytime
             </p>
           </FadeInView>

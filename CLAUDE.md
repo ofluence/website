@@ -18,7 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build & Development Commands
 
 ```bash
-pnpm dev              # Start dev server (port via VITE_PORT env, default 5173)
+pnpm dev              # Start dev server (port via VITE_PORT env, default 5555)
 pnpm build            # TypeScript check + Vite production build
 pnpm lint             # Run ESLint
 pnpm lint:fix         # ESLint with auto-fix
@@ -40,7 +40,6 @@ Package manager is **pnpm**. No test runner is configured.
 - **shadcn/ui** components built on Base UI (`@base-ui/react`) primitives
 - **Zustand** for client state (theme only)
 - **PostHog** for analytics with session recording
-- **OpenTelemetry** for browser tracing
 
 ### Component Hierarchy
 
@@ -54,12 +53,12 @@ Pages (src/pages/)
 - **Pages** (`src/pages/`): TanStack Router file-based routes — `index.tsx`, `about.tsx`, `pricing.tsx`, `contact.tsx`, plus legal pages and a `$.tsx` catch-all 404
 - **Layouts**: `landing-page-layout.component.tsx` wraps marketing pages (navbar + footer); `legal-page-layout.component.tsx` wraps legal pages
 - **Feature components** (`src/components/features/landing/`): Hero, social proof, features, how-it-works, product preview, pricing, CTA, navbar, footer
-- **Global components** (`src/components/features/global/`): Theme toggle, suspense fallback, root hydrate fallback
-- **Error components** (`src/components/errors/`): Error boundary, not found, access denied, resource not found
+- **Global components** (`src/components/features/global/`): Theme toggle, SEO head tags, structured data (JSON-LD)
+- **Error components** (`src/components/errors/`): Not found (404), default pending/suspense fallback
 
 ### State
 
-Only theme state exists via `src/states/global.state.ts` (Zustand with `devtools` + `persist` + `immer` middleware). No other client state. No server state management (no TanStack Query usage beyond router context).
+Only theme state exists via `src/states/global.state.ts` (Zustand with `devtools` + `persist` + `immer` middleware). No other client state. No server state management.
 
 ### Analytics
 
@@ -115,8 +114,6 @@ Use `devtools` + `persist` + `immer` middleware stack. Separate `Actions` interf
 
 2 spaces, single quotes, no semicolons, 100 char line width, trailing commas (ES5), LF line endings.
 
-> **Note:** `prettier.config.cjs` contains stale import order groups from the Pulse dashboard (`react-redux`, `react-router-dom`, `@/redux/`, `@/contexts/`). These don't apply to this repo. Ignore them.
-
 ### Icons
 
 Use Hugeicons: `import { IconName } from '@hugeicons/core-free-icons'` and render with `<HugeiconsIcon icon={IconName} />`.
@@ -127,7 +124,7 @@ Built on Base UI (`@base-ui/react`) primitives, wrapped in shadcn/ui style. Loca
 
 ## Key Reference Files
 
-- `src/main.tsx` — app entry point with providers (PostHog, QueryClient, Router, Tooltip)
+- `src/main.tsx` — app entry point with providers (PostHog, Router, Tooltip)
 - `src/pages/__root.tsx` — root route with theme switching and PostHog pageview tracking
 - `src/pages/index.tsx` — landing page
 - `src/components/features/landing/landing-page-layout.component.tsx` — marketing page wrapper
@@ -136,3 +133,14 @@ Built on Base UI (`@base-ui/react`) primitives, wrapped in shadcn/ui style. Loca
 - `vite.config.ts` — Vite config with React Compiler, TanStack Router, Tailwind, SVG plugins
 - `eslint.config.mjs` — ESLint flat config with filename enforcement rules
 - `prettier.config.cjs` — Prettier config with import ordering
+
+## Environment Variables
+
+Key `VITE_*` variables (see `.env.example` for full list):
+
+- `VITE_ENV` — environment (`development` / `production`)
+- `VITE_PORT` — dev server port (default 5555 per `.env.example`)
+- `VITE_WEBSITE_URL` / `VITE_APP_URL` / `VITE_API_BASE_URL` — service URLs
+- `VITE_POSTHOG_API_KEY` / `VITE_POSTHOG_HOST` — PostHog analytics config
+- `VITE_ENABLE_LOGS` — toggle logger output
+- `VITE_ENABLE_TS_ROUTER_DEVTOOLS` — TanStack Router devtools toggle

@@ -1,177 +1,142 @@
-# Ofluence Pulse
+# Ofluence Website
 
-A modern React-based dashboard for the Ofluence influencer marketing platform, built with TypeScript and Vite.
+Public marketing site for the Ofluence influencer marketing platform. Includes landing, about, pricing, contact, and legal pages.
 
-## Technologies Used
+## Technologies
 
 ### Core
 
-- **React 19.2** - UI framework with React Compiler for automatic optimization
+- **React 19** - UI framework with React Compiler for automatic optimization
 - **TypeScript** - Type-safe programming (strict mode)
 - **Vite** - Build tool and development server
 
-### State Management
+### Routing
 
-- **Zustand** - Client state management (stores IDs only)
-- **TanStack Query** - Server state management and data fetching
-- **nuqs** - URL state management
-
-### Routing & Forms
-
-- **TanStack Router** - File-based routing with type safety
-- **TanStack Form** - Form handling
-- **Zod** - Schema validation
+- **TanStack Router** - File-based routing with type safety and auto code-splitting
 
 ### UI & Styling
 
 - **shadcn/ui** - Modern UI component system
-- **Base UI** - Accessible headless UI components
-- **Tailwind CSS 4** - Utility-first styling
+- **Base UI** - Accessible headless UI primitives
+- **Tailwind CSS 4** - Utility-first styling (CSS-based config, no `tailwind.config.js`)
 - **Motion** - Animation library
 - **Hugeicons React** - Icon system
 
-### Data Visualization
+### State
 
-- **Recharts** - Charting library
+- **Zustand** - Client state management (theme only)
 
-### HTTP & API
+### Analytics
 
-- **Axios** - HTTP client
-
-### Observability & Analytics
-
-- **OpenTelemetry** - Distributed tracing and instrumentation
-- **PostHog** - Product analytics
+- **PostHog** - Product analytics with session recording
 
 ### Development Tools
 
-- **Immer** - Immutable state updates
-- **ESLint** - Code linting
-- **Prettier** - Code formatting
+- **ESLint** - Code linting with filename enforcement
+- **Prettier** - Code formatting with import sorting
 - **Husky** - Git hooks
+- **Commitizen** - Conventional commits
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js (Latest LTS version recommended)
-- pnpm, npm, or yarn
+- pnpm
 
 ### Installation
 
-1. Clone the repository
-2. Install dependencies using your preferred package manager:
-
-```cmd
+```bash
 pnpm install
-# or
-npm install
-# or
-yarn
 ```
 
 ### Environment Setup
 
-Create a `.env.development` file in the root directory with the following variables:
+Copy `.env.example` to `.env` and configure:
 
-```env
-VITE_ENV=development
-VITE_CLIENT_NAME=Ofluence
-
-VITE_PORT=5555
-
-VITE_WEBSITE_URL=http://localhost:5555
-
-VITE_APP_URL=http://localhost:5656
-
-VITE_API_BASE_URL=http://localhost:4646
-VITE_API_PREFIX=/api/v1
-
-VITE_AUTH_STORAGE_KEY=a:stig
-VITE_AUTH_ENCRYPTION_KEY=your-secret-key
-
-# Posthog Configuration
-VITE_POSTHOG_API_KEY=your-secret-key
-VITE_POSTHOG_HOST=https://us.i.posthog.com
-VITE_POSTHOG_DEBUG=true
-VITE_POSTHOG_REVERSE_PROXY=false
-
-# Tanstack Configuration
-VITE_ENABLE_TS_ROUTER_DEVTOOLS=false
-VITE_ENABLE_TS_QUERY_DEVTOOLS=false
+```bash
+cp .env.example .env
 ```
+
+Key variables:
+
+| Variable | Purpose |
+|----------|---------|
+| `VITE_ENV` | Environment (`development` / `production`) |
+| `VITE_PORT` | Dev server port |
+| `VITE_WEBSITE_URL` | This site's URL |
+| `VITE_APP_URL` | Pulse dashboard URL |
+| `VITE_API_BASE_URL` | Core API URL |
+| `VITE_POSTHOG_API_KEY` | PostHog project key |
+| `VITE_POSTHOG_HOST` | PostHog ingest endpoint |
+| `VITE_ENABLE_LOGS` | Toggle logger output |
 
 ### Development
 
-Start the development server:
-
-```cmd
+```bash
 pnpm dev
-# or
-npm run dev
-# or
-yarn dev
 ```
-
-The development server will start at `http://localhost:5555`
 
 ### Available Scripts
 
-- `dev` - Start development server
-- `build` - Build for production
-- `preview` - Preview production build
-- `lint` - Run ESLint
-- `lint:fix` - Run ESLint with auto-fix
-- `prettier` - Format code
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | TypeScript check + Vite production build |
+| `pnpm preview` | Preview production build |
+| `pnpm lint` | Run ESLint |
+| `pnpm lint:fix` | Run ESLint with auto-fix |
+| `pnpm format` | Format code with Prettier |
+| `pnpm format:check` | Check formatting without writing |
+| `pnpm commit` | Create conventional commit |
 
 ## Project Structure
 
 ```
 src/
 ├── main.tsx                # Entry point
-├── assets/                 # Static assets
+├── assets/                 # Static assets (SVGs, images)
 ├── components/             # Reusable components
-│   ├── errors/            # Error handling components (boundaries, fallbacks)
+│   ├── errors/            # Error/fallback components
 │   ├── features/          # Feature-specific components
-│   └── ui/                # shadcn/ui components (primitives)
+│   │   ├── landing/       # Landing page sections (hero, pricing, CTA, etc.)
+│   │   └── global/        # Shared components (SEO, theme toggle)
+│   └── ui/                # shadcn/ui primitives
 ├── constants/             # App-wide constants
-├── endpoints/             # API endpoint definitions
 ├── hooks/                 # Custom React hooks
-├── http/                  # HTTP client and interceptors
-├── observability/         # OpenTelemetry tracing configuration
+├── observability/         # PostHog initialization
 ├── pages/                 # TanStack Router file-based routes
-│   ├── __root.tsx        # Root layout
-│   ├── _auth/            # Auth routes (login, register, etc.)
-│   ├── _protected/       # Protected routes (dashboard, etc.)
-│   └── ...
-├── queries/               # TanStack Query definitions (*.queries.ts)
-├── schemas/               # Zod validation schemas (*.schema.ts)
-├── services/              # Service layer (logger, etc.)
+│   ├── __root.tsx         # Root layout
+│   ├── index.tsx          # Landing page
+│   ├── about.tsx          # About page
+│   ├── pricing.tsx        # Pricing page
+│   ├── contact.tsx        # Contact page
+│   ├── solutions.tsx      # Solutions page
+│   ├── use-cases.tsx      # Use cases page
+│   ├── integrations.tsx   # Integrations page
+│   ├── privacy-policy.tsx # Privacy policy
+│   ├── terms-of-service.tsx
+│   ├── cookie-policy.tsx
+│   ├── gdpr.tsx
+│   └── $.tsx              # Catch-all 404
+├── services/              # Service layer (logger)
 ├── states/                # Zustand stores (*.state.ts)
 ├── styles/                # Global styles
-├── types/                 # TypeScript declarations (*.d.ts)
-└── utils/                 # Utility functions (*.utils.ts)
+├── types/                 # TypeScript declarations
+└── utils/                 # Utility functions
 ```
 
-### Architecture Overview
+## Deployment
 
-The project follows a modern React architecture with clear separation of concerns:
+Built as a static SPA served by nginx with gzip compression and client-side routing fallback. See `nginx/nginx.conf`.
 
-- **URL → Zustand → TanStack Query**: State flows from URL parameters (tenant) to Zustand (IDs only) to TanStack Query (full objects)
-- **File-based routing**: Routes are defined in `pages/` directory following TanStack Router conventions
-- **Server state in TanStack Query**: All API data is managed through TanStack Query
-- **Client state in Zustand**: Only tenant identifiers and UI state
-- **React 19 Compiler**: No manual memoization needed (`useMemo`, `useCallback`, `React.memo`)
+## Related Repos
 
-For detailed architectural patterns, see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`AGENTS.md`](AGENTS.md).
-
-## Contributing
-
-Please ensure you format your code before committing:
-
-```cmd
-pnpm prettier
-```
+| Repo | Purpose |
+|------|---------|
+| **pulse** | React dashboard (auth, multi-tenant, API) |
+| **core** | Backend API (Express, PostgreSQL) |
+| **infra** | Kubernetes + Skaffold orchestration |
 
 ## License
 

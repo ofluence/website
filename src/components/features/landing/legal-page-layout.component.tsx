@@ -35,7 +35,7 @@ function useActiveTocSection(sectionIds: string[]) {
         // Find the first section that is intersecting (topmost visible)
         const visible = entries
           .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+          .toSorted((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
 
         if (visible.length > 0) {
           setActiveId(visible[0].target.id)
@@ -44,7 +44,7 @@ function useActiveTocSection(sectionIds: string[]) {
       { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
     )
 
-    for (const el of elements) observer.observe(el)
+    for (const element of elements) observer.observe(element)
     return () => observer.disconnect()
   }, [sectionIds])
 
@@ -125,11 +125,11 @@ function LegalPageLayout({
               <p className="text-muted-foreground mb-4 text-xs font-medium tracking-[0.2em] uppercase">
                 Contents
               </p>
-              <ol className="relative flex flex-col gap-2.5 border-l border-border pl-4">
+              <ol className="border-border relative flex flex-col gap-2.5 border-l pl-4">
                 {sections.map((section, index) => (
                   <li key={section.id} className="relative">
                     {activeId === section.id && (
-                      <span className="bg-primary absolute -left-[calc(1rem+1px)] top-0 h-full w-0.5" />
+                      <span className="bg-primary absolute top-0 -left-4.25 h-full w-0.5" />
                     )}
                     <button
                       onClick={() => scrollToSection(section.id)}
