@@ -1,9 +1,4 @@
-import {
-  Clock01Icon,
-  EarthIcon,
-  InstagramIcon,
-  Radar01Icon,
-} from '@hugeicons/core-free-icons'
+import { Clock01Icon, EarthIcon, InstagramIcon, Radar01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import type { IconSvgElement } from '@hugeicons/react'
 

@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import { Seo } from '@/components/features/global/seo.component'
 import {
   LegalPageLayout,
   type TocSection,
@@ -26,10 +27,10 @@ const SECTIONS: TocSection[] = [
 const TermsOfServicePage = () => {
   return (
     <>
-      <title>Terms of Service — Ofluence</title>
-      <meta
-        name="description"
-        content="Ofluence Terms of Service — the agreement between you and Ofluence governing use of our influencer marketing platform."
+      <Seo
+        title="Terms of Service"
+        description="Ofluence Terms of Service — the agreement between you and Ofluence governing use of our influencer marketing platform."
+        path="/terms-of-service"
       />
       <LegalPageLayout
         title="Terms of Service"
@@ -38,17 +39,15 @@ const TermsOfServicePage = () => {
         sections={SECTIONS}
       >
         <section id="acceptance">
-          <h2 className="font-display text-xl font-semibold md:text-2xl">
-            1. Acceptance of Terms
-          </h2>
+          <h2 className="font-display text-xl font-semibold md:text-2xl">1. Acceptance of Terms</h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             By accessing or using the Ofluence platform at{' '}
             <a href="https://ofluence.ai" className="text-primary hover:underline">
               ofluence.ai
             </a>{' '}
             (the &ldquo;Platform&rdquo;), you agree to be bound by these Terms of Service. These
-            Terms constitute a legally binding agreement between you and Ofluence Inc. You must be at
-            least 18 years of age to use the Platform.
+            Terms constitute a legally binding agreement between you and Ofluence Inc. You must be
+            at least 18 years of age to use the Platform.
           </p>
         </section>
 
@@ -87,8 +86,8 @@ const TermsOfServicePage = () => {
           </h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             Ofluence offers Starter (free), Growth, Business, and Enterprise tiers. Paid plans are
-            billed monthly or annually through Stripe. Subscriptions auto-renew unless cancelled.
-            We provide at least 30 days&apos; notice before price increases.
+            billed monthly or annually through Stripe. Subscriptions auto-renew unless cancelled. We
+            provide at least 30 days&apos; notice before price increases.
           </p>
         </section>
 
@@ -117,9 +116,7 @@ const TermsOfServicePage = () => {
         </section>
 
         <section id="content" className="mt-12">
-          <h2 className="font-display text-xl font-semibold md:text-2xl">
-            7. Content Ownership
-          </h2>
+          <h2 className="font-display text-xl font-semibold md:text-2xl">7. Content Ownership</h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             You retain all intellectual property rights in your content. By using the Service, you
             grant Ofluence a non-exclusive, worldwide, royalty-free license to use, display, and
@@ -133,7 +130,8 @@ const TermsOfServicePage = () => {
           </h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             The Platform, including its design, features, code, and documentation, is owned by
-            Ofluence Inc. Feedback and suggestions you provide may be used without obligation to you.
+            Ofluence Inc. Feedback and suggestions you provide may be used without obligation to
+            you.
           </p>
         </section>
 
@@ -149,9 +147,7 @@ const TermsOfServicePage = () => {
         </section>
 
         <section id="indemnification" className="mt-12">
-          <h2 className="font-display text-xl font-semibold md:text-2xl">
-            10. Indemnification
-          </h2>
+          <h2 className="font-display text-xl font-semibold md:text-2xl">10. Indemnification</h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             You agree to indemnify and hold harmless Ofluence from any claims arising from your use
             of the Platform or violation of these Terms.
@@ -174,9 +170,7 @@ const TermsOfServicePage = () => {
         </section>
 
         <section id="disputes" className="mt-12">
-          <h2 className="font-display text-xl font-semibold md:text-2xl">
-            13. Dispute Resolution
-          </h2>
+          <h2 className="font-display text-xl font-semibold md:text-2xl">13. Dispute Resolution</h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             Disputes shall first be resolved through good faith negotiation (30 days), then binding
             arbitration in Toronto, Ontario.

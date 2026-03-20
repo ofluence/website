@@ -90,9 +90,7 @@ export function CampaignsMockup() {
                   />
                 ))}
               </div>
-              <span className="text-muted-foreground text-[10px]">
-                +{c.creators - 3} creators
-              </span>
+              <span className="text-muted-foreground text-[10px]">+{c.creators - 3} creators</span>
             </div>
             <span className="font-display text-[10px] font-semibold">{c.budget}</span>
           </div>

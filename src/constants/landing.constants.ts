@@ -241,6 +241,7 @@ export const LANDING_FOOTER_LINKS: LandingFooterLinkGroup[] = [
     links: [
       { label: 'Features', href: '/#features' },
       { label: 'Pricing', href: '/pricing' },
+      { label: 'Integrations', href: '/integrations' },
       { label: 'How It Works', href: '/#how-it-works' },
     ],
   },
@@ -248,6 +249,7 @@ export const LANDING_FOOTER_LINKS: LandingFooterLinkGroup[] = [
     title: 'Company',
     links: [
       { label: 'About', href: '/about' },
+      { label: 'Use Cases', href: '/use-cases' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -264,6 +266,7 @@ export const LANDING_FOOTER_LINKS: LandingFooterLinkGroup[] = [
 
 export const LANDING_NAV_LINKS = [
   { label: 'Features', href: '/#features' },
-  { label: 'How It Works', href: '/#how-it-works' },
+  { label: 'Use Cases', href: '/use-cases' },
+  { label: 'Integrations', href: '/integrations' },
   { label: 'Pricing', href: '/pricing' },
 ] as const

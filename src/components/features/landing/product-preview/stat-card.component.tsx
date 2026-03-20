@@ -1,7 +1,7 @@
+import { cn } from '@/utils/global.utils'
 import { useAnimatedCounter } from '@/hooks/use-animated-counter'
 
 import { AnimatedStaggerItem } from '@/components/ui/animated-container'
-import { cn } from '@/utils/global.utils'
 
 export interface IndustryStat {
   target: number
@@ -16,9 +16,7 @@ export interface IndustryStat {
 export function StatCard({ stat }: { stat: IndustryStat }) {
   const animated = useAnimatedCounter(stat.target)
   const display =
-    stat.decimals > 0
-      ? (animated / Math.pow(10, stat.decimals)).toFixed(stat.decimals)
-      : animated
+    stat.decimals > 0 ? (animated / Math.pow(10, stat.decimals)).toFixed(stat.decimals) : animated
 
   return (
     <AnimatedStaggerItem className="flex text-center">

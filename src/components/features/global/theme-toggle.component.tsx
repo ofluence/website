@@ -25,7 +25,12 @@ const triggerIconMap: Record<string, typeof Sun03Icon> = {
   dark: Moon02Icon,
 }
 
-function ThemeToggle() {
+interface ThemeToggleProps {
+  className?: string
+  side?: 'top' | 'bottom'
+}
+
+function ThemeToggle({ className, side = 'bottom' }: ThemeToggleProps) {
   const { theme, effectiveTheme, setThemeMode } = useThemeSwitcher()
 
   const TriggerIcon = triggerIconMap[effectiveTheme] ?? Sun03Icon
@@ -33,11 +38,13 @@ function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="ghost" size="icon-sm" aria-label="Toggle theme" />}
+        render={
+          <Button variant="ghost" size="icon-sm" aria-label="Toggle theme" className={className} />
+        }
       >
         <HugeiconsIcon icon={TriggerIcon} strokeWidth={2} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" side={side}>
         {themeOptions.map((option) => (
           <DropdownMenuItem
             key={option.value}

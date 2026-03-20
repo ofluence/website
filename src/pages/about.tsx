@@ -11,6 +11,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
 
 import { fadeInUp } from '@/utils/motion.utils'
+import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import {
   AnimatedCard,
@@ -20,9 +21,8 @@ import {
 } from '@/components/ui/animated-container'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Seo } from '@/components/features/global/seo.component'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
-
-import { useLocaleContent } from '@/hooks/use-locale-content'
 
 interface ValueCardProps {
   icon: IconSvgElement
@@ -67,10 +67,10 @@ const AboutPage = () => {
 
   return (
     <LandingPageLayout>
-      <title>About — Ofluence</title>
-      <meta
-        name="description"
-        content="Learn about Ofluence — the influencer marketing platform built for brands, agencies, and creators. Our mission, values, and the team behind the product."
+      <Seo
+        title="About"
+        description="Learn about Ofluence — the influencer marketing platform built for brands, agencies, and creators. Our mission, values, and the team behind the product."
+        path="/about"
       />
 
       {/* Hero */}

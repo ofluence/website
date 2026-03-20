@@ -1,6 +1,6 @@
-import type { LocaleContent } from '@/constants/locale/locale.constants'
 import { DEFAULT_LOCALE } from '@/constants/locale/default.constants'
 import { INDIA_LOCALE } from '@/constants/locale/india.constants'
+import type { LocaleContent } from '@/constants/locale/locale.constants'
 
 const LOCALE_MAP: Record<string, LocaleContent> = {
   IN: INDIA_LOCALE,

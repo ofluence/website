@@ -47,10 +47,7 @@ function BrowserChrome({ tabId }: { tabId: string }) {
           <span className="size-2.5 rounded-full bg-[oklch(0.70_0.12_155)]" />
         </div>
         <div className="flex flex-1 items-center gap-1.5 rounded-md bg-[oklch(0.96_0.005_80)] px-2.5 py-1 dark:bg-[oklch(0.2_0.005_80)]">
-          <HugeiconsIcon
-            icon={SecurityCheckIcon}
-            className="text-muted-foreground/60 size-3"
-          />
+          <HugeiconsIcon icon={SecurityCheckIcon} className="text-muted-foreground/60 size-3" />
           <span className="text-muted-foreground text-[11px]">app.ofluence.com/{tabId}</span>
         </div>
       </div>

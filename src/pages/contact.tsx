@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/animated-container'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Seo } from '@/components/features/global/seo.component'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
 interface ContactMethod {
@@ -112,7 +113,7 @@ function ContactForm() {
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="Your name"
-                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm outline-none transition-shadow focus:ring-2"
+                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
               />
               {field.state.meta.errors.length > 0 && (
                 <p className="text-destructive text-xs">{field.state.meta.errors[0]}</p>
@@ -142,7 +143,7 @@ function ContactForm() {
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="you@company.com"
-                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm outline-none transition-shadow focus:ring-2"
+                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
               />
               {field.state.meta.errors.length > 0 && (
                 <p className="text-destructive text-xs">{field.state.meta.errors[0]}</p>
@@ -165,7 +166,7 @@ function ContactForm() {
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="Your company (optional)"
-                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm outline-none transition-shadow focus:ring-2"
+                className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
               />
             </div>
           )}
@@ -189,7 +190,7 @@ function ContactForm() {
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
-                className="border-border bg-background text-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm outline-none transition-shadow focus:ring-2"
+                className="border-border bg-background text-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
               >
                 <option value="" disabled>
                   Select a subject
@@ -228,7 +229,7 @@ function ContactForm() {
               onBlur={field.handleBlur}
               placeholder="Tell us how we can help..."
               rows={5}
-              className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm outline-none transition-shadow focus:ring-2"
+              className="border-border bg-background placeholder:text-muted-foreground focus:ring-primary/20 rounded-lg border px-3 py-2.5 text-sm transition-shadow outline-none focus:ring-2"
             />
             {field.state.meta.errors.length > 0 && (
               <p className="text-destructive text-xs">{field.state.meta.errors[0]}</p>
@@ -251,10 +252,10 @@ function ContactForm() {
 const ContactPage = () => {
   return (
     <LandingPageLayout>
-      <title>Contact — Ofluence</title>
-      <meta
-        name="description"
-        content="Get in touch with the Ofluence team. Reach out for general inquiries, sales demos, or customer support."
+      <Seo
+        title="Contact"
+        description="Get in touch with the Ofluence team. Reach out for general inquiries, sales demos, or customer support."
+        path="/contact"
       />
 
       {/* Hero */}

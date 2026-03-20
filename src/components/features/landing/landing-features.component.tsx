@@ -6,14 +6,17 @@ import { AnimatePresence, motion } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 import { fadeInLeft, fadeInRight, fadeInUp } from '@/utils/motion.utils'
+import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 
 import { LANDING_FEATURES } from '@/constants/landing.constants'
-import type { LocaleCampaign, LocaleCreator, LocalePayment } from '@/constants/locale/locale.constants'
-
-import { useLocaleContent } from '@/hooks/use-locale-content'
+import type {
+  LocaleCampaign,
+  LocaleCreator,
+  LocalePayment,
+} from '@/constants/locale/locale.constants'
 
 /* ─── Discover Mockup ─── */
 
@@ -65,10 +68,7 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
               className="bg-background/60 hover:bg-background/80 flex cursor-default items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 hover:shadow-sm"
             >
               <div
-                className={cn(
-                  'size-9 shrink-0 rounded-full bg-gradient-to-br',
-                  creator.gradient
-                )}
+                className={cn('size-9 shrink-0 rounded-full bg-gradient-to-br', creator.gradient)}
               />
               <div className="flex-1">
                 <p className="text-xs font-semibold">{creator.name}</p>

@@ -14,6 +14,7 @@ import { motion } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 import { fadeInUp } from '@/utils/motion.utils'
+import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import {
   AnimatedCard,
@@ -24,16 +25,11 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { Seo } from '@/components/features/global/seo.component'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
 import { LANDING_PRICING_TIERS } from '@/constants/landing.constants'
-
-import { useLocaleContent } from '@/hooks/use-locale-content'
 
 const TIER_CONFIG: {
   icon: IconSvgElement
@@ -114,10 +110,10 @@ const PricingPage = () => {
 
   return (
     <LandingPageLayout>
-      <title>Pricing — Ofluence</title>
-      <meta
-        name="description"
-        content="Simple, transparent pricing for Ofluence. Start free and scale as you grow. Plans for individuals, growing brands, scaling teams, and enterprises."
+      <Seo
+        title="Pricing"
+        description="Simple, transparent pricing for Ofluence. Start free and scale as you grow. Plans for individuals, growing brands, scaling teams, and enterprises."
+        path="/pricing"
       />
 
       {/* Hero */}

@@ -7,6 +7,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { useThemeSwitcher } from '@/hooks/use-theme-switcher'
 
 import { Toaster } from '@/components/ui/sonner'
+import { OrganizationStructuredData } from '@/components/features/global/structured-data.component'
 
 const RootComponent = () => {
   useThemeSwitcher()
@@ -25,6 +26,7 @@ const RootComponent = () => {
 
   return (
     <>
+      <OrganizationStructuredData />
       <Outlet />
       <Toaster />
       <Suspense>

@@ -42,6 +42,18 @@
   --chart-4: oklch(0.8 0.1 230);
   --chart-5: oklch(0.8 0.1 85);
 
+  /* Footer (forced-dark section) */
+  --footer-bg: oklch(0.15 0.01 60);
+  --footer-fg: oklch(0.985 0.005 80);
+  --footer-muted: oklch(0.65 0.02 60);
+  --footer-accent: oklch(0.72 0.1 25);
+  --footer-border: oklch(1 0 0 / 0.1);
+  --footer-dim: oklch(0.5 0.02 60);
+  --footer-input-bg: oklch(0.2 0.01 60);
+  --footer-input-placeholder: oklch(0.45 0.02 60);
+  --footer-badge-border: oklch(1 0 0 / 0.08);
+  --footer-badge-text: oklch(0.55 0.02 60);
+
   /* Rounder radius */
   --radius: 0.875rem;
 
@@ -148,6 +160,18 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
+  /* Footer colors */
+  --color-footer-bg: var(--footer-bg);
+  --color-footer-fg: var(--footer-fg);
+  --color-footer-muted: var(--footer-muted);
+  --color-footer-accent: var(--footer-accent);
+  --color-footer-border: var(--footer-border);
+  --color-footer-dim: var(--footer-dim);
+  --color-footer-input-bg: var(--footer-input-bg);
+  --color-footer-input-placeholder: var(--footer-input-placeholder);
+  --color-footer-badge-border: var(--footer-badge-border);
+  --color-footer-badge-text: var(--footer-badge-text);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

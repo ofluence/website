@@ -10,12 +10,11 @@ import { Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
 
 import { heroReveal, heroStagger } from '@/utils/motion.utils'
+import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
-import { useLocaleContent } from '@/hooks/use-locale-content'
 
 function FloatingCard({
   className,

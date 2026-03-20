@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import { Seo } from '@/components/features/global/seo.component'
 import {
   LegalPageLayout,
   type TocSection,
@@ -22,10 +23,10 @@ const SECTIONS: TocSection[] = [
 const GdprPage = () => {
   return (
     <>
-      <title>GDPR Compliance — Ofluence</title>
-      <meta
-        name="description"
-        content="Ofluence GDPR Compliance — our commitment to data protection, your rights, and how we handle personal data under the GDPR."
+      <Seo
+        title="GDPR Compliance"
+        description="Ofluence GDPR Compliance — our commitment to data protection, your rights, and how we handle personal data under the GDPR."
+        path="/gdpr"
       />
       <LegalPageLayout
         title="GDPR Compliance"
@@ -39,8 +40,9 @@ const GdprPage = () => {
           </h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             Ofluence is fully committed to compliance with the General Data Protection Regulation
-            (GDPR). Our systems, processes, and policies are designed with data protection principles
-            at their core, including data minimization, purpose limitation, and privacy by design.
+            (GDPR). Our systems, processes, and policies are designed with data protection
+            principles at their core, including data minimization, purpose limitation, and privacy
+            by design.
           </p>
         </section>
 
@@ -155,8 +157,8 @@ const GdprPage = () => {
             <a href="mailto:dpo@ofluence.ai" className="text-primary hover:underline">
               dpo@ofluence.ai
             </a>
-            . We acknowledge requests within 72 hours and respond within 30 calendar days (extendable
-            by 60 days for complex requests).
+            . We acknowledge requests within 72 hours and respond within 30 calendar days
+            (extendable by 60 days for complex requests).
           </p>
         </section>
 
@@ -212,7 +214,8 @@ const GdprPage = () => {
           <p className="text-muted-foreground mt-4 leading-relaxed">
             We notify the relevant supervisory authority within 72 hours of becoming aware of a
             breach. High-risk breaches trigger direct notification to affected individuals. We
-            maintain a comprehensive incident response plan and conduct regular security assessments.
+            maintain a comprehensive incident response plan and conduct regular security
+            assessments.
           </p>
         </section>
 

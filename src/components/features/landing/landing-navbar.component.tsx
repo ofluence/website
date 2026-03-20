@@ -5,7 +5,6 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
 
 import { cn } from '@/utils/global.utils'
-
 import { useScrollToSection } from '@/hooks/use-scroll-to-section'
 
 import { Button } from '@/components/ui/button'
@@ -110,10 +109,7 @@ function LandingNavbar() {
               <div className="flex flex-col gap-4 px-4 pt-4">
                 {LANDING_NAV_LINKS.map((link) => (
                   <SheetClose key={link.href}>
-                    <NavLink
-                      link={link}
-                      className="text-foreground text-base font-medium"
-                    >
+                    <NavLink link={link} className="text-foreground text-base font-medium">
                       {link.label}
                     </NavLink>
                   </SheetClose>

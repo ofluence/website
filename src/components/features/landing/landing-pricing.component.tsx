@@ -5,6 +5,7 @@ import { motion } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 import { fadeInUp } from '@/utils/motion.utils'
+import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import {
   AnimatedCard,
@@ -16,8 +17,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { LANDING_PRICING_TIERS } from '@/constants/landing.constants'
-
-import { useLocaleContent } from '@/hooks/use-locale-content'
 
 const TIER_COLORS = ['text-chart-1', 'text-chart-2', 'text-chart-3', 'text-chart-4']
 
@@ -51,55 +50,55 @@ function LandingPricing() {
             const localePricing = pricing[TIER_KEYS[index]]
             const displayPrice = localePricing.price
             return (
-            <AnimatedStaggerItem key={tier.name} className="flex">
-              <AnimatedCard className="flex flex-1">
-                <Card
-                  className={cn(
-                    'relative flex flex-1 flex-col',
-                    TIER_GRADIENTS[index],
-                    tier.highlighted && 'ring-primary shadow-soft-md ring-2'
-                  )}
-                >
-                  {tier.highlighted && (
-                    <div className="absolute -top-3 right-4">
-                      <Badge variant="coral">Most Popular</Badge>
-                    </div>
-                  )}
-                  <CardHeader>
-                    <CardTitle className="font-display text-lg">{tier.name}</CardTitle>
-                    <div className="flex items-baseline gap-1">
-                      <span className="font-display text-4xl font-bold">{displayPrice}</span>
-                      {tier.period && (
-                        <span className="text-muted-foreground text-sm">{tier.period}</span>
-                      )}
-                    </div>
-                    <p className="text-muted-foreground text-sm">{tier.description}</p>
-                  </CardHeader>
-                  <CardContent className="flex-1">
-                    <ul className="flex flex-col gap-3">
-                      {tier.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2">
-                          <HugeiconsIcon
-                            icon={Tick01Icon}
-                            className={cn('mt-0.5 size-4 shrink-0', TIER_COLORS[index])}
-                          />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button
-                      className="w-full"
-                      variant={tier.highlighted ? 'default' : 'outline'}
-                      render={<Link to="/contact" />}
-                    >
-                      {tier.cta}
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </AnimatedCard>
-            </AnimatedStaggerItem>
+              <AnimatedStaggerItem key={tier.name} className="flex">
+                <AnimatedCard className="flex flex-1">
+                  <Card
+                    className={cn(
+                      'relative flex flex-1 flex-col',
+                      TIER_GRADIENTS[index],
+                      tier.highlighted && 'ring-primary shadow-soft-md ring-2'
+                    )}
+                  >
+                    {tier.highlighted && (
+                      <div className="absolute -top-3 right-4">
+                        <Badge variant="coral">Most Popular</Badge>
+                      </div>
+                    )}
+                    <CardHeader>
+                      <CardTitle className="font-display text-lg">{tier.name}</CardTitle>
+                      <div className="flex items-baseline gap-1">
+                        <span className="font-display text-4xl font-bold">{displayPrice}</span>
+                        {tier.period && (
+                          <span className="text-muted-foreground text-sm">{tier.period}</span>
+                        )}
+                      </div>
+                      <p className="text-muted-foreground text-sm">{tier.description}</p>
+                    </CardHeader>
+                    <CardContent className="flex-1">
+                      <ul className="flex flex-col gap-3">
+                        {tier.features.map((feature) => (
+                          <li key={feature} className="flex items-start gap-2">
+                            <HugeiconsIcon
+                              icon={Tick01Icon}
+                              className={cn('mt-0.5 size-4 shrink-0', TIER_COLORS[index])}
+                            />
+                            <span className="text-sm">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                    <CardFooter>
+                      <Button
+                        className="w-full"
+                        variant={tier.highlighted ? 'default' : 'outline'}
+                        render={<Link to="/contact" />}
+                      >
+                        {tier.cta}
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </AnimatedCard>
+              </AnimatedStaggerItem>
             )
           })}
         </AnimatedStaggerGrid>

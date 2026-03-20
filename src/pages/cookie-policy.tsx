@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import { Seo } from '@/components/features/global/seo.component'
 import {
   LegalPageLayout,
   type TocSection,
@@ -18,10 +19,10 @@ const SECTIONS: TocSection[] = [
 const CookiePolicyPage = () => {
   return (
     <>
-      <title>Cookie Policy — Ofluence</title>
-      <meta
-        name="description"
-        content="Ofluence Cookie Policy — what cookies we use, why, and how to manage your preferences."
+      <Seo
+        title="Cookie Policy"
+        description="Ofluence Cookie Policy — what cookies we use, why, and how to manage your preferences."
+        path="/cookie-policy"
       />
       <LegalPageLayout
         title="Cookie Policy"
@@ -40,9 +41,7 @@ const CookiePolicyPage = () => {
         </section>
 
         <section id="how-we-use" className="mt-12">
-          <h2 className="font-display text-xl font-semibold md:text-2xl">
-            2. How We Use Cookies
-          </h2>
+          <h2 className="font-display text-xl font-semibold md:text-2xl">2. How We Use Cookies</h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             Ofluence uses cookies to ensure the platform functions reliably, to keep your account
             secure, and to understand how users interact with the product. We give you control over
@@ -78,9 +77,7 @@ const CookiePolicyPage = () => {
         </section>
 
         <section id="third-party" className="mt-12">
-          <h2 className="font-display text-xl font-semibold md:text-2xl">
-            4. Third-Party Cookies
-          </h2>
+          <h2 className="font-display text-xl font-semibold md:text-2xl">4. Third-Party Cookies</h2>
           <ul className="text-muted-foreground mt-4 list-disc space-y-2 pl-6">
             <li>
               <strong className="text-foreground">PostHog</strong> — Session identification and
