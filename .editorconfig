@@ -1,0 +1,57 @@
+# Top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+max_line_length = 100
+quote_type = single
+
+# Set default charset
+charset = utf-8
+
+# 2 space indentation for TypeScript and JavaScript files
+[*.{ts,js,tsx,jsx}]
+indent_style = space
+indent_size = 2
+max_line_length = 100
+quote_type = single
+curly_bracket_next_line = false
+spaces_around_operators = true
+spaces_around_brackets = inside
+
+# Trim trailing whitespace
+trim_trailing_whitespace = true
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+
+# YAML files
+[*.yml]
+indent_style = space
+indent_size = 2
+
+# CSS, SCSS, and Less files
+[*.{css,scss,less}]
+indent_style = space
+indent_size = 2
+max_line_length = 100
+
+# HTML files
+[*.{html,htm}]
+indent_style = space
+indent_size = 2
+max_line_length = 120
+
+# Configuration files
+[*.{eslintrc,prettierrc}]
+indent_style = space
+indent_size = 2

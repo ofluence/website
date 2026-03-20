@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+# Skip if this is an amend, merge, or squash commit
+if [ "$COMMIT_SOURCE" = "commit" ] || [ "$COMMIT_SOURCE" = "merge" ] || [ "$COMMIT_SOURCE" = "squash" ]; then
+  exit 0
+fi
+
+# If no message provided (git commit without -m), launch Commitizen interactive prompt
+if [ -z "$COMMIT_SOURCE" ]; then
+  exec < /dev/tty && npx cz --hook || true
+fi
+
+# Get current branch name
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+
+# Skip branch prepend if on detached HEAD (no useful branch name)
+if [ "$BRANCH_NAME" = "HEAD" ]; then
+  exit 0
+fi
+
+# Read current commit message
+COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE")
+
+# Skip if branch name is already in message, or message is empty/comment
+if echo "$COMMIT_MSG" | grep -q "$BRANCH_NAME" || [ -z "$COMMIT_MSG" ] || echo "$COMMIT_MSG" | grep -q "^#"; then
+  exit 0
+fi
+
+# Prepend branch name: branchName: feat(scope): message
+sed -i.bak "1s|^|$BRANCH_NAME: |" "$COMMIT_MSG_FILE"
+rm -f "$COMMIT_MSG_FILE.bak"
