@@ -5,9 +5,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Seo } from '@/components/features/global/seo.component'
 import { LandingCta } from '@/components/features/landing/landing-cta.component'
 import { LandingFeatures } from '@/components/features/landing/landing-features.component'
-import { LandingFooter } from '@/components/features/landing/landing-footer.component'
 import { LandingHero } from '@/components/features/landing/landing-hero.component'
-import { LandingNavbar } from '@/components/features/landing/landing-navbar.component'
+import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 import { LandingPainPoints } from '@/components/features/landing/landing-pain-points.component'
 import { LandingSocialProof } from '@/components/features/landing/landing-social-proof.component'
 
@@ -22,22 +21,18 @@ export const IndexPage = () => {
   }, [])
 
   return (
-    <>
+    <LandingPageLayout>
       <Seo
         title="Influencer Marketing Platform"
         description="Ofluence is the all-in-one influencer marketing platform for brands, agencies, and creators. Discover creators, manage campaigns, track performance, and process payments."
         path="/"
       />
-      <LandingNavbar />
-      <main>
-        <LandingHero />
-        <LandingSocialProof />
-        <LandingFeatures />
-        <LandingPainPoints />
-        <LandingCta />
-      </main>
-      <LandingFooter />
-    </>
+      <LandingHero />
+      <LandingPainPoints />
+      <LandingFeatures />
+      <LandingSocialProof />
+      <LandingCta />
+    </LandingPageLayout>
   )
 }
 

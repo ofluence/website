@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-import { Search01Icon } from '@hugeicons/core-free-icons'
+import { InstagramIcon, Search01Icon, TiktokIcon, YoutubeIcon } from '@hugeicons/core-free-icons'
+import type { IconSvgElement } from '@hugeicons/react'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { motion } from 'motion/react'
 
@@ -10,7 +11,8 @@ import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import { FadeInView } from '@/components/ui/animated-container'
 import { Badge } from '@/components/ui/badge'
-import { BentoCard, BentoGrid } from '@/components/ui/bento-grid'
+import { BentoGrid } from '@/components/ui/bento-grid'
+import { MagicCard } from '@/components/ui/magic-card'
 
 import { LANDING_FEATURES } from '@/constants/landing.constants'
 import type {
@@ -107,9 +109,9 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
   })
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-5">
       {/* Search bar */}
-      <div className="bg-background focus-within:ring-primary/20 flex items-center gap-2 rounded-xl px-4 py-3 transition-shadow focus-within:ring-2">
+      <div className="bg-card focus-within:ring-primary/40 ring-primary/30 flex items-center gap-3 rounded-xl px-4 py-3 ring-1 transition-shadow focus-within:ring-2">
         <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground size-5 shrink-0" />
         <input
           type="text"
@@ -129,8 +131,8 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
       </div>
 
       {/* Masonry grid — clipped with fade-out */}
-      <div className="relative max-h-160 overflow-hidden">
-        <div className="columns-3 gap-2.5">
+      <div className="relative max-h-166 overflow-hidden">
+        <div className="columns-3 gap-3">
           {filtered.map((creator, index) => (
             <CreatorCard key={creator.handle} creator={creator} index={index} />
           ))}
@@ -152,8 +154,8 @@ function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
     { label: 'Done', status: 'pending' },
   ]
   return (
-    <div className="flex flex-col gap-4">
-      <div className="bg-background rounded-lg px-4 py-3">
+    <div className="flex flex-col gap-3">
+      <div className="bg-card rounded-lg px-4 py-3">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold">{campaigns[0].name}</p>
@@ -165,9 +167,9 @@ function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
             {campaigns[0].status}
           </Badge>
         </div>
-        <div className="mt-3 flex items-center gap-1">
+        <div className="mt-6 ml-6 flex items-center gap-1">
           {stages.map((stage, index_) => (
-            <div key={stage.label} className="flex flex-1 flex-col items-center gap-1">
+            <div key={stage.label} className="flex flex-1 flex-col items-center gap-3">
               <div className="flex w-full items-center">
                 <div
                   className={cn(
@@ -186,13 +188,13 @@ function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
                   />
                 )}
               </div>
-              <span className="text-muted-foreground text-[9px]">{stage.label}</span>
+              <span className="text-muted-foreground self-start text-[9px]">{stage.label}</span>
             </div>
           ))}
         </div>
       </div>
       {campaigns[1] && (
-        <div className="bg-background rounded-lg px-4 py-3">
+        <div className="bg-card rounded-lg px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold">{campaigns[1].name}</p>
@@ -237,16 +239,16 @@ function AnalyticsMockup() {
   ]
   return (
     <div className="flex flex-col gap-3">
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-3">
         {metrics.map((metric) => (
-          <div key={metric.label} className="bg-background rounded-lg px-2.5 py-2 text-center">
+          <div key={metric.label} className="bg-card rounded-lg px-2.5 py-2 text-center">
             <p className="font-display text-sm font-semibold">{metric.value}</p>
             <p className="text-muted-foreground text-[9px]">{metric.label}</p>
             <p className="text-success text-[9px] font-medium">{metric.change}</p>
           </div>
         ))}
       </div>
-      <div className="bg-background rounded-lg p-3">
+      <div className="bg-card rounded-lg p-3">
         <p className="text-muted-foreground mb-2 text-[10px] font-medium">Weekly Performance</p>
         <div className="flex items-end gap-1.5" style={{ height: '60px' }}>
           {ANALYTICS_BARS.map((bar, index_) => (
@@ -258,7 +260,7 @@ function AnalyticsMockup() {
               onMouseLeave={() => setHoveredBar(null)}
             >
               {hoveredBar === index_ && (
-                <div className="bg-foreground text-background absolute -top-6 left-1/2 z-10 -translate-x-1/2 rounded-md px-1.5 py-0.5 text-[8px] font-medium whitespace-nowrap">
+                <div className="bg-foreground text-card absolute -top-6 left-1/2 z-10 -translate-x-1/2 rounded-md px-1.5 py-0.5 text-[8px] font-medium whitespace-nowrap">
                   {bar.value}
                 </div>
               )}
@@ -281,6 +283,12 @@ function AnalyticsMockup() {
 
 /* ─── Payments Mockup ─── */
 
+const platformIconMap: Record<string, IconSvgElement> = {
+  Instagram: InstagramIcon,
+  YouTube: YoutubeIcon,
+  TikTok: TiktokIcon,
+}
+
 function PaymentsMockup({
   payments,
   paymentTotal,
@@ -289,28 +297,54 @@ function PaymentsMockup({
   paymentTotal: string
 }) {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="bg-background rounded-lg px-4 py-2.5">
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold">Recent Payments</p>
-          <p className="font-display text-sm font-semibold">{paymentTotal}</p>
+    <div className="flex flex-col gap-3">
+      <div className="bg-card flex items-center justify-between rounded-lg px-4 py-4">
+        <div className="flex items-center gap-3">
+          <p className="text-base font-semibold">Recent Payments</p>
+          <p className="text-muted-foreground text-[10px]">3 of 12 creators paid this month</p>
         </div>
-        <p className="text-muted-foreground text-[10px]">3 of 12 creators paid this month</p>
+        <p className="font-display text-sm font-semibold">{paymentTotal}</p>
       </div>
       {payments.map((payment) => (
-        <div
-          key={payment.name}
-          className="bg-background flex items-center gap-3 rounded-lg px-4 py-2.5"
-        >
-          <div className="bg-muted size-8 shrink-0 rounded-full" />
-          <div className="flex-1">
-            <p className="text-xs font-semibold">{payment.name}</p>
-          </div>
-          <div className="text-right">
-            <p className="font-display text-xs font-semibold">{payment.amount}</p>
+        <div key={payment.name} className="bg-card flex flex-col gap-3 rounded-lg px-4 py-3">
+          <div className="flex items-center gap-3">
+            <img
+              src={payment.avatar}
+              alt={payment.name}
+              className="size-8 shrink-0 rounded-full object-cover"
+            />
+            <div className="flex-1">
+              <p className="text-xs font-semibold">{payment.name}</p>
+              <div className="flex items-center gap-3">
+                <p className="text-muted-foreground text-[10px]">{payment.handle}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              {payment.platforms.map((platform) => {
+                const icon = platformIconMap[platform]
+                if (!icon) return null
+                return (
+                  <HugeiconsIcon
+                    key={platform}
+                    icon={icon}
+                    className="text-muted-foreground/60 size-3.5"
+                  />
+                )
+              })}
+            </div>
+            <p className="text-muted-foreground text-xs">
+              {payment.campaign} - {payment.duration}
+            </p>
+            <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+              {payment.roas} ROAS
+            </p>
             <Badge variant={payment.statusVariant} className="h-4 px-1.5 text-[9px]">
               {payment.status}
             </Badge>
+            <div className="text-right">
+              <p className="font-display text-xs font-semibold">{payment.amount}</p>
+            </div>
           </div>
         </div>
       ))}
@@ -362,27 +396,30 @@ function LandingFeatures() {
                   )}
                   {...scrollStaggerItem}
                 >
-                  <BentoCard className="flex h-full flex-col gap-5">
-                    <div className="flex items-center gap-3">
-                      {/* <div className="bg-primary/10 flex size-10 items-center justify-center rounded-md">
-                        <HugeiconsIcon icon={feature.icon} className="text-primary size-5" />
-                      </div> */}
-                      <div>
-                        <Badge variant="accent" className="mb-1">
-                          {feature.title}
-                        </Badge>
-                        <h3 className="text-display-subsection text-foreground">
-                          {feature.headline}
-                        </h3>
+                  <MagicCard className="rounded-[16px]">
+                    <div className="flex h-full flex-col gap-3 p-6">
+                      <div className="flex items-center gap-3">
+                        <div>
+                          <Badge variant="accent" className="mb-1">
+                            {feature.title}
+                          </Badge>
+                          <h3 className="text-display-subsection text-foreground">
+                            {feature.headline}
+                          </h3>
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {feature.description}
+                      </p>
+                      <div
+                        className={cn(
+                          'border-border/60 bg-background mt-5 rounded-[12px] border p-4'
+                        )}
+                      >
+                        <MockupComponent />
                       </div>
                     </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {feature.description}
-                    </p>
-                    <div className={cn('border-border/60 bg-card mt-5 rounded-[12px] border p-4')}>
-                      <MockupComponent />
-                    </div>
-                  </BentoCard>
+                  </MagicCard>
                 </motion.div>
               )
             })}

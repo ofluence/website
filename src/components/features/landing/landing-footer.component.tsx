@@ -86,10 +86,12 @@ function LandingFooter() {
         <div className="border-border mb-16 border-b pb-16">
           <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr]">
             <div>
-              <span className="font-display text-4xl font-bold md:text-5xl">Ofluence</span>
+              <div className="flex items-center gap-3">
+                <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-10" />
+                <span className="font-display text-4xl font-bold md:text-5xl">Ofluence</span>
+              </div>
               <p className="text-muted-foreground mt-4 max-w-sm text-sm leading-relaxed">
-                The modern influencer marketing platform for brands, agencies, and creators who want
-                to do their best work together.
+                Helping brands and creators build partnerships that drive real results.
               </p>
               {/* Social icons — static, muted */}
               <div className="mt-6 flex gap-5">

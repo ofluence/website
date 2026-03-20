@@ -45,9 +45,9 @@ export interface LandingFooterLinkGroup {
 }
 
 export const LANDING_STATS: LandingStat[] = [
-  { value: 2, label: 'Platforms', prefix: '', suffix: '' },
-  { value: 180, label: 'Countries', suffix: '+' },
   { value: 5, label: 'Minute Setup', suffix: ' min' },
+  { value: 50, label: 'Creators', suffix: 'K+' },
+  { value: 500, label: 'Brands', suffix: '+' },
 ]
 
 export const LANDING_FEATURES: LandingFeature[] = [
@@ -81,7 +81,7 @@ export const LANDING_FEATURES: LandingFeature[] = [
   {
     number: '04',
     title: 'Pay',
-    headline: 'Payments in 180+ countries. On time, every time.',
+    headline: 'Payments on time, every time.',
     description:
       'Customizable commissions, automated payouts, and built-in tax compliance. Creators get paid fast and securely, wherever they are.',
     badgeVariant: 'mist',
@@ -241,15 +241,12 @@ export const LANDING_FOOTER_LINKS: LandingFooterLinkGroup[] = [
     links: [
       { label: 'Features', href: '/#features' },
       { label: 'Pricing', href: '/pricing' },
-      { label: 'Integrations', href: '/integrations' },
-      { label: 'How It Works', href: '/#how-it-works' },
+      { label: 'Solutions', href: '/solutions' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'About', href: '/about' },
-      { label: 'Use Cases', href: '/use-cases' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -266,7 +263,6 @@ export const LANDING_FOOTER_LINKS: LandingFooterLinkGroup[] = [
 
 export const LANDING_NAV_LINKS = [
   { label: 'Features', href: '/#features' },
-  { label: 'Use Cases', href: '/use-cases' },
-  { label: 'Integrations', href: '/integrations' },
+  { label: 'Solutions', href: '/solutions' },
   { label: 'Pricing', href: '/pricing' },
 ] as const

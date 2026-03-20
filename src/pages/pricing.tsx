@@ -9,6 +9,7 @@ import { cn } from '@/utils/global.utils'
 import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import { FadeInView } from '@/components/ui/animated-container'
+import { MagicCard } from '@/components/ui/magic-card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -97,9 +98,7 @@ const PricingPage = () => {
       <section className="py-20 md:py-28">
         <div className="mx-auto max-w-4xl px-6 md:px-8">
           <FadeInView className="text-center">
-            <p className="text-muted-foreground mb-6 text-sm tracking-[0.2em] uppercase">
-              Pricing
-            </p>
+            <p className="text-muted-foreground mb-6 text-sm tracking-[0.2em] uppercase">Pricing</p>
             <h1 className="text-display-section">Choose your plan.</h1>
             <p className="text-muted-foreground mx-auto mt-8 max-w-xl text-lg leading-relaxed">
               Start free and scale as you grow. No hidden fees, no surprises. Every plan includes a
@@ -153,23 +152,23 @@ const PricingPage = () => {
       {/* Pricing cards */}
       <section className="pb-20 md:pb-28">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="grid grid-cols-1 gap-px md:grid-cols-2 lg:grid-cols-4">
-            {LANDING_PRICING_TIERS.map((tier, index) => {
+          {/* Top 3 tiers — equal height */}
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {LANDING_PRICING_TIERS.slice(0, 3).map((tier, index) => {
               const localePricing = pricing[TIER_KEYS[index]]
               const displayPrice =
                 isAnnual && localePricing.annualPrice
                   ? localePricing.annualPrice
                   : localePricing.price
               return (
-                <FadeInView key={tier.name}>
-                  <motion.div
+                <FadeInView key={tier.name} className="h-full">
+                  <MagicCard
                     className={cn(
-                      'border-border flex flex-col border bg-transparent p-8 rounded-lg',
-                      tier.highlighted && 'border-t-2 border-t-primary'
+                      'h-full rounded-lg',
+                      tier.highlighted && '[&>div:nth-child(2)]:border-t-primary [&>div:nth-child(2)]:border-t-2'
                     )}
-                    whileHover={{ y: -2 }}
-                    transition={{ duration: 0.2 }}
                   >
+                    <div className="flex h-full flex-col p-8">
                     {tier.highlighted && (
                       <Badge variant="accent" className="mb-4 self-start text-xs">
                         Most Popular
@@ -204,22 +203,79 @@ const PricingPage = () => {
                       ))}
                     </ul>
 
-                    <Link
-                      to={tier.ctaHref ?? '/register'}
-                      className={cn(
-                        'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
-                        tier.highlighted
-                          ? 'bg-foreground text-background hover:bg-foreground/90'
-                          : 'border-border text-foreground hover:bg-muted border'
-                      )}
-                    >
-                      {tier.cta}
-                    </Link>
-                  </motion.div>
+                    {tier.ctaHref ? (
+                      <Link
+                        to={tier.ctaHref}
+                        className={cn(
+                          'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
+                          'border-border text-foreground hover:bg-muted border'
+                        )}
+                      >
+                        {tier.cta}
+                      </Link>
+                    ) : (
+                      <a
+                        href={`${import.meta.env.VITE_APP_URL}/login`}
+                        className={cn(
+                          'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
+                          tier.highlighted
+                            ? 'bg-foreground text-background hover:bg-foreground/90'
+                            : 'border-border text-foreground hover:bg-muted border'
+                        )}
+                      >
+                        {tier.cta}
+                      </a>
+                    )}
+                    </div>
+                  </MagicCard>
                 </FadeInView>
               )
             })}
           </div>
+
+          {/* Enterprise — full-width horizontal card */}
+          {(() => {
+            const enterprise = LANDING_PRICING_TIERS[3]
+            const enterprisePricing = pricing[TIER_KEYS[3]]
+            return (
+              <FadeInView className="mt-5">
+                <MagicCard
+                  className="rounded-lg"
+                  gradientColor="var(--color-primary)"
+                  gradientOpacity={0.05}
+                >
+                  <div className="flex flex-col gap-8 p-8 md:flex-row md:items-center md:justify-between">
+                  <div className="flex-1">
+                    <h3 className="font-display text-lg tracking-wide">{enterprise.name}</h3>
+                    <p className="text-muted-foreground mt-1 text-sm">{enterprise.description}</p>
+                    <div className="mt-4 flex items-baseline gap-1">
+                      <span className="font-display text-4xl">{enterprisePricing.price}</span>
+                    </div>
+                  </div>
+
+                  <ul className="flex flex-1 flex-wrap gap-x-8 gap-y-3">
+                    {enterprise.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2.5">
+                        <HugeiconsIcon
+                          icon={Tick01Icon}
+                          className="text-foreground mt-0.5 size-3.5 shrink-0"
+                        />
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    to="/contact"
+                    className="border-border text-foreground hover:bg-muted block shrink-0 rounded-lg border px-8 py-3 text-center text-sm font-medium tracking-wide transition-colors"
+                  >
+                    {enterprise.cta}
+                  </Link>
+                  </div>
+                </MagicCard>
+              </FadeInView>
+            )
+          })()}
 
           <p className="text-muted-foreground mt-12 text-center text-sm tracking-wide">
             All paid plans include a 14-day free trial. No credit card required to start.
@@ -239,7 +295,7 @@ const PricingPage = () => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-border border-b">
-                    <th className="text-muted-foreground pb-6 text-left text-xs tracking-[0.15em] font-normal uppercase">
+                    <th className="text-muted-foreground pb-6 text-left text-xs font-normal tracking-[0.15em] uppercase">
                       Feature
                     </th>
                     {LANDING_PRICING_TIERS.map((tier) => (

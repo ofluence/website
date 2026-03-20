@@ -1,4 +1,4 @@
-import { ComputerIcon, Moon02Icon, Sun03Icon } from '@hugeicons/core-free-icons'
+import { ComputerIcon, Moon02Icon, Sun03Icon, Tick01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 
 import { cn } from '@/utils/global.utils'
@@ -23,6 +23,7 @@ const themeOptions: { value: Theme; label: string; icon: typeof Sun03Icon }[] = 
 const triggerIconMap: Record<string, typeof Sun03Icon> = {
   light: Sun03Icon,
   dark: Moon02Icon,
+  system: ComputerIcon,
 }
 
 interface ThemeToggleProps {
@@ -31,9 +32,9 @@ interface ThemeToggleProps {
 }
 
 function ThemeToggle({ className, side = 'bottom' }: ThemeToggleProps) {
-  const { theme, effectiveTheme, setThemeMode } = useThemeSwitcher()
+  const { theme, setThemeMode } = useThemeSwitcher()
 
-  const TriggerIcon = triggerIconMap[effectiveTheme] ?? Sun03Icon
+  const TriggerIcon = triggerIconMap[theme] ?? Sun03Icon
 
   return (
     <DropdownMenu>
@@ -53,6 +54,9 @@ function ThemeToggle({ className, side = 'bottom' }: ThemeToggleProps) {
           >
             <HugeiconsIcon icon={option.icon} strokeWidth={2} />
             {option.label}
+            {theme === option.value && (
+              <HugeiconsIcon icon={Tick01Icon} className="ml-auto size-3.5" />
+            )}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

@@ -4,14 +4,13 @@ import { motion } from 'motion/react'
 import { heroReveal, heroStagger } from '@/utils/motion.utils'
 import { useLocaleContent } from '@/hooks/use-locale-content'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
 function LandingHero() {
   const { country, countryCode, isLoading } = useLocaleContent()
 
   return (
-    <section className="px-4 pt-24 pb-8 md:px-6">
+    <section className="px-4 pt-8 pb-8 md:px-6">
       {/* Full-bleed rounded container */}
       <div className="surface-container relative mx-auto max-w-7xl overflow-hidden px-6 py-20 md:px-12 md:py-28">
         {/* Subtle ambient glow */}
@@ -21,15 +20,12 @@ function LandingHero() {
         />
 
         <motion.div
-          className="relative mx-auto flex max-w-3xl flex-col items-center gap-6 text-center"
+          className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 text-center"
           {...heroStagger}
         >
           {/* Overline badge */}
           <motion.div variants={heroReveal}>
-            <Badge variant="outline" className="gap-1.5 px-3 py-1">
-              <span className="size-1.5 rounded-full bg-green-500" />
-              Influencer platform built for speed
-            </Badge>
+            <span className="gap-1.5 px-3 py-1 text-base">Influencer platform built for speed</span>
           </motion.div>
 
           {/* Headline */}
@@ -48,7 +44,7 @@ function LandingHero() {
 
           {/* Dual CTAs */}
           <motion.div variants={heroReveal} className="flex flex-wrap items-center gap-3 pt-2">
-            <Button size="lg" render={<Link to="/contact" />}>
+            <Button size="lg" render={<a href={`${import.meta.env.VITE_APP_URL}/login`} />}>
               Start free trial
             </Button>
             <Button variant="outline" size="lg" render={<Link to="/contact" />}>

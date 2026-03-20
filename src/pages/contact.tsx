@@ -7,7 +7,9 @@ import { toast } from 'sonner'
 
 import { FadeInView } from '@/components/ui/animated-container'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { Textarea } from '@/components/ui/textarea'
 import { Seo } from '@/components/features/global/seo.component'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
@@ -41,8 +43,6 @@ const SUBJECT_OPTIONS = [
   { value: 'support', label: 'Support' },
 ] as const
 
-const inputClassName =
-  'border-border placeholder:text-muted-foreground focus:border-foreground w-full rounded-lg border bg-transparent px-4 py-3 text-base outline-none transition-colors'
 
 function ContactForm() {
   const form = useForm({
@@ -89,16 +89,16 @@ function ContactForm() {
               >
                 Name <span className="text-primary">*</span>
               </label>
-              <input
+              <Input
                 id={field.name}
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="Your name"
-                className={inputClassName}
+                className="h-11 rounded-lg px-4"
               />
               {field.state.meta.errors.length > 0 && (
-                <p className="text-primary mt-1 text-xs">{field.state.meta.errors[0]}</p>
+                <p className="text-destructive mt-1 text-xs">{field.state.meta.errors[0]}</p>
               )}
             </div>
           )}
@@ -121,17 +121,17 @@ function ContactForm() {
               >
                 Email <span className="text-primary">*</span>
               </label>
-              <input
+              <Input
                 id={field.name}
                 type="email"
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="you@company.com"
-                className={inputClassName}
+                className="h-11 rounded-lg px-4"
               />
               {field.state.meta.errors.length > 0 && (
-                <p className="text-primary mt-1 text-xs">{field.state.meta.errors[0]}</p>
+                <p className="text-destructive mt-1 text-xs">{field.state.meta.errors[0]}</p>
               )}
             </div>
           )}
@@ -148,13 +148,13 @@ function ContactForm() {
               >
                 Company
               </label>
-              <input
+              <Input
                 id={field.name}
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 placeholder="Your company (optional)"
-                className={inputClassName}
+                className="h-11 rounded-lg px-4"
               />
             </div>
           )}
@@ -181,7 +181,7 @@ function ContactForm() {
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
-                className={`${inputClassName} cursor-pointer appearance-none`}
+                className="border-input focus-visible:border-ring focus-visible:ring-primary/15 dark:bg-input/30 h-11 w-full cursor-pointer appearance-none rounded-lg border bg-transparent px-4 text-base shadow-xs outline-none transition-[color,box-shadow] focus-visible:ring-4 md:text-sm"
               >
                 <option value="" disabled>
                   Select a subject
@@ -193,7 +193,7 @@ function ContactForm() {
                 ))}
               </select>
               {field.state.meta.errors.length > 0 && (
-                <p className="text-primary mt-1 text-xs">{field.state.meta.errors[0]}</p>
+                <p className="text-destructive mt-1 text-xs">{field.state.meta.errors[0]}</p>
               )}
             </div>
           )}
@@ -216,17 +216,17 @@ function ContactForm() {
             >
               Message <span className="text-primary">*</span>
             </label>
-            <textarea
+            <Textarea
               id={field.name}
               value={field.state.value}
               onChange={(event) => field.handleChange(event.target.value)}
               onBlur={field.handleBlur}
               placeholder="Tell us how we can help..."
               rows={5}
-              className={`${inputClassName} resize-none`}
+              className="rounded-lg px-4"
             />
             {field.state.meta.errors.length > 0 && (
-              <p className="text-primary mt-1 text-xs">{field.state.meta.errors[0]}</p>
+              <p className="text-destructive mt-1 text-xs">{field.state.meta.errors[0]}</p>
             )}
           </div>
         )}
@@ -260,8 +260,8 @@ const ContactPage = () => {
       />
 
       {/* Hero */}
-      <section className="pb-16 pt-32 md:pb-24 md:pt-44">
-        <div className="mx-auto max-w-6xl px-6 md:px-8">
+      <section className="pt-12 pb-20 md:pt-20 md:pb-28">
+        <div className="mx-auto max-w-5xl px-6 md:px-8">
           <FadeInView>
             <p className="text-muted-foreground mb-6 text-xs font-medium uppercase tracking-[0.3em]">
               Contact
@@ -274,8 +274,8 @@ const ContactPage = () => {
       </section>
 
       {/* Contact methods */}
-      <section className="pb-24 md:pb-32">
-        <div className="mx-auto max-w-6xl px-6 md:px-8">
+      <section className="pb-20 md:pb-28">
+        <div className="mx-auto max-w-5xl px-6 md:px-8">
           {CONTACT_METHODS.map((method, index) => (
             <div key={method.title}>
               {index > 0 && <Separator />}
@@ -301,8 +301,8 @@ const ContactPage = () => {
       </section>
 
       {/* Contact Form */}
-      <section className="pb-32 md:pb-40">
-        <div className="mx-auto max-w-6xl px-6 md:px-8">
+      <section className="pb-20 md:pb-28">
+        <div className="mx-auto max-w-5xl px-6 md:px-8">
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-24">
             <div className="lg:col-span-4">
               <FadeInView>
@@ -327,8 +327,8 @@ const ContactPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="pb-32 md:pb-40">
-        <div className="mx-auto max-w-6xl px-6 md:px-8">
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-5xl px-6 md:px-8">
           <Separator />
           <div className="py-20 md:py-28">
             <FadeInView>

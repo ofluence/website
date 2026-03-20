@@ -78,17 +78,20 @@ Create a `.env.development` file in the root directory with the following variab
 VITE_ENV=development
 VITE_CLIENT_NAME=Ofluence
 
-VITE_PORT=6060
-VITE_APP_URL=http://localhost:6060
+VITE_PORT=5555
 
-VITE_API_BASE_URL=http://localhost:4040
+VITE_WEBSITE_URL=http://localhost:5555
+
+VITE_APP_URL=http://localhost:5656
+
+VITE_API_BASE_URL=http://localhost:4646
 VITE_API_PREFIX=/api/v1
 
 VITE_AUTH_STORAGE_KEY=a:stig
 VITE_AUTH_ENCRYPTION_KEY=your-secret-key
 
 # Posthog Configuration
-VITE_POSTHOG_API_KEY=phc_DNY2DOJwLSahi1vgmreguHCsHGAzEGyQ95nwvBVNC8n
+VITE_POSTHOG_API_KEY=your-secret-key
 VITE_POSTHOG_HOST=https://us.i.posthog.com
 VITE_POSTHOG_DEBUG=true
 VITE_POSTHOG_REVERSE_PROXY=false
@@ -110,7 +113,7 @@ npm run dev
 yarn dev
 ```
 
-The development server will start at `http://localhost:6060`
+The development server will start at `http://localhost:5555`
 
 ### Available Scripts
 

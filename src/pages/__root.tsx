@@ -24,6 +24,11 @@ const RootComponent = () => {
     }
   }, [location.pathname, posthog])
 
+  // Scroll to top on route changes (SPA fix)
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
   return (
     <>
       <OrganizationStructuredData />

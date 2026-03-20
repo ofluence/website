@@ -36,19 +36,16 @@ function LandingPainPoints() {
             <br className="hidden sm:block" /> creator economy
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
-            Global platforms weren&apos;t designed for India&apos;s regional complexity. Ofluence
-            is — with localization at its core and creator discovery that understands every market.
+            Global platforms weren&apos;t designed for India&apos;s regional complexity. Ofluence is
+            — with localization at its core and creator discovery that understands every market.
           </p>
         </FadeInView>
 
-        <motion.div
-          className="grid grid-cols-1 gap-6 md:grid-cols-3"
-          {...scrollStagger}
-        >
+        <motion.div className="grid grid-cols-1 gap-6 md:grid-cols-3" {...scrollStagger}>
           {PAIN_POINTS.map((point) => (
             <motion.div
               key={point.label}
-              className="bg-card border-border/60 rounded-[16px] border p-6 text-center shadow-soft"
+              className="bg-card border-border/60 shadow-soft rounded-lg border p-6 pt-12 text-center"
               {...scrollStaggerItem}
             >
               <SpringCounter

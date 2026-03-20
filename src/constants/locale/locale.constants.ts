@@ -11,6 +11,7 @@ export interface LocaleCreator {
   followers: string
   niche: string
   gradient: string
+  platforms: string[]
   location?: string
   demographic?: string
   thumbnail?: string
@@ -26,9 +27,17 @@ export interface LocaleCampaign {
 
 export interface LocalePayment {
   name: string
+  handle: string
+  avatar: string
+  platforms: string[]
   amount: string
   status: string
   statusVariant: 'ink' | 'cream' | 'vermillion' | 'accent'
+  campaign: string
+  duration: string
+  followers: string
+  demographic: string
+  roas: string
 }
 
 export interface LocalePricing {

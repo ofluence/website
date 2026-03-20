@@ -104,13 +104,6 @@ export const scrollStaggerItem = {
   },
 } as const
 
-/** Card hover — lift + shadow */
-export const cardHover = {
-  whileHover: {
-    y: -4,
-    transition: { type: 'spring' as const, ...snappySpring },
-  },
-} as const
 
 /** Button hover — scale */
 export const buttonHover = {

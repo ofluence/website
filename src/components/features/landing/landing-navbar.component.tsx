@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { ArrowRight01Icon, Menu01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
+import { motion } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 import { useScrollToSection } from '@/hooks/use-scroll-to-section'
@@ -19,22 +20,69 @@ import {
 
 import { LANDING_NAV_LINKS } from '@/constants/landing.constants'
 
+function useActiveNavLink() {
+  const location = useLocation()
+  const pathname = location.pathname
+  const [visibleSection, setVisibleSection] = useState<string | null>(null)
+
+  useEffect(() => {
+    const sectionIds = LANDING_NAV_LINKS.filter((l) => l.href.startsWith('/#')).map((l) =>
+      l.href.slice(2)
+    )
+    const elements = sectionIds
+      .map((id) => document.querySelector(`#${id}`))
+      .filter(Boolean) as Element[]
+
+    if (elements.length === 0) {
+      setVisibleSection(null)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setVisibleSection(entry.target.id)
+          } else if (entry.target.id === visibleSection) {
+            setVisibleSection(null)
+          }
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    for (const el of elements) observer.observe(el)
+    return () => observer.disconnect()
+  }, [pathname, visibleSection])
+
+  return (href: string) => {
+    if (href.startsWith('/#')) {
+      const sectionId = href.slice(2)
+      return visibleSection === sectionId
+    }
+    return pathname === href
+  }
+}
+
 function NavLink({
   link,
   className,
+  activeClassName,
   children,
 }: {
   link: (typeof LANDING_NAV_LINKS)[number]
   className?: string
+  activeClassName?: string
   children: React.ReactNode
 }) {
   const scrollToSection = useScrollToSection()
-  const isHash = link.href.startsWith('/#')
+  const isActive = useActiveNavLink()
+  const active = isActive(link.href)
 
-  if (isHash) {
+  if (link.href.startsWith('/#')) {
     const sectionId = link.href.slice(2)
     return (
-      <button className={className} onClick={() => scrollToSection(sectionId)}>
+      <button className={cn(className, active && activeClassName)} onClick={() => scrollToSection(sectionId)}>
         {children}
       </button>
     )
@@ -42,11 +90,13 @@ function NavLink({
 
   const path = link.href as '/'
   return (
-    <Link to={path} className={className}>
+    <Link to={path} className={cn(className, active && activeClassName)}>
       {children}
     </Link>
   )
 }
+
+const navSpring = { type: 'spring' as const, stiffness: 300, damping: 30 }
 
 function LandingNavbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -58,91 +108,99 @@ function LandingNavbar() {
   }, [])
 
   return (
-    <nav
-      className={cn(
-        'fixed z-50 h-16 transition-all duration-500',
-        scrolled
-          ? 'top-3 inset-x-3 md:inset-x-auto md:left-1/2 md:w-full md:max-w-5xl md:-translate-x-1/2 bg-card/90 backdrop-blur-xl border border-border/60 rounded-2xl shadow-soft'
-          : 'inset-x-0 top-0 bg-transparent'
-      )}
-    >
-      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 md:px-8">
-        {/* Wordmark */}
-        <Link to="/" className="font-display text-xl font-bold">
-          Ofluence
-        </Link>
-
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-8 md:flex">
-          {LANDING_NAV_LINKS.map((link) => (
-            <NavLink
-              key={link.href}
-              link={link}
-              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </div>
-
-        {/* Desktop CTA */}
-        <div className="hidden items-center gap-4 md:flex">
-          <Link
-            to="/contact"
-            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-          >
-            Contact
+    <nav className="fixed inset-x-0 top-0 z-50 px-3 md:px-0">
+      <motion.div
+        className="mx-auto h-16"
+        initial={false}
+        animate={{
+          maxWidth: scrolled ? '64rem' : '80rem',
+          marginTop: scrolled ? 12 : 0,
+          borderRadius: scrolled ? 16 : 0,
+          backgroundColor: scrolled ? 'var(--color-card)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(24px)' : 'blur(0px)',
+          borderColor: scrolled ? 'var(--color-border)' : 'transparent',
+          boxShadow: scrolled
+            ? '0 1px 3px 0 rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.06)'
+            : '0 0 0 0 transparent',
+        }}
+        style={{
+          borderWidth: 1,
+          borderStyle: 'solid',
+        }}
+        transition={navSpring}
+      >
+        <div className="flex h-full items-center justify-between px-6 md:px-8">
+          {/* Logo + Wordmark */}
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-7" />
+            <span className="font-display text-xl font-bold">Ofluence</span>
           </Link>
-          <Button size="sm" render={<Link to="/pricing" />}>
-            Get started
-            <HugeiconsIcon
-              icon={ArrowRight01Icon}
-              className="size-4"
-              data-icon="inline-end"
-            />
-          </Button>
-        </div>
 
-        {/* Mobile — fullscreen overlay menu */}
-        <div className="md:hidden">
-          <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon" />}>
-              <HugeiconsIcon icon={Menu01Icon} size={20} />
-            </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:max-w-full">
-              <SheetHeader>
-                <SheetTitle className="font-display text-xl font-bold">Ofluence</SheetTitle>
-              </SheetHeader>
-              <div className="flex flex-col gap-8 px-6 pt-12">
-                {LANDING_NAV_LINKS.map((link) => (
-                  <SheetClose key={link.href}>
-                    <NavLink
-                      link={link}
-                      className="font-display text-foreground text-3xl transition-colors"
-                    >
-                      {link.label}
-                    </NavLink>
-                  </SheetClose>
-                ))}
-                <div className="mt-4 border-t border-border pt-4">
-                  <div className="flex flex-col gap-4">
-                    <Link
-                      to="/contact"
-                      className="text-muted-foreground text-sm font-medium"
-                    >
-                      Contact
-                    </Link>
-                    <Button render={<Link to="/pricing" />}>
-                      Get started
-                      <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" data-icon="inline-end" />
-                    </Button>
+          {/* Desktop nav */}
+          <div className="hidden items-center gap-8 md:flex">
+            {LANDING_NAV_LINKS.map((link) => (
+              <NavLink
+                key={link.href}
+                link={link}
+                className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+                activeClassName="text-primary"
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </div>
+
+          {/* Desktop CTA */}
+          <div className="hidden items-center gap-4 md:flex">
+            <Button size="sm" render={<a href={`${import.meta.env.VITE_APP_URL}/login`} />}>
+              Get started
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                className="size-4"
+                data-icon="inline-end"
+              />
+            </Button>
+          </div>
+
+          {/* Mobile — fullscreen overlay menu */}
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger render={<Button variant="ghost" size="icon" />}>
+                <HugeiconsIcon icon={Menu01Icon} size={20} />
+              </SheetTrigger>
+              <SheetContent side="right" className="w-full sm:max-w-full">
+                <SheetHeader>
+                  <SheetTitle className="flex items-center gap-2">
+                  <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-7" />
+                  <span className="font-display text-xl font-bold">Ofluence</span>
+                </SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col gap-8 px-6 pt-12">
+                  {LANDING_NAV_LINKS.map((link) => (
+                    <SheetClose key={link.href}>
+                      <NavLink
+                        link={link}
+                        className="font-display text-foreground/60 text-3xl transition-colors"
+                        activeClassName="text-primary"
+                      >
+                        {link.label}
+                      </NavLink>
+                    </SheetClose>
+                  ))}
+                  <div className="mt-4 border-t border-border pt-4">
+                    <div className="flex flex-col gap-4">
+                      <Button render={<a href={`${import.meta.env.VITE_APP_URL}/login`} />}>
+                        Get started
+                        <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" data-icon="inline-end" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      </div>
+      </motion.div>
     </nav>
   )
 }

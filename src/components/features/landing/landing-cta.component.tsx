@@ -22,7 +22,7 @@ function LandingCta() {
 
             {/* Button CTAs */}
             <div className="mt-10 flex flex-col items-center gap-4">
-              <Button render={<Link to="/contact" />}>
+              <Button render={<a href={`${import.meta.env.VITE_APP_URL}/login`} />}>
                 Start your free trial
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" data-icon="inline-end" />
               </Button>
