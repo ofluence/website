@@ -18,6 +18,8 @@ import { Button } from '@/components/ui/button'
 
 import { LANDING_FOOTER_LINKS } from '@/constants/landing.constants'
 
+import { useLocaleContent } from '@/hooks/use-locale-content'
+
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -72,6 +74,8 @@ function NewsletterForm() {
 }
 
 function LandingFooter() {
+  const { compliance } = useLocaleContent()
+
   return (
     <footer className="bg-[oklch(0.15_0.01_60)] py-16 text-[oklch(0.985_0.005_80)]">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
@@ -154,7 +158,7 @@ function LandingFooter() {
 
         {/* Trust badges */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-3 border-t border-[oklch(1_0_0/0.1)] pt-8">
-          {['GDPR Compliant', 'ISO 27001', 'SOC 2'].map((badge) => (
+          {compliance.map((badge) => (
             <span
               key={badge}
               className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(1_0_0/0.08)] px-3 py-1 text-xs text-[oklch(0.55_0.02_60)]"

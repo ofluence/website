@@ -22,6 +22,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
+import { useLocaleContent } from '@/hooks/use-locale-content'
+
 interface ValueCardProps {
   icon: IconSvgElement
   title: string
@@ -61,6 +63,8 @@ const VALUES: ValueCardProps[] = [
 ]
 
 const AboutPage = () => {
+  const { marketSize } = useLocaleContent()
+
   return (
     <LandingPageLayout>
       <title>About — Ofluence</title>
@@ -98,7 +102,7 @@ const AboutPage = () => {
                   Our Mission
                 </h2>
                 <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-                  The influencer marketing industry is worth $21 billion, yet most teams still
+                  The influencer marketing industry is worth {marketSize}, yet most teams still
                   manage campaigns through spreadsheets, email threads, and disconnected tools. We
                   believe there&apos;s a better way.
                 </p>
@@ -146,7 +150,7 @@ const AboutPage = () => {
               Why we built Ofluence
             </h2>
             <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-              Influencer marketing is a $21 billion industry, yet the tools haven&apos;t kept up.
+              Influencer marketing is a {marketSize} industry, yet the tools haven&apos;t kept up.
               Marketing teams manage campaigns across spreadsheets, email threads, payment portals,
               and analytics dashboards that don&apos;t talk to each other. Creators get lost in the
               shuffle, payments are delayed, and proving ROI feels like guesswork.

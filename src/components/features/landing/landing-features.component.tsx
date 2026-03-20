@@ -11,59 +11,16 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 
 import { LANDING_FEATURES } from '@/constants/landing.constants'
+import type { LocaleCampaign, LocaleCreator, LocalePayment } from '@/constants/locale/locale.constants'
+
+import { useLocaleContent } from '@/hooks/use-locale-content'
 
 /* ─── Discover Mockup ─── */
 
-interface Creator {
-  name: string
-  handle: string
-  followers: string
-  niche: string
-  gradient: string
-}
-
-const ALL_FEATURE_CREATORS: Creator[] = [
-  {
-    name: 'Luna N.',
-    handle: '@lunafashion',
-    followers: '1.5M',
-    niche: 'Fashion',
-    gradient: 'from-chart-1/30 to-chart-2/30',
-  },
-  {
-    name: 'Marcus R.',
-    handle: '@marcusfit',
-    followers: '890K',
-    niche: 'Fitness',
-    gradient: 'from-chart-2/30 to-chart-3/30',
-  },
-  {
-    name: 'Emma T.',
-    handle: '@emmatravels',
-    followers: '1.2M',
-    niche: 'Travel',
-    gradient: 'from-chart-3/30 to-chart-4/30',
-  },
-  {
-    name: 'Priya S.',
-    handle: '@priyabeauty',
-    followers: '650K',
-    niche: 'Beauty',
-    gradient: 'from-chart-4/30 to-chart-1/30',
-  },
-  {
-    name: 'Jake T.',
-    handle: '@jakecooks',
-    followers: '1.8M',
-    niche: 'Food',
-    gradient: 'from-chart-1/30 to-chart-3/30',
-  },
-]
-
-function DiscoverMockup() {
+function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
   const [searchQuery, setSearchQuery] = useState('')
 
-  const filtered = ALL_FEATURE_CREATORS.filter((creator) => {
+  const filtered = creators.filter((creator) => {
     if (!searchQuery) return true
     const query = searchQuery.toLowerCase()
     return (
@@ -141,7 +98,7 @@ function DiscoverMockup() {
 
 /* ─── Campaign Mockup ─── */
 
-function CampaignMockup() {
+function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
   const stages = [
     { label: 'Brief', status: 'done' },
     { label: 'Active', status: 'active' },
@@ -153,11 +110,13 @@ function CampaignMockup() {
       <div className="bg-background/60 hover:bg-background/80 cursor-default rounded-xl px-4 py-3 transition-all duration-200 hover:shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold">Summer Glow Collection</p>
-            <p className="text-muted-foreground text-[10px]">12 creators · $25K budget</p>
+            <p className="text-xs font-semibold">{campaigns[0].name}</p>
+            <p className="text-muted-foreground text-[10px]">
+              {campaigns[0].creatorCount} creators · {campaigns[0].budget}
+            </p>
           </div>
-          <Badge variant="sage" className="h-4 px-1.5 text-[9px]">
-            Active
+          <Badge variant={campaigns[0].statusVariant} className="h-4 px-1.5 text-[9px]">
+            {campaigns[0].status}
           </Badge>
         </div>
         {/* Timeline */}
@@ -187,17 +146,21 @@ function CampaignMockup() {
           ))}
         </div>
       </div>
-      <div className="bg-background/60 hover:bg-background/80 cursor-default rounded-xl px-4 py-3 transition-all duration-200 hover:shadow-sm">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold">Tech Unboxing Series</p>
-            <p className="text-muted-foreground text-[10px]">8 creators · $40K budget</p>
+      {campaigns[1] && (
+        <div className="bg-background/60 hover:bg-background/80 cursor-default rounded-xl px-4 py-3 transition-all duration-200 hover:shadow-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold">{campaigns[1].name}</p>
+              <p className="text-muted-foreground text-[10px]">
+                {campaigns[1].creatorCount} creators · {campaigns[1].budget}
+              </p>
+            </div>
+            <Badge variant={campaigns[1].statusVariant} className="h-4 px-1.5 text-[9px]">
+              {campaigns[1].status}
+            </Badge>
           </div>
-          <Badge variant="lavender" className="h-4 px-1.5 text-[9px]">
-            Review
-          </Badge>
         </div>
-      </div>
+      )}
     </div>
   )
 }
@@ -278,19 +241,20 @@ function AnalyticsMockup() {
 
 /* ─── Payments Mockup ─── */
 
-function PaymentsMockup() {
-  const payments = [
-    { name: 'Luna Nguyen', amount: '$2,500', status: 'Paid', statusVariant: 'sage' as const },
-    { name: 'Marcus Rivera', amount: '$1,800', status: 'Pending', statusVariant: 'amber' as const },
-    { name: 'Emma Taylor', amount: '$3,200', status: 'Paid', statusVariant: 'sage' as const },
-  ]
+function PaymentsMockup({
+  payments,
+  paymentTotal,
+}: {
+  payments: LocalePayment[]
+  paymentTotal: string
+}) {
   return (
     <div className="flex flex-col gap-2">
       {/* Header */}
       <div className="bg-background/60 hover:bg-background/80 cursor-default rounded-xl px-4 py-2.5 transition-all duration-200 hover:shadow-sm">
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold">Recent Payments</p>
-          <p className="font-display text-sm font-bold">$7,500</p>
+          <p className="font-display text-sm font-bold">{paymentTotal}</p>
         </div>
         <p className="text-muted-foreground text-[10px]">3 of 12 creators paid this month</p>
       </div>
@@ -316,9 +280,16 @@ function PaymentsMockup() {
   )
 }
 
-const FEATURE_MOCKUPS = [DiscoverMockup, CampaignMockup, AnalyticsMockup, PaymentsMockup]
-
 function LandingFeatures() {
+  const locale = useLocaleContent()
+
+  const featureMockups = [
+    () => <DiscoverMockup creators={locale.creators} />,
+    () => <CampaignMockup campaigns={locale.campaigns} />,
+    () => <AnalyticsMockup />,
+    () => <PaymentsMockup payments={locale.payments} paymentTotal={locale.paymentTotal} />,
+  ]
+
   return (
     <section id="features" className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
@@ -340,7 +311,7 @@ function LandingFeatures() {
         <div className="flex flex-col gap-20 md:gap-28">
           {LANDING_FEATURES.map((feature, index) => {
             const isEven = index % 2 === 1
-            const MockupComponent = FEATURE_MOCKUPS[index]
+            const MockupComponent = featureMockups[index]
             return (
               <div
                 key={feature.title}

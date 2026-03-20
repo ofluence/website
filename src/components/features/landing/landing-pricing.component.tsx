@@ -17,6 +17,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 
 import { LANDING_PRICING_TIERS } from '@/constants/landing.constants'
 
+import { useLocaleContent } from '@/hooks/use-locale-content'
+
 const TIER_COLORS = ['text-chart-1', 'text-chart-2', 'text-chart-3', 'text-chart-4']
 
 const TIER_GRADIENTS = [
@@ -27,6 +29,9 @@ const TIER_GRADIENTS = [
 ]
 
 function LandingPricing() {
+  const { pricing } = useLocaleContent()
+  const TIER_KEYS = ['starter', 'growth', 'business', 'enterprise'] as const
+
   return (
     <section id="pricing" className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
@@ -42,7 +47,10 @@ function LandingPricing() {
         </motion.div>
 
         <AnimatedStaggerGrid className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {LANDING_PRICING_TIERS.map((tier, index) => (
+          {LANDING_PRICING_TIERS.map((tier, index) => {
+            const localePricing = pricing[TIER_KEYS[index]]
+            const displayPrice = localePricing.price
+            return (
             <AnimatedStaggerItem key={tier.name} className="flex">
               <AnimatedCard className="flex flex-1">
                 <Card
@@ -60,7 +68,7 @@ function LandingPricing() {
                   <CardHeader>
                     <CardTitle className="font-display text-lg">{tier.name}</CardTitle>
                     <div className="flex items-baseline gap-1">
-                      <span className="font-display text-4xl font-bold">{tier.price}</span>
+                      <span className="font-display text-4xl font-bold">{displayPrice}</span>
                       {tier.period && (
                         <span className="text-muted-foreground text-sm">{tier.period}</span>
                       )}
@@ -92,7 +100,8 @@ function LandingPricing() {
                 </Card>
               </AnimatedCard>
             </AnimatedStaggerItem>
-          ))}
+            )
+          })}
         </AnimatedStaggerGrid>
 
         {/* Link to full pricing page */}

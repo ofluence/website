@@ -9,15 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
-import { Route as SplatRouteImport } from './pages/$'
-import { Route as AboutRouteImport } from './pages/about'
-import { Route as ContactRouteImport } from './pages/contact'
-import { Route as CookiePolicyRouteImport } from './pages/cookie-policy'
-import { Route as GdprRouteImport } from './pages/gdpr'
-import { Route as IndexRouteImport } from './pages/index'
-import { Route as PricingRouteImport } from './pages/pricing'
-import { Route as PrivacyPolicyRouteImport } from './pages/privacy-policy'
 import { Route as TermsOfServiceRouteImport } from './pages/terms-of-service'
+import { Route as PrivacyPolicyRouteImport } from './pages/privacy-policy'
+import { Route as PricingRouteImport } from './pages/pricing'
+import { Route as GdprRouteImport } from './pages/gdpr'
+import { Route as CookiePolicyRouteImport } from './pages/cookie-policy'
+import { Route as ContactRouteImport } from './pages/contact'
+import { Route as AboutRouteImport } from './pages/about'
+import { Route as SplatRouteImport } from './pages/$'
+import { Route as IndexRouteImport } from './pages/index'
 
 const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
   id: '/terms-of-service',

@@ -15,6 +15,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
+import { useLocaleContent } from '@/hooks/use-locale-content'
+
 function FloatingCard({
   className,
   children,
@@ -48,6 +50,8 @@ function FloatingCard({
 }
 
 function LandingHero() {
+  const { compliance, country, countryCode, isLoading } = useLocaleContent()
+
   return (
     <section className="relative min-h-[90vh] overflow-hidden pt-16">
       {/* Background gradient orbs */}
@@ -106,7 +110,7 @@ function LandingHero() {
             variants={heroReveal}
             className="flex flex-wrap items-center justify-center gap-3 pt-2 lg:justify-start"
           >
-            {['GDPR Compliant', 'ISO 27001', 'SOC 2'].map((badge) => (
+            {compliance.map((badge) => (
               <span
                 key={badge}
                 className="border-border/60 text-muted-foreground/70 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium"
@@ -116,6 +120,16 @@ function LandingHero() {
               </span>
             ))}
           </motion.div>
+
+          {/* Geo-targeting message for non-India visitors */}
+          {!isLoading && countryCode !== 'IN' && (
+            <motion.p
+              variants={heroReveal}
+              className="text-muted-foreground/60 text-center text-sm lg:text-left"
+            >
+              We&apos;re currently available in India. Coming to {country} soon!
+            </motion.p>
+          )}
         </motion.div>
 
         {/* Floating visual cards — hidden on mobile, condensed stats on mobile */}

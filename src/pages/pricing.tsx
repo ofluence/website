@@ -33,6 +33,8 @@ import { LandingPageLayout } from '@/components/features/landing/landing-page-la
 
 import { LANDING_PRICING_TIERS } from '@/constants/landing.constants'
 
+import { useLocaleContent } from '@/hooks/use-locale-content'
+
 const TIER_CONFIG: {
   icon: IconSvgElement
   gradient: string
@@ -60,38 +62,39 @@ const TIER_CONFIG: {
   },
 ]
 
-const FAQ_ITEMS = [
-  {
-    question: 'Can I switch plans at any time?',
-    answer:
-      'Yes. You can upgrade or downgrade your plan at any time. When upgrading, you will be charged the prorated difference. When downgrading, the credit will be applied to your next billing cycle.',
-  },
-  {
-    question: 'What happens after my free trial ends?',
-    answer:
-      'Your trial converts to the plan you selected. If you do not choose a paid plan, you will be moved to the Starter (free) tier. No data is lost — you can upgrade anytime.',
-  },
-  {
-    question: 'Do you offer annual billing?',
-    answer:
-      'Yes. Annual billing saves you 20% compared to monthly billing. Use the toggle above the pricing cards to see annual prices.',
-  },
-  {
-    question: 'What payment methods do you accept?',
-    answer:
-      'We accept all major credit cards (Visa, Mastercard, American Express) through Stripe. Enterprise customers can pay via invoice and bank transfer.',
-  },
-  {
-    question: 'Can I cancel anytime?',
-    answer:
-      'Absolutely. There are no long-term contracts. You can cancel your subscription at any time from your account settings. Your access continues until the end of the current billing period.',
-  },
-  {
-    question: 'Do you offer discounts for agencies?',
-    answer:
-      'Yes. Our Enterprise plan includes multi-tenant management designed for agencies. Contact sales for custom pricing based on the number of client brands you manage.',
-  },
-]
+function getFaqItems(paymentMethodsText: string) {
+  return [
+    {
+      question: 'Can I switch plans at any time?',
+      answer:
+        'Yes. You can upgrade or downgrade your plan at any time. When upgrading, you will be charged the prorated difference. When downgrading, the credit will be applied to your next billing cycle.',
+    },
+    {
+      question: 'What happens after my free trial ends?',
+      answer:
+        'Your trial converts to the plan you selected. If you do not choose a paid plan, you will be moved to the Starter (free) tier. No data is lost — you can upgrade anytime.',
+    },
+    {
+      question: 'Do you offer annual billing?',
+      answer:
+        'Yes. Annual billing saves you 20% compared to monthly billing. Use the toggle above the pricing cards to see annual prices.',
+    },
+    {
+      question: 'What payment methods do you accept?',
+      answer: paymentMethodsText,
+    },
+    {
+      question: 'Can I cancel anytime?',
+      answer:
+        'Absolutely. There are no long-term contracts. You can cancel your subscription at any time from your account settings. Your access continues until the end of the current billing period.',
+    },
+    {
+      question: 'Do you offer discounts for agencies?',
+      answer:
+        'Yes. Our Enterprise plan includes multi-tenant management designed for agencies. Contact sales for custom pricing based on the number of client brands you manage.',
+    },
+  ]
+}
 
 function ComparisonCell({ value }: { value: string | boolean }) {
   if (value === true) {
@@ -103,8 +106,11 @@ function ComparisonCell({ value }: { value: string | boolean }) {
   return <span className="font-medium">{value}</span>
 }
 
+const TIER_KEYS = ['starter', 'growth', 'business', 'enterprise'] as const
+
 const PricingPage = () => {
   const [isAnnual, setIsAnnual] = useState(false)
+  const { pricing, paymentMethods } = useLocaleContent()
 
   return (
     <LandingPageLayout>
@@ -181,8 +187,11 @@ const PricingPage = () => {
           <AnimatedStaggerGrid className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {LANDING_PRICING_TIERS.map((tier, index) => {
               const config = TIER_CONFIG[index]
+              const localePricing = pricing[TIER_KEYS[index]]
               const displayPrice =
-                isAnnual && tier.annualPrice ? tier.annualPrice : tier.price
+                isAnnual && localePricing.annualPrice
+                  ? localePricing.annualPrice
+                  : localePricing.price
               return (
                 <AnimatedStaggerItem key={tier.name} className="flex">
                   <AnimatedCard className="flex flex-1">
@@ -210,7 +219,9 @@ const PricingPage = () => {
                           <span className="font-display text-4xl font-bold">{displayPrice}</span>
                           {tier.period && (
                             <span className="text-muted-foreground text-sm">
-                              {isAnnual && tier.annualPrice ? '/mo, billed annually' : tier.period}
+                              {isAnnual && localePricing.annualPrice
+                                ? '/mo, billed annually'
+                                : tier.period}
                             </span>
                           )}
                         </div>
@@ -304,7 +315,7 @@ const PricingPage = () => {
           </motion.div>
           <FadeInView>
             <div className="divide-border divide-y">
-              {FAQ_ITEMS.map((item) => (
+              {getFaqItems(paymentMethods).map((item) => (
                 <Collapsible key={item.question} className="py-5">
                   <CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between text-left font-medium">
                     {item.question}
