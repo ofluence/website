@@ -338,7 +338,7 @@ function PaymentsMockup({
       {visiblePayments.map((payment) => (
         <div
           key={payment.name}
-          className="bg-card flex flex-col gap-3 rounded-lg px-3 py-3 sm:px-4"
+          className="bg-card flex justify-between gap-3 rounded-lg px-3 py-3 sm:px-4"
         >
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <img
@@ -346,38 +346,39 @@ function PaymentsMockup({
               alt={payment.name}
               className="size-7 shrink-0 rounded-full object-cover sm:size-8"
             />
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0">
               <p className="truncate text-xs font-semibold">{payment.name}</p>
               <p className="text-muted-foreground truncate text-[10px]">{payment.handle}</p>
             </div>
-
+          </div>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <div className="flex flex-wrap items-center gap-2 text-[10px]">
+              <div className="flex items-center gap-1.5">
+                {payment.platforms.map((platform) => {
+                  const icon = platformIconMap[platform]
+                  if (!icon) return null
+                  return (
+                    <HugeiconsIcon
+                      key={platform}
+                      icon={icon}
+                      className="text-muted-foreground/60 size-3.5"
+                    />
+                  )
+                })}
+              </div>
+              <span className="text-muted-foreground">
+                {payment.campaign} · {payment.duration}
+              </span>
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                {payment.roas} ROAS
+              </span>
+            </div>
             <div className="flex items-center gap-2">
               <Badge variant={payment.statusVariant} className="h-4 px-1.5 text-[9px]">
                 {payment.status}
               </Badge>
               <p className="font-display text-xs font-semibold">{payment.amount}</p>
             </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 text-[10px]">
-            <div className="flex items-center gap-1.5">
-              {payment.platforms.map((platform) => {
-                const icon = platformIconMap[platform]
-                if (!icon) return null
-                return (
-                  <HugeiconsIcon
-                    key={platform}
-                    icon={icon}
-                    className="text-muted-foreground/60 size-3.5"
-                  />
-                )
-              })}
-            </div>
-            <span className="text-muted-foreground">
-              {payment.campaign} · {payment.duration}
-            </span>
-            <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-              {payment.roas} ROAS
-            </span>
           </div>
         </div>
       ))}
