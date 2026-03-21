@@ -184,7 +184,7 @@ const PricingPage = () => {
                         </div>
 
                         <h3 className="font-display text-lg tracking-wide">{tier.name}</h3>
-                        <p className="text-muted-foreground mt-1 min-h-[2.5rem] text-sm">
+                        <p className="text-muted-foreground mt-1 min-h-10 text-sm">
                           {tier.description}
                         </p>
 
@@ -302,10 +302,10 @@ const PricingPage = () => {
 
           <FadeInView>
             <div className="-mx-6 overflow-x-auto px-6 md:mx-0 md:px-0">
-              <table className="w-full min-w-[600px] text-sm">
+              <table className="w-full min-w-150 text-sm">
                 <thead>
                   <tr className="border-border border-b">
-                    <th className="bg-background text-muted-foreground sticky left-0 z-10 pb-6 pr-4 text-left text-xs font-normal tracking-[0.15em] uppercase md:static">
+                    <th className="bg-background text-muted-foreground sticky left-0 z-10 pr-4 pb-6 text-left text-xs font-normal tracking-[0.15em] uppercase md:static">
                       Feature
                     </th>
                     {LANDING_PRICING_TIERS.map((tier) => (
@@ -356,7 +356,7 @@ const PricingPage = () => {
                   <Collapsible className="py-6">
                     <CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between text-left">
                       <span className="font-display text-base sm:text-lg">{item.question}</span>
-                      <span className="text-muted-foreground ml-4 text-lg transition-transform sm:ml-6 in-data-panel-open:rotate-45">
+                      <span className="text-muted-foreground ml-4 text-lg transition-transform in-data-panel-open:rotate-45 sm:ml-6">
                         +
                       </span>
                     </CollapsibleTrigger>
