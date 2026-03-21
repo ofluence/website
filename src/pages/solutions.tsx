@@ -10,14 +10,15 @@ import {
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
+
 import {
   FadeInView,
   ScrollStaggerContainer,
   ScrollStaggerItem,
 } from '@/components/ui/animated-container'
 import { Badge } from '@/components/ui/badge'
-import { MagicCard } from '@/components/ui/magic-card'
 import { Button } from '@/components/ui/button'
+import { MagicCard } from '@/components/ui/magic-card'
 import { Separator } from '@/components/ui/separator'
 import { Seo } from '@/components/features/global/seo.component'
 import { LandingCta } from '@/components/features/landing/landing-cta.component'
@@ -54,15 +55,15 @@ function SolutionsPage() {
       />
 
       {/* Hero */}
-      <section className="pt-8 pb-20 md:pb-28">
-        <div className="mx-auto max-w-5xl px-6 text-center md:px-8">
-          <FadeInView>
-            <p className="text-overline mb-3">Solutions</p>
-            <h1 className="text-display-hero text-foreground">
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-4xl px-6 md:px-8">
+          <FadeInView className="text-center">
+            <p className="text-overline">Solutions</p>
+            <h1 className="text-display-section">
               Built for how
               <br className="hidden sm:block" /> you actually work
             </h1>
-            <p className="text-muted-foreground mx-auto mt-6 max-w-2xl text-lg">
+            <p className="text-muted-foreground mx-auto mt-8 max-w-xl text-lg leading-relaxed">
               Whether you&apos;re a brand, agency, or creator — Ofluence adapts to your workflow
               with tools designed for your specific needs.
             </p>
@@ -83,9 +84,7 @@ function SolutionsPage() {
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           <FadeInView className="mb-16 text-center">
             <p className="text-overline mb-3">Who it&apos;s for</p>
-            <h2 className="text-display-section">
-              Tailored for every side of the partnership
-            </h2>
+            <h2 className="text-display-section">Tailored for every side of the partnership</h2>
           </FadeInView>
 
           <ScrollStaggerContainer className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -105,7 +104,9 @@ function SolutionsPage() {
                               {String(index + 1).padStart(2, '0')}
                             </span>
                             <div>
-                              <h4 className="text-foreground text-sm font-semibold">{step.title}</h4>
+                              <h4 className="text-foreground text-sm font-semibold">
+                                {step.title}
+                              </h4>
                               <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
                                 {step.description}
                               </p>

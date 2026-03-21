@@ -98,7 +98,7 @@ const PricingPage = () => {
       <section className="py-20 md:py-28">
         <div className="mx-auto max-w-4xl px-6 md:px-8">
           <FadeInView className="text-center">
-            <p className="text-muted-foreground mb-6 text-sm tracking-[0.2em] uppercase">Pricing</p>
+            <p className="text-overline">Pricing</p>
             <h1 className="text-display-section">Choose your plan.</h1>
             <p className="text-muted-foreground mx-auto mt-8 max-w-xl text-lg leading-relaxed">
               Start free and scale as you grow. No hidden fees, no surprises. Every plan includes a

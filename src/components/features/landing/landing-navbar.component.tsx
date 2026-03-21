@@ -138,7 +138,11 @@ function LandingNavbar() {
       >
         <div className="flex h-full items-center justify-between px-6 md:px-8">
           {/* Logo + Wordmark */}
-          <Link to="/" className="flex items-center gap-2">
+          <Link
+            to="/"
+            className="flex items-center gap-2"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
             <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-7" />
             <span className="font-display text-xl font-bold">Ofluence</span>
           </Link>
