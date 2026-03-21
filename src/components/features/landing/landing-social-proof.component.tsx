@@ -7,11 +7,11 @@ function LandingSocialProof() {
   return (
     <section className="py-20 md:py-28">
       <FadeInView className="mx-auto max-w-5xl px-6 md:px-8">
-        <div className="grid grid-cols-3 items-center">
+        <div className="grid grid-cols-1 items-center sm:grid-cols-3">
           {LANDING_STATS.map((stat, index) => (
             <div key={stat.label} className="flex items-center">
-              <div className="flex flex-1 flex-col items-center gap-2 px-4 py-6">
-                <span className="font-display text-4xl md:text-6xl">
+              <div className="flex flex-1 flex-col items-center gap-2 px-4 py-4 sm:py-6">
+                <span className="font-display text-3xl sm:text-4xl md:text-6xl">
                   <SpringCounter
                     value={stat.value}
                     prefix={stat.prefix}
@@ -23,7 +23,7 @@ function LandingSocialProof() {
                 </span>
               </div>
               {index < LANDING_STATS.length - 1 && (
-                <Separator orientation="vertical" className="h-12 md:h-16" />
+                <Separator orientation="vertical" className="hidden h-12 sm:block md:h-16" />
               )}
             </div>
           ))}

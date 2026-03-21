@@ -12,10 +12,10 @@ function LandingHero() {
   return (
     <section className="px-4 pt-8 pb-8 md:px-6">
       {/* Full-bleed rounded container */}
-      <div className="surface-container relative mx-auto max-w-7xl overflow-hidden px-6 py-20 md:px-12 md:py-28">
+      <div className="surface-container relative mx-auto max-w-7xl overflow-hidden px-5 py-14 sm:px-6 sm:py-20 md:px-12 md:py-28">
         {/* Subtle ambient glow */}
         <div
-          className="bg-primary/6 ambient-glow pointer-events-none absolute -top-30 left-1/2 h-100 w-125 -translate-x-1/2 rounded-full blur-3xl"
+          className="bg-primary/6 ambient-glow pointer-events-none absolute -top-20 left-1/2 h-64 w-80 -translate-x-1/2 rounded-full blur-3xl sm:-top-30 sm:h-100 sm:w-125"
           aria-hidden="true"
         />
 

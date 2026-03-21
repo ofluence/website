@@ -58,17 +58,17 @@ function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-6 flex gap-3">
+    <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-2 sm:flex-row sm:gap-3">
       <input
         type="email"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="your@email.com"
-        className="border-border text-foreground placeholder:text-muted-foreground/50 focus:border-primary flex-1 border-b bg-transparent px-0 py-2 text-sm transition-colors outline-none"
+        className="border-border text-foreground placeholder:text-muted-foreground/50 focus:border-primary border-b bg-transparent px-0 py-2 text-sm transition-colors outline-none sm:flex-1"
       />
       <button
         type="submit"
-        className="text-muted-foreground hover:text-foreground text-xs font-medium tracking-widest uppercase transition-colors"
+        className="text-muted-foreground hover:text-foreground self-start text-xs font-medium tracking-widest uppercase transition-colors"
       >
         Subscribe
       </button>
@@ -84,7 +84,7 @@ function LandingFooter() {
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         {/* Editorial masthead */}
         <div className="border-border mb-16 border-b pb-16">
-          <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr]">
+          <div className="grid gap-8 sm:gap-12 lg:grid-cols-[1.5fr_1fr]">
             <div>
               <div className="flex items-center gap-3">
                 <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-10" />
@@ -158,7 +158,7 @@ function LandingFooter() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-border mt-8 flex items-center justify-between border-t pt-8">
+        <div className="border-border mt-8 flex flex-wrap items-center justify-between gap-4 border-t pt-8">
           <p className="text-muted-foreground/50 text-xs tracking-wider">
             &copy; {new Date().getFullYear()} Ofluence
           </p>

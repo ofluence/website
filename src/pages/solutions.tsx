@@ -93,7 +93,7 @@ function SolutionsPage() {
               return (
                 <ScrollStaggerItem key={key}>
                   <MagicCard className="rounded-2xl">
-                    <div className="p-8">
+                    <div className="p-5 sm:p-8">
                       <Badge variant={AUDIENCE_BADGE_VARIANT[key]} className="mb-4">
                         {audience.label}
                       </Badge>
@@ -172,7 +172,7 @@ function SolutionsPage() {
             </p>
           </FadeInView>
 
-          <ScrollStaggerContainer className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <ScrollStaggerContainer className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4">
             {INTEGRATIONS.map((integration) => (
               <ScrollStaggerItem key={integration.name}>
                 <MagicCard className="rounded-xl">

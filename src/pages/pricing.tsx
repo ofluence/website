@@ -110,42 +110,45 @@ const PricingPage = () => {
 
       {/* Billing toggle */}
       <section className="pb-16">
-        <div className="flex items-center justify-center gap-8">
-          <button
-            onClick={() => setIsAnnual(false)}
-            className={cn(
-              'relative cursor-pointer pb-1 text-sm tracking-wide transition-colors',
-              isAnnual ? 'text-muted-foreground hover:text-foreground/70' : 'text-foreground'
-            )}
+        <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center gap-8">
+            <button
+              onClick={() => setIsAnnual(false)}
+              className={cn(
+                'relative cursor-pointer pb-1 text-sm tracking-wide transition-colors',
+                isAnnual ? 'text-muted-foreground hover:text-foreground/70' : 'text-foreground'
+              )}
+            >
+              Monthly
+              {!isAnnual && (
+                <m.span
+                  layoutId="billing-indicator"
+                  className="bg-foreground absolute -bottom-px left-0 h-px w-full"
+                />
+              )}
+            </button>
+            <button
+              onClick={() => setIsAnnual(true)}
+              className={cn(
+                'relative cursor-pointer pb-1 text-sm tracking-wide transition-colors',
+                isAnnual ? 'text-foreground' : 'text-muted-foreground hover:text-foreground/70'
+              )}
+            >
+              Annual
+              {isAnnual && (
+                <m.span
+                  layoutId="billing-indicator"
+                  className="bg-foreground absolute -bottom-px left-0 h-px w-full"
+                />
+              )}
+            </button>
+          </div>
+          <Badge
+            variant="accent"
+            className={cn('text-xs transition-opacity', isAnnual ? 'opacity-100' : 'opacity-0')}
           >
-            Monthly
-            {!isAnnual && (
-              <m.span
-                layoutId="billing-indicator"
-                className="bg-foreground absolute -bottom-px left-0 h-px w-full"
-              />
-            )}
-          </button>
-          <button
-            onClick={() => setIsAnnual(true)}
-            className={cn(
-              'relative cursor-pointer pb-1 text-sm tracking-wide transition-colors',
-              isAnnual ? 'text-foreground' : 'text-muted-foreground hover:text-foreground/70'
-            )}
-          >
-            Annual
-            {isAnnual && (
-              <m.span
-                layoutId="billing-indicator"
-                className="bg-foreground absolute -bottom-px left-0 h-px w-full"
-              />
-            )}
-          </button>
-          {isAnnual && (
-            <Badge variant="accent" className="text-xs">
-              Save 20%
-            </Badge>
-          )}
+            Save 20%
+          </Badge>
         </div>
       </section>
 
@@ -169,30 +172,37 @@ const PricingPage = () => {
                         '[&>div:nth-child(2)]:border-t-primary [&>div:nth-child(2)]:border-t-2'
                     )}
                   >
-                    <div className="flex h-full flex-col p-8">
-                      {tier.highlighted && (
-                        <Badge variant="accent" className="mb-4 self-start text-xs">
-                          Most Popular
-                        </Badge>
-                      )}
+                    <div className="flex h-full flex-col p-6 sm:p-8">
+                      {/* Fixed-height header zone so all cards align */}
+                      <div className="mb-6">
+                        <div className="h-7">
+                          {tier.highlighted && (
+                            <Badge variant="accent" className="self-start text-xs">
+                              Most Popular
+                            </Badge>
+                          )}
+                        </div>
 
-                      <h3 className="font-display text-lg tracking-wide">{tier.name}</h3>
-                      <p className="text-muted-foreground mt-1 text-sm">{tier.description}</p>
+                        <h3 className="font-display text-lg tracking-wide">{tier.name}</h3>
+                        <p className="text-muted-foreground mt-1 min-h-[2.5rem] text-sm">
+                          {tier.description}
+                        </p>
 
-                      <div className="mt-6 flex items-baseline gap-1">
-                        <span className="font-display text-4xl">{displayPrice}</span>
-                        {tier.period && (
-                          <span className="text-muted-foreground text-sm">
-                            {isAnnual && localePricing.annualPrice
-                              ? '/mo, billed annually'
-                              : tier.period}
-                          </span>
-                        )}
+                        <div className="mt-6 flex items-baseline gap-1">
+                          <span className="font-display text-4xl">{displayPrice}</span>
+                          {tier.period && (
+                            <span className="text-muted-foreground text-sm">
+                              {isAnnual && localePricing.annualPrice
+                                ? '/mo, billed annually'
+                                : tier.period}
+                            </span>
+                          )}
+                        </div>
                       </div>
 
-                      <Separator className="my-6" />
+                      <Separator />
 
-                      <ul className="flex flex-1 flex-col gap-3">
+                      <ul className="mt-6 flex flex-1 flex-col gap-3">
                         {tier.features.map((feature) => (
                           <li key={feature} className="flex items-start gap-2.5">
                             <HugeiconsIcon
@@ -204,29 +214,28 @@ const PricingPage = () => {
                         ))}
                       </ul>
 
-                      {tier.ctaHref ? (
-                        <Link
-                          to={tier.ctaHref}
-                          className={cn(
-                            'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
-                            'border-border text-foreground hover:bg-muted border'
-                          )}
-                        >
-                          {tier.cta}
-                        </Link>
-                      ) : (
-                        <a
-                          href={`${import.meta.env.VITE_APP_URL}/login`}
-                          className={cn(
-                            'mt-8 block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
-                            tier.highlighted
-                              ? 'bg-foreground text-background hover:bg-foreground/90'
-                              : 'border-border text-foreground hover:bg-muted border'
-                          )}
-                        >
-                          {tier.cta}
-                        </a>
-                      )}
+                      <div className="mt-auto pt-8">
+                        {tier.ctaHref ? (
+                          <Link
+                            to={tier.ctaHref}
+                            className="border-border text-foreground hover:bg-muted block rounded-lg border py-3 text-center text-sm font-medium tracking-wide transition-colors"
+                          >
+                            {tier.cta}
+                          </Link>
+                        ) : (
+                          <a
+                            href={`${import.meta.env.VITE_APP_URL}/login`}
+                            className={cn(
+                              'block rounded-lg py-3 text-center text-sm font-medium tracking-wide transition-colors',
+                              tier.highlighted
+                                ? 'bg-foreground text-background hover:bg-foreground/90'
+                                : 'border-border text-foreground hover:bg-muted border'
+                            )}
+                          >
+                            {tier.cta}
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </MagicCard>
                 </FadeInView>
@@ -245,8 +254,8 @@ const PricingPage = () => {
                   gradientColor="var(--color-primary)"
                   gradientOpacity={0.05}
                 >
-                  <div className="flex flex-col gap-8 p-8 md:flex-row md:items-center md:justify-between">
-                    <div className="flex-1">
+                  <div className="flex flex-col gap-6 p-6 sm:gap-8 sm:p-8 md:flex-row md:items-start md:justify-between">
+                    <div className="shrink-0 md:w-52">
                       <h3 className="font-display text-lg tracking-wide">{enterprise.name}</h3>
                       <p className="text-muted-foreground mt-1 text-sm">{enterprise.description}</p>
                       <div className="mt-4 flex items-baseline gap-1">
@@ -254,7 +263,7 @@ const PricingPage = () => {
                       </div>
                     </div>
 
-                    <ul className="flex flex-1 flex-wrap gap-x-8 gap-y-3">
+                    <ul className="grid flex-1 grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
                       {enterprise.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-2.5">
                           <HugeiconsIcon
@@ -268,7 +277,7 @@ const PricingPage = () => {
 
                     <Link
                       to="/contact"
-                      className="border-border text-foreground hover:bg-muted block shrink-0 rounded-lg border px-8 py-3 text-center text-sm font-medium tracking-wide transition-colors"
+                      className="border-border text-foreground hover:bg-muted block shrink-0 self-start rounded-lg border px-8 py-3 text-center text-sm font-medium tracking-wide transition-colors"
                     >
                       {enterprise.cta}
                     </Link>
@@ -292,11 +301,11 @@ const PricingPage = () => {
           </FadeInView>
 
           <FadeInView>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+            <div className="-mx-6 overflow-x-auto px-6 md:mx-0 md:px-0">
+              <table className="w-full min-w-[600px] text-sm">
                 <thead>
                   <tr className="border-border border-b">
-                    <th className="text-muted-foreground pb-6 text-left text-xs font-normal tracking-[0.15em] uppercase">
+                    <th className="bg-background text-muted-foreground sticky left-0 z-10 pb-6 pr-4 text-left text-xs font-normal tracking-[0.15em] uppercase md:static">
                       Feature
                     </th>
                     {LANDING_PRICING_TIERS.map((tier) => (
@@ -315,7 +324,9 @@ const PricingPage = () => {
                 <tbody>
                   {COMPARISON_ROWS.map((row) => (
                     <tr key={row.feature} className="border-border border-b">
-                      <td className="text-muted-foreground py-4">{row.feature}</td>
+                      <td className="bg-background text-muted-foreground sticky left-0 z-10 py-4 pr-4 md:static">
+                        {row.feature}
+                      </td>
                       {row.values.map((value, colIndex) => (
                         <td key={colIndex} className="py-4 text-center">
                           <ComparisonCell value={value} />
@@ -344,8 +355,8 @@ const PricingPage = () => {
                   {index === 0 && <Separator />}
                   <Collapsible className="py-6">
                     <CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between text-left">
-                      <span className="font-display text-lg">{item.question}</span>
-                      <span className="text-muted-foreground ml-6 text-lg transition-transform in-data-panel-open:rotate-45">
+                      <span className="font-display text-base sm:text-lg">{item.question}</span>
+                      <span className="text-muted-foreground ml-4 text-lg transition-transform sm:ml-6 in-data-panel-open:rotate-45">
                         +
                       </span>
                     </CollapsibleTrigger>

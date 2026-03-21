@@ -7,7 +7,13 @@ import { m } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 import { scrollStagger, scrollStaggerItem } from '@/utils/motion.utils'
-import { formatCompact, formatCurrency, randomFloat, randomInt, shuffle } from '@/utils/random.utils'
+import {
+  formatCompact,
+  formatCurrency,
+  randomFloat,
+  randomInt,
+  shuffle,
+} from '@/utils/random.utils'
 import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import { FadeInView } from '@/components/ui/animated-container'
@@ -46,14 +52,7 @@ const MASONRY_RATIOS = [
   'aspect-[4/5]',
 ] as const
 
-function CreatorCard({
-  creator,
-  aspectRatio,
-}: {
-  creator: LocaleCreator
-  aspectRatio: string
-}) {
-
+function CreatorCard({ creator, aspectRatio }: { creator: LocaleCreator; aspectRatio: string }) {
   return (
     <div className="group/creator relative mb-2.5 cursor-default break-inside-avoid overflow-hidden rounded-xl">
       <div className={cn('relative w-full', aspectRatio)}>
@@ -140,7 +139,7 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
 
       {/* Masonry grid — clipped with fade-out */}
       <div className="relative max-h-166 overflow-hidden">
-        <div className="columns-3 gap-3">
+        <div className="columns-1 gap-3 sm:columns-2 md:columns-3">
           {filtered.map((creator, index) => (
             <CreatorCard
               key={creator.handle}
@@ -268,7 +267,7 @@ function AnalyticsMockup() {
       </div>
       <div className="bg-card rounded-lg p-3">
         <p className="text-muted-foreground mb-2 text-[10px] font-medium">Weekly Performance</p>
-        <div className="flex items-end gap-1.5" style={{ height: '60px' }}>
+        <div className="flex items-end gap-1.5" style={{ height: 'clamp(40px, 12vw, 60px)' }}>
           {bars.map((bar, index_) => (
             <div
               key={index_}
@@ -318,7 +317,7 @@ function PaymentsMockup({
 }) {
   const [visiblePayments] = useState(() => {
     const shuffled = shuffle(payments)
-    const count = randomInt(3, Math.min(6, shuffled.length))
+    const count = randomInt(3, Math.min(4, shuffled.length))
     return shuffled.slice(0, count)
   })
 
@@ -327,9 +326,9 @@ function PaymentsMockup({
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="bg-card flex items-center justify-between rounded-lg px-4 py-4">
-        <div className="flex items-center gap-3">
-          <p className="text-base font-semibold">Recent Payments</p>
+      <div className="bg-card flex flex-wrap items-center justify-between gap-2 rounded-lg px-3 py-3 sm:px-4 sm:py-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <p className="text-sm font-semibold sm:text-base">Recent Payments</p>
           <p className="text-muted-foreground text-[10px]">
             {visiblePayments.length} of 12 creators paid this month
           </p>
@@ -337,21 +336,30 @@ function PaymentsMockup({
         <p className="font-display text-sm font-semibold">{formattedTotal}</p>
       </div>
       {visiblePayments.map((payment) => (
-        <div key={payment.name} className="bg-card flex flex-col gap-3 rounded-lg px-4 py-3">
-          <div className="flex items-center gap-3">
+        <div
+          key={payment.name}
+          className="bg-card flex flex-col gap-3 rounded-lg px-3 py-3 sm:px-4"
+        >
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <img
               src={payment.avatar}
               alt={payment.name}
-              className="size-8 shrink-0 rounded-full object-cover"
+              className="size-7 shrink-0 rounded-full object-cover sm:size-8"
             />
-            <div className="flex-1">
-              <p className="text-xs font-semibold">{payment.name}</p>
-              <div className="flex items-center gap-3">
-                <p className="text-muted-foreground text-[10px]">{payment.handle}</p>
-              </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-semibold">{payment.name}</p>
+              <p className="text-muted-foreground truncate text-[10px]">{payment.handle}</p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <Badge variant={payment.statusVariant} className="h-4 px-1.5 text-[9px]">
+                {payment.status}
+              </Badge>
+              <p className="font-display text-xs font-semibold">{payment.amount}</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-[10px]">
+            <div className="flex items-center gap-1.5">
               {payment.platforms.map((platform) => {
                 const icon = platformIconMap[platform]
                 if (!icon) return null
@@ -364,18 +372,12 @@ function PaymentsMockup({
                 )
               })}
             </div>
-            <p className="text-muted-foreground text-xs">
-              {payment.campaign} - {payment.duration}
-            </p>
-            <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="text-muted-foreground">
+              {payment.campaign} · {payment.duration}
+            </span>
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">
               {payment.roas} ROAS
-            </p>
-            <Badge variant={payment.statusVariant} className="h-4 px-1.5 text-[9px]">
-              {payment.status}
-            </Badge>
-            <div className="text-right">
-              <p className="font-display text-xs font-semibold">{payment.amount}</p>
-            </div>
+            </span>
           </div>
         </div>
       ))}

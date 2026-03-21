@@ -187,7 +187,7 @@ function LandingNavbar() {
                     <SheetClose key={link.href}>
                       <NavLink
                         link={link}
-                        className="font-display text-foreground/60 text-3xl transition-colors"
+                        className="font-display text-foreground/60 text-2xl transition-colors sm:text-3xl"
                         activeClassName="text-primary"
                       >
                         {link.label}
