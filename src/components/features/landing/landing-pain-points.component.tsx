@@ -1,4 +1,4 @@
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 
 import { scrollStagger, scrollStaggerItem } from '@/utils/motion.utils'
 
@@ -41,9 +41,9 @@ function LandingPainPoints() {
           </p>
         </FadeInView>
 
-        <motion.div className="grid grid-cols-1 gap-6 md:grid-cols-3" {...scrollStagger}>
+        <m.div className="grid grid-cols-1 gap-6 md:grid-cols-3" {...scrollStagger}>
           {PAIN_POINTS.map((point) => (
-            <motion.div
+            <m.div
               key={point.label}
               className="bg-card border-border/60 shadow-soft rounded-lg border p-6 pt-12 text-center"
               {...scrollStaggerItem}
@@ -54,9 +54,9 @@ function LandingPainPoints() {
                 className="font-display text-foreground text-4xl font-bold md:text-5xl"
               />
               <p className="text-muted-foreground mt-3 text-sm leading-relaxed">{point.label}</p>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

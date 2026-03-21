@@ -3,10 +3,11 @@ import { useState } from 'react'
 import { InstagramIcon, Search01Icon, TiktokIcon, YoutubeIcon } from '@hugeicons/core-free-icons'
 import type { IconSvgElement } from '@hugeicons/react'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 import { scrollStagger, scrollStaggerItem } from '@/utils/motion.utils'
+import { formatCompact, formatCurrency, randomFloat, randomInt, shuffle } from '@/utils/random.utils'
 import { useLocaleContent } from '@/hooks/use-locale-content'
 
 import { FadeInView } from '@/components/ui/animated-container'
@@ -45,8 +46,13 @@ const MASONRY_RATIOS = [
   'aspect-[4/5]',
 ] as const
 
-function CreatorCard({ creator, index }: { creator: LocaleCreator; index: number }) {
-  const aspectRatio = MASONRY_RATIOS[index % MASONRY_RATIOS.length]
+function CreatorCard({
+  creator,
+  aspectRatio,
+}: {
+  creator: LocaleCreator
+  aspectRatio: string
+}) {
 
   return (
     <div className="group/creator relative mb-2.5 cursor-default break-inside-avoid overflow-hidden rounded-xl">
@@ -97,8 +103,10 @@ function CreatorCard({ creator, index }: { creator: LocaleCreator; index: number
 
 function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
   const [searchQuery, setSearchQuery] = useState('')
+  const [shuffledCreators] = useState(() => shuffle(creators))
+  const [shuffledRatios] = useState(() => shuffle([...MASONRY_RATIOS]))
 
-  const filtered = creators.filter((creator) => {
+  const filtered = shuffledCreators.filter((creator) => {
     if (!searchQuery) return true
     const query = searchQuery.toLowerCase()
     return (
@@ -134,7 +142,11 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
       <div className="relative max-h-166 overflow-hidden">
         <div className="columns-3 gap-3">
           {filtered.map((creator, index) => (
-            <CreatorCard key={creator.handle} creator={creator} index={index} />
+            <CreatorCard
+              key={creator.handle}
+              creator={creator}
+              aspectRatio={shuffledRatios[index % shuffledRatios.length]}
+            />
           ))}
         </div>
         {/* Fade-out gradient at bottom */}
@@ -147,6 +159,7 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
 /* ─── Campaign Mockup ─── */
 
 function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
+  const [shuffledCampaigns] = useState(() => shuffle(campaigns))
   const stages = [
     { label: 'Brief', status: 'done' },
     { label: 'Active', status: 'active' },
@@ -158,13 +171,13 @@ function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
       <div className="bg-card rounded-lg px-4 py-3">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold">{campaigns[0].name}</p>
+            <p className="text-xs font-semibold">{shuffledCampaigns[0].name}</p>
             <p className="text-muted-foreground text-[10px]">
-              {campaigns[0].creatorCount} creators · {campaigns[0].budget}
+              {shuffledCampaigns[0].creatorCount} creators · {shuffledCampaigns[0].budget}
             </p>
           </div>
-          <Badge variant={campaigns[0].statusVariant} className="h-4 px-1.5 text-[9px]">
-            {campaigns[0].status}
+          <Badge variant={shuffledCampaigns[0].statusVariant} className="h-4 px-1.5 text-[9px]">
+            {shuffledCampaigns[0].status}
           </Badge>
         </div>
         <div className="mt-6 ml-6 flex items-center gap-1">
@@ -193,17 +206,17 @@ function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
           ))}
         </div>
       </div>
-      {campaigns[1] && (
+      {shuffledCampaigns[1] && (
         <div className="bg-card rounded-lg px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-semibold">{campaigns[1].name}</p>
+              <p className="text-xs font-semibold">{shuffledCampaigns[1].name}</p>
               <p className="text-muted-foreground text-[10px]">
-                {campaigns[1].creatorCount} creators · {campaigns[1].budget}
+                {shuffledCampaigns[1].creatorCount} creators · {shuffledCampaigns[1].budget}
               </p>
             </div>
-            <Badge variant={campaigns[1].statusVariant} className="h-4 px-1.5 text-[9px]">
-              {campaigns[1].status}
+            <Badge variant={shuffledCampaigns[1].statusVariant} className="h-4 px-1.5 text-[9px]">
+              {shuffledCampaigns[1].status}
             </Badge>
           </div>
         </div>
@@ -219,24 +232,29 @@ interface BarData {
   value: string
 }
 
-const ANALYTICS_BARS: BarData[] = [
-  { height: 35, value: '8.2K' },
-  { height: 52, value: '14.6K' },
-  { height: 45, value: '11.9K' },
-  { height: 68, value: '21.3K' },
-  { height: 82, value: '29.7K' },
-  { height: 75, value: '24.1K' },
-  { height: 90, value: '35.4K' },
-]
+function generateRandomBars(): BarData[] {
+  return Array.from({ length: 7 }, () => {
+    const height = randomInt(25, 95)
+    const raw = randomInt(5000, 40000)
+    return { height, value: formatCompact(raw) }
+  })
+}
+
+function generateRandomMetrics() {
+  const reach = randomInt(800_000, 2_500_000)
+  const engagement = randomFloat(3.2, 6.8, 1)
+  const roi = randomFloat(2.1, 5.5, 1)
+  return [
+    { label: 'Reach', value: formatCompact(reach), change: `+${randomInt(8, 35)}%` },
+    { label: 'Engagement', value: `${engagement}%`, change: `+${randomFloat(0.1, 0.8, 1)}%` },
+    { label: 'ROI', value: `${roi}x`, change: `+${randomInt(5, 25)}%` },
+  ]
+}
 
 function AnalyticsMockup() {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null)
-
-  const metrics = [
-    { label: 'Reach', value: '1.2M', change: '+23%' },
-    { label: 'Engagement', value: '4.7%', change: '+0.3%' },
-    { label: 'ROI', value: '3.2x', change: '+18%' },
-  ]
+  const [bars] = useState(generateRandomBars)
+  const [metrics] = useState(generateRandomMetrics)
   return (
     <div className="flex flex-col gap-3">
       <div className="grid grid-cols-3 gap-3">
@@ -251,7 +269,7 @@ function AnalyticsMockup() {
       <div className="bg-card rounded-lg p-3">
         <p className="text-muted-foreground mb-2 text-[10px] font-medium">Weekly Performance</p>
         <div className="flex items-end gap-1.5" style={{ height: '60px' }}>
-          {ANALYTICS_BARS.map((bar, index_) => (
+          {bars.map((bar, index_) => (
             <div
               key={index_}
               className="relative flex-1"
@@ -291,21 +309,34 @@ const platformIconMap: Record<string, IconSvgElement> = {
 
 function PaymentsMockup({
   payments,
-  paymentTotal,
+  currencySymbol,
+  regionCode,
 }: {
   payments: LocalePayment[]
-  paymentTotal: string
+  currencySymbol: string
+  regionCode: string
 }) {
+  const [visiblePayments] = useState(() => {
+    const shuffled = shuffle(payments)
+    const count = randomInt(3, Math.min(6, shuffled.length))
+    return shuffled.slice(0, count)
+  })
+
+  const total = visiblePayments.reduce((sum, payment) => sum + payment.amountValue, 0)
+  const formattedTotal = formatCurrency(total, currencySymbol, regionCode)
+
   return (
     <div className="flex flex-col gap-3">
       <div className="bg-card flex items-center justify-between rounded-lg px-4 py-4">
         <div className="flex items-center gap-3">
           <p className="text-base font-semibold">Recent Payments</p>
-          <p className="text-muted-foreground text-[10px]">3 of 12 creators paid this month</p>
+          <p className="text-muted-foreground text-[10px]">
+            {visiblePayments.length} of 12 creators paid this month
+          </p>
         </div>
-        <p className="font-display text-sm font-semibold">{paymentTotal}</p>
+        <p className="font-display text-sm font-semibold">{formattedTotal}</p>
       </div>
-      {payments.map((payment) => (
+      {visiblePayments.map((payment) => (
         <div key={payment.name} className="bg-card flex flex-col gap-3 rounded-lg px-4 py-3">
           <div className="flex items-center gap-3">
             <img
@@ -361,7 +392,13 @@ function LandingFeatures() {
     () => <DiscoverMockup creators={locale.creators} />,
     () => <CampaignMockup campaigns={locale.campaigns} />,
     () => <AnalyticsMockup />,
-    () => <PaymentsMockup payments={locale.payments} paymentTotal={locale.paymentTotal} />,
+    () => (
+      <PaymentsMockup
+        payments={locale.payments}
+        currencySymbol={locale.region.currencySymbol}
+        regionCode={locale.region.code}
+      />
+    ),
   ]
 
   return (
@@ -380,7 +417,7 @@ function LandingFeatures() {
         </FadeInView>
 
         {/* Bento grid — asymmetric: 1 hero (2×2), 2 standard, 1 full-width */}
-        <motion.div {...scrollStagger}>
+        <m.div {...scrollStagger}>
           <BentoGrid cols={3}>
             {LANDING_FEATURES.map((feature, index) => {
               const MockupComponent = featureMockups[index]
@@ -388,7 +425,7 @@ function LandingFeatures() {
               const colSpan = index === 0 ? 2 : colSpanIndex
               const rowSpan = index === 0 ? 2 : 1
               return (
-                <motion.div
+                <m.div
                   key={feature.title}
                   className={cn(
                     colSpan === 2 && 'md:col-span-2',
@@ -421,11 +458,11 @@ function LandingFeatures() {
                       </div>
                     </div>
                   </MagicCard>
-                </motion.div>
+                </m.div>
               )
             })}
           </BentoGrid>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

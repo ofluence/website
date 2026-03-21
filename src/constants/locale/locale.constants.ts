@@ -31,6 +31,7 @@ export interface LocalePayment {
   avatar: string
   platforms: string[]
   amount: string
+  amountValue: number
   status: string
   statusVariant: 'ink' | 'cream' | 'vermillion' | 'accent'
   campaign: string
@@ -57,7 +58,6 @@ export interface LocaleContent {
   creators: LocaleCreator[]
   campaigns: LocaleCampaign[]
   payments: LocalePayment[]
-  paymentTotal: string
   pricing: LocalePricing
   compliance: string[]
   paymentMethods: string

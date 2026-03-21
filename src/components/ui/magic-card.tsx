@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 
-import { motion, useMotionTemplate, useMotionValue } from 'motion/react'
+import { m, useMotionValue, useTransform } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 
@@ -28,16 +28,13 @@ function MagicCard({
   const reset = useCallback(() => {
     mouseX.set(-gradientSize)
     mouseY.set(-gradientSize)
-  }, [gradientSize, mouseX, mouseY])
+  }, [mouseX, mouseY, gradientSize])
 
-  const handlePointerMove = useCallback(
-    (event: React.PointerEvent<HTMLDivElement>) => {
-      const rect = event.currentTarget.getBoundingClientRect()
-      mouseX.set(event.clientX - rect.left)
-      mouseY.set(event.clientY - rect.top)
-    },
-    [mouseX, mouseY]
-  )
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    mouseX.set(event.clientX - rect.left)
+    mouseY.set(event.clientY - rect.top)
+  }
 
   useEffect(() => {
     reset()
@@ -67,8 +64,16 @@ function MagicCard({
     }
   }, [reset])
 
-  const borderBackground = useMotionTemplate`radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientFrom}, ${gradientTo}, var(--color-border) 100%)`
-  const spotlightBackground = useMotionTemplate`radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)`
+  const borderBackground = useTransform(
+    [mouseX, mouseY],
+    ([x, y]) =>
+      `radial-gradient(${gradientSize}px circle at ${x}px ${y}px, ${gradientFrom}, ${gradientTo}, var(--color-border) 100%)`
+  )
+  const spotlightBackground = useTransform(
+    [mouseX, mouseY],
+    ([x, y]) =>
+      `radial-gradient(${gradientSize}px circle at ${x}px ${y}px, ${gradientColor}, transparent 100%)`
+  )
 
   return (
     <div
@@ -79,14 +84,14 @@ function MagicCard({
       {...props}
     >
       {/* Border gradient that follows mouse */}
-      <motion.div
+      <m.div
         className="bg-border pointer-events-none absolute inset-0 rounded-[inherit] duration-300 group-hover:opacity-100"
         style={{ background: borderBackground }}
       />
       {/* Inner background to mask the border gradient */}
       <div className="bg-card absolute inset-px rounded-[inherit]" />
       {/* Spotlight overlay */}
-      <motion.div
+      <m.div
         className="pointer-events-none absolute inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background: spotlightBackground,

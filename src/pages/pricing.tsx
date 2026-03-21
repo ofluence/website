@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Tick01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 import { useLocaleContent } from '@/hooks/use-locale-content'
@@ -120,7 +120,7 @@ const PricingPage = () => {
           >
             Monthly
             {!isAnnual && (
-              <motion.span
+              <m.span
                 layoutId="billing-indicator"
                 className="bg-foreground absolute -bottom-px left-0 h-px w-full"
               />
@@ -135,7 +135,7 @@ const PricingPage = () => {
           >
             Annual
             {isAnnual && (
-              <motion.span
+              <m.span
                 layoutId="billing-indicator"
                 className="bg-foreground absolute -bottom-px left-0 h-px w-full"
               />

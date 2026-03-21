@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 
 import { heroReveal, heroStagger } from '@/utils/motion.utils'
 import { useLocaleContent } from '@/hooks/use-locale-content'
@@ -19,47 +19,47 @@ function LandingHero() {
           aria-hidden="true"
         />
 
-        <motion.div
+        <m.div
           className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 text-center"
           {...heroStagger}
         >
           {/* Overline badge */}
-          <motion.div variants={heroReveal}>
+          <m.div variants={heroReveal}>
             <span className="gap-1.5 px-3 py-1 text-base">Influencer platform built for speed</span>
-          </motion.div>
+          </m.div>
 
           {/* Headline */}
-          <motion.h1 variants={heroReveal} className="text-display-hero text-foreground">
+          <m.h1 variants={heroReveal} className="text-display-hero text-foreground">
             Replace spreadsheets, scattered tools, and guesswork.
-          </motion.h1>
+          </m.h1>
 
           {/* Subtext */}
-          <motion.p
+          <m.p
             variants={heroReveal}
             className="text-muted-foreground max-w-xl text-lg leading-relaxed"
           >
             Discover creators, launch campaigns, and measure — all from one workspace designed to
             move as fast as you do.
-          </motion.p>
+          </m.p>
 
           {/* Dual CTAs */}
-          <motion.div variants={heroReveal} className="flex flex-wrap items-center gap-3 pt-2">
+          <m.div variants={heroReveal} className="flex flex-wrap items-center gap-3 pt-2">
             <Button size="lg" render={<a href={`${import.meta.env.VITE_APP_URL}/login`} />}>
               Start free trial
             </Button>
             <Button variant="outline" size="lg" render={<Link to="/contact" />}>
               Book a demo
             </Button>
-          </motion.div>
+          </m.div>
 
           {/* Sub-CTA text */}
-          <motion.p variants={heroReveal} className="text-muted-foreground/60 text-sm">
+          <m.p variants={heroReveal} className="text-muted-foreground/60 text-sm">
             14-day free trial · No credit card required
-          </motion.p>
-        </motion.div>
+          </m.p>
+        </m.div>
 
         {/* Trust badges */}
-        {/* <motion.div
+        {/* <m.div
           className="relative mt-16 flex flex-wrap items-center justify-center gap-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -74,18 +74,18 @@ function LandingHero() {
               {badge}
             </span>
           ))}
-        </motion.div> */}
+        </m.div> */}
 
         {/* Geo-targeting */}
         {!isLoading && countryCode !== 'IN' && (
-          <motion.p
+          <m.p
             className="text-muted-foreground/40 mt-4 text-center text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
           >
             Currently available in India. Coming to {country} soon.
-          </motion.p>
+          </m.p>
         )}
       </div>
     </section>

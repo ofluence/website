@@ -95,33 +95,24 @@ function LandingFooter() {
               </p>
               {/* Social icons — static, muted */}
               <div className="mt-6 flex gap-5">
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
                   className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
                   aria-label="Instagram"
                 >
                   <HugeiconsIcon icon={InstagramIcon} size={18} />
-                </a>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                </button>
+                <button
                   className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
                   aria-label="YouTube"
                 >
                   <HugeiconsIcon icon={YoutubeIcon} size={18} />
-                </a>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                </button>
+                <button
                   className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
                   aria-label="LinkedIn"
                 >
                   <HugeiconsIcon icon={Linkedin01Icon} size={18} />
-                </a>
+                </button>
               </div>
             </div>
             {/* Newsletter */}

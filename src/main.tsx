@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client'
 
 import { PostHogProvider } from '@posthog/react'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { domMax, LazyMotion } from 'motion/react'
 import posthog from 'posthog-js'
 
 import { DefaultPending } from '@/components/errors/default-pending.component'
@@ -37,9 +38,11 @@ declare module '@tanstack/react-router' {
 createRoot(document.querySelector('#root')!).render(
   <StrictMode>
     <PostHogProvider client={posthog}>
-      <TooltipProvider>
-        <RouterProvider router={router} />
-      </TooltipProvider>
+      <LazyMotion features={domMax} strict>
+        <TooltipProvider>
+          <RouterProvider router={router} />
+        </TooltipProvider>
+      </LazyMotion>
     </PostHogProvider>
   </StrictMode>
 )

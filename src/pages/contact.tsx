@@ -2,7 +2,7 @@ import { ArrowRight01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useForm } from '@tanstack/react-form'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 import { toast } from 'sonner'
 
 import { FadeInView } from '@/components/ui/animated-container'
@@ -339,7 +339,7 @@ const ContactPage = () => {
                 Ready to transform your influencer marketing?
               </h2>
               <div className="mt-10">
-                <motion.div
+                <m.div
                   whileHover={{ x: 4 }}
                   transition={{ duration: 0.2 }}
                   className="inline-block"
@@ -352,7 +352,7 @@ const ContactPage = () => {
                       data-icon="inline-end"
                     />
                   </Button>
-                </motion.div>
+                </m.div>
               </div>
             </FadeInView>
           </div>

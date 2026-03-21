@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { ArrowRight01Icon, Menu01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link, useLocation } from '@tanstack/react-router'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 
 import { cn } from '@/utils/global.utils'
 import { useScrollToSection } from '@/hooks/use-scroll-to-section'
@@ -116,7 +116,7 @@ function LandingNavbar() {
 
   return (
     <nav className="fixed inset-x-0 top-0 z-50 px-3 md:px-0">
-      <motion.div
+      <m.div
         className="mx-auto h-16"
         initial={false}
         animate={{
@@ -207,7 +207,7 @@ function LandingNavbar() {
             </Sheet>
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </nav>
   )
 }
