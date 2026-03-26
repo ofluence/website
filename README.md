@@ -134,9 +134,10 @@ Built as a static SPA served by nginx with gzip compression and client-side rout
 
 | Repo | Purpose |
 |------|---------|
-| **pulse** | React dashboard (auth, multi-tenant, API) |
-| **core** | Backend API (Express, PostgreSQL) |
-| **infra** | Kubernetes + Skaffold orchestration |
+| [core](../core) | Backend API (Express, PostgreSQL, multi-tenant) |
+| [pulse](../pulse) | React dashboard (auth, multi-tenant, analytics) |
+| [felix](../felix) | Creator discovery & enrichment microservice |
+| [infra](../infra) | Kubernetes + Skaffold orchestration |
 
 ## License
 
