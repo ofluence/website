@@ -4,15 +4,19 @@ Before reading source files with `Read`, search QMD first for architectural cont
 
 ### QMD collections
 
-- `"pulse"`, `"Ofluence"`, `"core"`, `"infra"`
+- `"website"`, `"pulse"`, `"Ofluence"`, `"core"`, `"infra"`, `"felix"`
 
-### Search (pick the right tool for the job)
+### Search with `mcp__qmd__query`
 
-| Tool                      | Speed | Use when                                                                   |
-| ------------------------- | ----- | -------------------------------------------------------------------------- |
-| `mcp__qmd__search`        | ~30ms | You know the exact keyword/phrase                                          |
-| `mcp__qmd__vector_search` | ~2s   | You want meaning-based/synonym matching                                    |
-| `mcp__qmd__deep_search`   | ~10s  | Broad exploration — auto-expands query, combines keyword + vector, reranks |
+All search uses the unified `mcp__qmd__query` tool with typed sub-queries. First sub-query gets 2× weight.
+
+| Sub-query type | Speed  | Use when                                                     |
+| -------------- | ------ | ------------------------------------------------------------ |
+| `lex`          | Fast   | You know the exact keyword/phrase (supports `"phrase"`, `-negation`) |
+| `vec`          | Medium | You want meaning-based/synonym matching (natural language question) |
+| `hyde`         | Slow   | Write a 50-100 word hypothetical answer passage for nuanced topics  |
+
+Combine types for best recall (e.g., `lex` + `vec` for broad search, add `hyde` for complex topics).
 
 Use `minScore: 0.5` to filter low-confidence results.
 

@@ -30,6 +30,8 @@ pnpm commit           # Commitizen conventional commits
 
 Package manager is **pnpm**. No test runner is configured.
 
+**Husky** is configured for git hooks (runs via `pnpm prepare`).
+
 ## Architecture
 
 ### Tech Stack
@@ -40,6 +42,9 @@ Package manager is **pnpm**. No test runner is configured.
 - **shadcn/ui** components built on Base UI (`@base-ui/react`) primitives
 - **Zustand** for client state (theme only)
 - **PostHog** for analytics with session recording
+- **Motion** (Framer Motion) for animations
+- **Sonner** for toast notifications
+- **TanStack Form** for form handling
 
 ### Component Hierarchy
 
@@ -50,9 +55,9 @@ Pages (src/pages/)
               └── UI Primitives (src/components/ui/)
 ```
 
-- **Pages** (`src/pages/`): TanStack Router file-based routes — `index.tsx`, `about.tsx`, `pricing.tsx`, `contact.tsx`, plus legal pages and a `$.tsx` catch-all 404
+- **Pages** (`src/pages/`): TanStack Router file-based routes — `index.tsx`, `about.tsx`, `pricing.tsx`, `contact.tsx`, `use-cases.tsx`, `solutions.tsx`, `integrations.tsx`, plus legal pages and a `$.tsx` catch-all 404
 - **Layouts**: `landing-page-layout.component.tsx` wraps marketing pages (navbar + footer); `legal-page-layout.component.tsx` wraps legal pages
-- **Feature components** (`src/components/features/landing/`): Hero, social proof, features, how-it-works, product preview, pricing, CTA, navbar, footer
+- **Feature components** (`src/components/features/landing/`): Hero, social proof, features, pain points, CTA, navbar, footer
 - **Global components** (`src/components/features/global/`): Theme toggle, SEO head tags, structured data (JSON-LD)
 - **Error components** (`src/components/errors/`): Not found (404), default pending/suspense fallback
 
@@ -121,6 +126,37 @@ Use Hugeicons: `import { IconName } from '@hugeicons/core-free-icons'` and rende
 ### UI Components
 
 Built on Base UI (`@base-ui/react`) primitives, wrapped in shadcn/ui style. Located in `src/components/ui/`.
+
+## Project Structure
+
+```
+src/
+├── assets/               # Static assets (images, SVGs)
+├── components/
+│   ├── errors/           # Error boundary components (404, pending)
+│   ├── features/
+│   │   ├── global/       # Theme toggle, SEO, structured data (JSON-LD)
+│   │   └── landing/      # Landing page sections + layouts
+│   └── ui/               # Base UI primitives (shadcn/ui style)
+├── constants/            # App-wide constants
+├── hooks/                # Custom React hooks
+├── observability/        # PostHog initialization
+├── pages/                # TanStack Router file-based routes
+├── services/             # Logger service
+├── states/               # Zustand stores (theme only)
+├── styles/               # Global CSS (Tailwind config)
+├── types/                # TypeScript declarations
+└── utils/                # Utility functions
+```
+
+## Common Pitfalls
+
+1. **No `useMemo`/`useCallback`/`React.memo`**: React Compiler handles optimization — using these will conflict
+2. **Assets path**: Vite `assetsDir` is set to `pulse/` — static assets are served from `/pulse/` in production (nginx config)
+3. **No test runner**: Don't try to run tests — none are configured for this repo
+4. **Import paths**: Always use `@/` alias, never relative paths across directories
+5. **No `console.log`**: ESLint enforces `no-console` — use `logger` from `@/services/logger.service`
+6. **Tailwind config**: Config lives in CSS (`src/styles/`), not in `tailwind.config.js` — there is no config file
 
 ## Key Reference Files
 
