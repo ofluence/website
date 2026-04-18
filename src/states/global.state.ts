@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { createJSONStorage, devtools, persist } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 export type Theme = 'light' | 'dark' | 'system'
@@ -20,6 +20,19 @@ interface GlobalState extends InitialGlobalState {
   actions: GlobalActions
 }
 
+// SSR-safe storage: returns a no-op implementation when window is undefined
+// (during SSR/SSG), and localStorage when running in the browser.
+const ssrSafeStorage = createJSONStorage(() => {
+  if (typeof window === 'undefined') {
+    return {
+      getItem: () => null,
+      setItem: () => null,
+      removeItem: () => null,
+    }
+  }
+  return localStorage
+})
+
 export const useGlobalState = create<GlobalState>()(
   devtools(
     persist(
@@ -39,6 +52,7 @@ export const useGlobalState = create<GlobalState>()(
       {
         name: 'global-storage',
         partialize: (state) => ({ theme: state.theme }),
+        storage: ssrSafeStorage,
       }
     ),
     {

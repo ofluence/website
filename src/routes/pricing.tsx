@@ -14,7 +14,8 @@ import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { MagicCard } from '@/components/ui/magic-card'
 import { Separator } from '@/components/ui/separator'
-import { Seo } from '@/components/features/global/seo.component'
+import { seo } from '@/utils/seo.utils'
+
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
 import { LANDING_PRICING_TIERS } from '@/constants/landing.constants'
@@ -84,16 +85,14 @@ const COMPARISON_ROWS: { feature: string; values: (string | boolean)[] }[] = [
 
 const PricingPage = () => {
   const [isAnnual, setIsAnnual] = useState(false)
-  const { pricing, paymentMethods } = useLocaleContent()
+  const { pricing, paymentMethods, isLoading: isLocaleLoading } = useLocaleContent()
+  // While the locale is resolving, keep the prices in the DOM (so SEO crawlers
+  // still see a price) but make them visually invisible to avoid a default →
+  // actual currency swap on the client after the geo fetch resolves.
+  const localeFadeClass = isLocaleLoading ? 'opacity-0' : 'opacity-100 transition-opacity'
 
   return (
     <LandingPageLayout>
-      <Seo
-        title="Pricing"
-        description="Simple, transparent pricing for Ofluence. Start free and scale as you grow. Plans for individuals, growing brands, scaling teams, and enterprises."
-        path="/pricing"
-      />
-
       {/* Hero */}
       <section className="py-20 md:py-28">
         <div className="mx-auto max-w-4xl px-6 md:px-8">
@@ -188,7 +187,7 @@ const PricingPage = () => {
                           {tier.description}
                         </p>
 
-                        <div className="mt-6 flex items-baseline gap-1">
+                        <div className={cn('mt-6 flex items-baseline gap-1', localeFadeClass)}>
                           <span className="font-display text-4xl">{displayPrice}</span>
                           {tier.period && (
                             <span className="text-muted-foreground text-sm">
@@ -258,7 +257,7 @@ const PricingPage = () => {
                     <div className="shrink-0 md:w-52">
                       <h3 className="font-display text-lg tracking-wide">{enterprise.name}</h3>
                       <p className="text-muted-foreground mt-1 text-sm">{enterprise.description}</p>
-                      <div className="mt-4 flex items-baseline gap-1">
+                      <div className={cn('mt-4 flex items-baseline gap-1', localeFadeClass)}>
                         <span className="font-display text-4xl">{enterprisePricing.price}</span>
                       </div>
                     </div>
@@ -394,5 +393,17 @@ const PricingPage = () => {
 }
 
 export const Route = createFileRoute('/pricing')({
+  head: () => ({
+    meta: [
+      { title: 'Pricing — Ofluence' },
+      ...seo({
+        title: 'Pricing — Ofluence',
+        description:
+          'Simple, transparent pricing for Ofluence. Start free and scale as you grow. Plans for individuals, growing brands, scaling teams, and enterprises.',
+        path: '/pricing',
+      }),
+    ],
+    links: [{ rel: 'canonical', href: 'https://ofluence.ai/pricing' }],
+  }),
   component: PricingPage,
 })

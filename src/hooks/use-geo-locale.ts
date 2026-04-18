@@ -16,6 +16,7 @@ interface GeoLocaleState extends GeoData {
 }
 
 function getCachedGeo(): GeoData | null {
+  if (typeof window === 'undefined') return null
   try {
     const cached = localStorage.getItem(STORAGE_KEY)
     if (cached) {
@@ -28,6 +29,7 @@ function getCachedGeo(): GeoData | null {
 }
 
 function setCachedGeo(data: GeoData): void {
+  if (typeof window === 'undefined') return
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   } catch {
@@ -36,21 +38,22 @@ function setCachedGeo(data: GeoData): void {
 }
 
 export function useGeoLocale(): GeoLocaleState {
-  const [state, setState] = useState<GeoLocaleState>(() => {
-    const cached = getCachedGeo()
-    if (cached) {
-      return { ...cached, isLoading: false }
-    }
-    return {
-      country: DEFAULT_COUNTRY,
-      countryCode: DEFAULT_COUNTRY_CODE,
-      isLoading: true,
-    }
+  // Always seed with the SSR default so server output matches the client's
+  // first render. Cached / fetched values are applied inside the effect, after
+  // hydration, to avoid a mismatch.
+  const [state, setState] = useState<GeoLocaleState>({
+    country: DEFAULT_COUNTRY,
+    countryCode: DEFAULT_COUNTRY_CODE,
+    isLoading: true,
   })
 
   useEffect(() => {
     const cached = getCachedGeo()
-    if (cached) return
+    if (cached) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setState({ ...cached, isLoading: false })
+      return
+    }
 
     const controller = new AbortController()
 

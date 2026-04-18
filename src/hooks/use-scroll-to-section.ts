@@ -5,6 +5,7 @@ export function useScrollToSection() {
   const navigate = useNavigate()
 
   return (sectionId: string) => {
+    if (typeof window === 'undefined') return
     if (location.pathname === '/') {
       const element = document.querySelector(`#${sectionId}`)
       element?.scrollIntoView({ behavior: 'smooth' })

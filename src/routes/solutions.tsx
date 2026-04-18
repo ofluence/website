@@ -20,7 +20,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MagicCard } from '@/components/ui/magic-card'
 import { Separator } from '@/components/ui/separator'
-import { Seo } from '@/components/features/global/seo.component'
+import { seo } from '@/utils/seo.utils'
+
 import { LandingCta } from '@/components/features/landing/landing-cta.component'
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
@@ -48,12 +49,6 @@ const INTEGRATIONS = [
 function SolutionsPage() {
   return (
     <LandingPageLayout>
-      <Seo
-        title="Solutions — Ofluence"
-        description="Discover how Ofluence helps brands, agencies, and creators run influencer marketing campaigns at scale."
-        path="/solutions"
-      />
-
       {/* Hero */}
       <section className="py-20 md:py-28">
         <div className="mx-auto max-w-4xl px-6 md:px-8">
@@ -196,5 +191,17 @@ function SolutionsPage() {
 }
 
 export const Route = createFileRoute('/solutions')({
+  head: () => ({
+    meta: [
+      { title: 'Solutions — Ofluence' },
+      ...seo({
+        title: 'Solutions — Ofluence',
+        description:
+          'Discover how Ofluence helps brands, agencies, and creators run influencer marketing campaigns at scale.',
+        path: '/solutions',
+      }),
+    ],
+    links: [{ rel: 'canonical', href: 'https://ofluence.ai/solutions' }],
+  }),
   component: SolutionsPage,
 })

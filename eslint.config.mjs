@@ -84,7 +84,7 @@ export default defineConfig([
    * File & Folder Naming Conventions
    * Enforces consistent kebab-case naming for all files and folders
    * Uses eslint-plugin-check-file for granular filename and folder name validation
-   * Pages directory is excluded — TanStack Router uses special naming (__root, _protected, $, etc.)
+   * Pages and routes directories are excluded — TanStack Router uses special naming (__root, _protected, $, etc.)
    */
   {
     files: ['**/*.{ts,tsx}'],
@@ -101,7 +101,7 @@ export default defineConfig([
       'check-file/filename-naming-convention': [
         'error',
         {
-          'src/!(pages)/**/*.{ts,tsx}': 'KEBAB_CASE',
+          'src/!(pages|routes)/**/*.{ts,tsx}': 'KEBAB_CASE',
           'src/*.{ts,tsx}': 'KEBAB_CASE',
         },
         {

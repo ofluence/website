@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Seo } from '@/components/features/global/seo.component'
+import { seo } from '@/utils/seo.utils'
+
 import {
   LegalPageLayout,
   type TocSection,
@@ -24,11 +25,6 @@ const SECTIONS: TocSection[] = [
 const PrivacyPolicyPage = () => {
   return (
     <>
-      <Seo
-        title="Privacy Policy"
-        description="Ofluence Privacy Policy — how we collect, use, and protect your personal information. GDPR compliant."
-        path="/privacy-policy"
-      />
       <LegalPageLayout
         title="Privacy Policy"
         lastUpdated="March 20, 2026"
@@ -267,5 +263,17 @@ const PrivacyPolicyPage = () => {
 }
 
 export const Route = createFileRoute('/privacy-policy')({
+  head: () => ({
+    meta: [
+      { title: 'Privacy Policy — Ofluence' },
+      ...seo({
+        title: 'Privacy Policy — Ofluence',
+        description:
+          'Ofluence Privacy Policy — how we collect, use, and protect your personal information. GDPR compliant.',
+        path: '/privacy-policy',
+      }),
+    ],
+    links: [{ rel: 'canonical', href: 'https://ofluence.ai/privacy-policy' }],
+  }),
   component: PrivacyPolicyPage,
 })

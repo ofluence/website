@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Seo } from '@/components/features/global/seo.component'
+import { seo } from '@/utils/seo.utils'
+
 import {
   LegalPageLayout,
   type TocSection,
@@ -23,11 +24,6 @@ const SECTIONS: TocSection[] = [
 const GdprPage = () => {
   return (
     <>
-      <Seo
-        title="GDPR Compliance"
-        description="Ofluence GDPR Compliance — our commitment to data protection, your rights, and how we handle personal data under the GDPR."
-        path="/gdpr"
-      />
       <LegalPageLayout
         title="GDPR Compliance"
         lastUpdated="March 20, 2026"
@@ -237,5 +233,17 @@ const GdprPage = () => {
 }
 
 export const Route = createFileRoute('/gdpr')({
+  head: () => ({
+    meta: [
+      { title: 'GDPR Compliance — Ofluence' },
+      ...seo({
+        title: 'GDPR Compliance — Ofluence',
+        description:
+          'Ofluence GDPR Compliance — our commitment to data protection, your rights, and how we handle personal data under the GDPR.',
+        path: '/gdpr',
+      }),
+    ],
+    links: [{ rel: 'canonical', href: 'https://ofluence.ai/gdpr' }],
+  }),
   component: GdprPage,
 })

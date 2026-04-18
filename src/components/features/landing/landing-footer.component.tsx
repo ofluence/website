@@ -77,7 +77,7 @@ function NewsletterForm() {
 }
 
 function LandingFooter() {
-  const { compliance } = useLocaleContent()
+  const { compliance, isLoading: isLocaleLoading } = useLocaleContent()
 
   return (
     <footer className="bg-card text-foreground py-20">
@@ -144,17 +144,18 @@ function LandingFooter() {
           ))}
         </div>
 
-        {/* Trust badges */}
-        <div className="border-border mt-16 flex flex-wrap items-center justify-center gap-4 border-t pt-8">
-          {compliance.map((badge) => (
-            <span
-              key={badge}
-              className="text-muted-foreground/60 inline-flex items-center gap-1 text-[10px] font-medium tracking-widest uppercase"
-            >
-              <HugeiconsIcon icon={SecurityCheckIcon} size={10} />
-              {badge}
-            </span>
-          ))}
+        {/* Trust badges — hidden until locale resolves to avoid a default→actual swap flash */}
+        <div className="border-border mt-16 flex min-h-6 flex-wrap items-center justify-center gap-4 border-t pt-8">
+          {!isLocaleLoading &&
+            compliance.map((badge) => (
+              <span
+                key={badge}
+                className="text-muted-foreground/60 inline-flex items-center gap-1 text-[10px] font-medium tracking-widest uppercase"
+              >
+                <HugeiconsIcon icon={SecurityCheckIcon} size={10} />
+                {badge}
+              </span>
+            ))}
         </div>
 
         {/* Bottom bar */}

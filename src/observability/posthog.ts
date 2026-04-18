@@ -38,8 +38,8 @@ function maskSensitiveInputs(text: string, element?: HTMLElement): string {
   return text
 }
 
-// Initialize PostHog when enabled
-if (POSTHOG_CONFIG.ENABLED) {
+// Initialize PostHog when enabled (guard against SSR/SSG environment)
+if (typeof window !== 'undefined' && POSTHOG_CONFIG.ENABLED) {
   // Determine the API host: route through backend proxy or direct to PostHog cloud
   const apiHost = POSTHOG_CONFIG.REVERSE_PROXY
     ? `${API_BASE_URL}${API_PREFIX}/collect`

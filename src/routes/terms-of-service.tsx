@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Seo } from '@/components/features/global/seo.component'
+import { seo } from '@/utils/seo.utils'
+
 import {
   LegalPageLayout,
   type TocSection,
@@ -27,11 +28,6 @@ const SECTIONS: TocSection[] = [
 const TermsOfServicePage = () => {
   return (
     <>
-      <Seo
-        title="Terms of Service"
-        description="Ofluence Terms of Service — the agreement between you and Ofluence governing use of our influencer marketing platform."
-        path="/terms-of-service"
-      />
       <LegalPageLayout
         title="Terms of Service"
         lastUpdated="March 20, 2026"
@@ -200,5 +196,17 @@ const TermsOfServicePage = () => {
 }
 
 export const Route = createFileRoute('/terms-of-service')({
+  head: () => ({
+    meta: [
+      { title: 'Terms of Service — Ofluence' },
+      ...seo({
+        title: 'Terms of Service — Ofluence',
+        description:
+          'Ofluence Terms of Service — the agreement between you and Ofluence governing use of our influencer marketing platform.',
+        path: '/terms-of-service',
+      }),
+    ],
+    links: [{ rel: 'canonical', href: 'https://ofluence.ai/terms-of-service' }],
+  }),
   component: TermsOfServicePage,
 })

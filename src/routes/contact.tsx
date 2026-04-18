@@ -10,7 +10,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
-import { Seo } from '@/components/features/global/seo.component'
+import { seo } from '@/utils/seo.utils'
+
 import { LandingPageLayout } from '@/components/features/landing/landing-page-layout.component'
 
 interface ContactMethod {
@@ -253,12 +254,6 @@ function ContactForm() {
 const ContactPage = () => {
   return (
     <LandingPageLayout>
-      <Seo
-        title="Contact"
-        description="Get in touch with the Ofluence team. Reach out for general inquiries, sales demos, or customer support."
-        path="/contact"
-      />
-
       {/* Hero */}
       <section className="pt-12 pb-20 md:pt-20 md:pb-28">
         <div className="mx-auto max-w-5xl px-6 md:px-8">
@@ -364,5 +359,17 @@ const ContactPage = () => {
 }
 
 export const Route = createFileRoute('/contact')({
+  head: () => ({
+    meta: [
+      { title: 'Contact — Ofluence' },
+      ...seo({
+        title: 'Contact — Ofluence',
+        description:
+          'Get in touch with the Ofluence team. Reach out for general inquiries, sales demos, or customer support.',
+        path: '/contact',
+      }),
+    ],
+    links: [{ rel: 'canonical', href: 'https://ofluence.ai/contact' }],
+  }),
   component: ContactPage,
 })

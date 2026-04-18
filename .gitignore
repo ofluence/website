@@ -17,6 +17,10 @@ lerna-debug.log*
 build
 dist
 dist-ssr
+out
+.output
+.next
+.nuxt
 
 # local files (.env)
 .env

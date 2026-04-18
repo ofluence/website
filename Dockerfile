@@ -24,7 +24,7 @@ FROM nginx:1.29-alpine AS runtime
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy compiled assets
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/.output/public /usr/share/nginx/html
 
 EXPOSE 80
 

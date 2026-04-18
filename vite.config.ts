@@ -2,18 +2,15 @@ import path from 'node:path'
 
 import babel from '@rolldown/plugin-babel'
 import viteTailwindcss from '@tailwindcss/vite'
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react'
 import { defineConfig, loadEnv, type ConfigEnv } from 'vite'
 import viteSvgr from 'vite-plugin-svgr'
+import { nitro } from 'nitro/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv) => {
-  // Load env file based on `mode` in the current working directory.
-  // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
-
   const environmentDirectoryPath = path.resolve(process.cwd(), './')
-  // Load env strictly for the provided mode (e.g., 'development', 'skaffold', 'production')
   const environmentVariables = loadEnv(mode, environmentDirectoryPath, '')
   process.env = { ...process.env, ...environmentVariables }
   const isDevelopmentBuild =
@@ -22,10 +19,38 @@ export default defineConfig(({ mode }: ConfigEnv) => {
   return {
     envDir: './',
     plugins: [
-      tanstackRouter({
-        target: 'react',
-        autoCodeSplitting: true,
-        routesDirectory: './src/pages',
+      viteTailwindcss(),
+      viteSvgr({
+        svgrOptions: {
+          exportType: 'named',
+          ref: true,
+          svgo: true,
+          titleProp: true,
+        },
+        include: '**/*.svg',
+      }),
+      tanstackStart({
+        prerender: {
+          enabled: true,
+          crawlLinks: true,
+          autoSubfolderIndex: true,
+          // Pick up every static route in the route tree (including the
+          // redirect-only routes below that nothing links to).
+          autoStaticPathsDiscovery: true,
+        },
+        // Redirect-only routes (each `throw redirect(...)` in beforeLoad). The
+        // link crawler can't find them because they aren't linked from the
+        // visible nav/footer, so list them explicitly. The prerender will then
+        // emit redirect HTML instead of nginx falling back to the home page.
+        pages: [
+          { path: '/about', prerender: { enabled: true } },
+          { path: '/integrations', prerender: { enabled: true } },
+          { path: '/use-cases', prerender: { enabled: true } },
+        ],
+        sitemap: {
+          enabled: true,
+          host: 'https://ofluence.ai',
+        },
       }),
       viteReact(),
       babel({
@@ -34,17 +59,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
           reactCompilerPreset(),
         ],
       }),
-      viteSvgr({
-        svgrOptions: {
-          // SVGR options here
-          exportType: 'named', // This ensures ReactComponent export
-          ref: true,
-          svgo: true,
-          titleProp: true,
-        },
-        include: '**/*.svg',
-      }),
-      viteTailwindcss(),
+      nitro(),
     ],
     server: {
       port: Number.parseInt(process.env.VITE_PORT || '5173'),
@@ -57,21 +72,15 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     base: process.env.VITE_ASSET_BASE_URL || '/',
     define: {
-      // Make React and libraries see a development build when VITE_ENV=development
       'process.env.NODE_ENV': JSON.stringify(isDevelopmentBuild ? 'development' : 'production'),
-      // Also surface a consistent mode to client code if needed
-      // 'import.meta.env.MODE': JSON.stringify(isDevBuild ? 'development' : mode),
     },
     build: {
-      outDir: `./dist`,
+      assetsDir: 'pulse',
       sourcemap: isDevelopmentBuild,
       minify: isDevelopmentBuild ? false : ('esbuild' as const),
-      // assetDir is to serve the assets from the dashboard as prefix
-      assetsDir: 'pulse',
       rollupOptions: {
         external: ['sharp'],
       },
-      // Chunk size warning limit to 1000kb for main chunks
       chunkSizeWarningLimit: 1000,
     },
     resolve: {

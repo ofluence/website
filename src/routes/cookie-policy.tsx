@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Seo } from '@/components/features/global/seo.component'
+import { seo } from '@/utils/seo.utils'
+
 import {
   LegalPageLayout,
   type TocSection,
@@ -19,11 +20,6 @@ const SECTIONS: TocSection[] = [
 const CookiePolicyPage = () => {
   return (
     <>
-      <Seo
-        title="Cookie Policy"
-        description="Ofluence Cookie Policy — what cookies we use, why, and how to manage your preferences."
-        path="/cookie-policy"
-      />
       <LegalPageLayout
         title="Cookie Policy"
         lastUpdated="March 20, 2026"
@@ -131,5 +127,16 @@ const CookiePolicyPage = () => {
 }
 
 export const Route = createFileRoute('/cookie-policy')({
+  head: () => ({
+    meta: [
+      { title: 'Cookie Policy — Ofluence' },
+      ...seo({
+        title: 'Cookie Policy — Ofluence',
+        description: 'Ofluence Cookie Policy — what cookies we use, why, and how to manage your preferences.',
+        path: '/cookie-policy',
+      }),
+    ],
+    links: [{ rel: 'canonical', href: 'https://ofluence.ai/cookie-policy' }],
+  }),
   component: CookiePolicyPage,
 })

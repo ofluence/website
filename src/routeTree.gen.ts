@@ -8,19 +8,22 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './pages/__root'
-import { Route as UseCasesRouteImport } from './pages/use-cases'
-import { Route as TermsOfServiceRouteImport } from './pages/terms-of-service'
-import { Route as SolutionsRouteImport } from './pages/solutions'
-import { Route as PrivacyPolicyRouteImport } from './pages/privacy-policy'
-import { Route as PricingRouteImport } from './pages/pricing'
-import { Route as IntegrationsRouteImport } from './pages/integrations'
-import { Route as GdprRouteImport } from './pages/gdpr'
-import { Route as CookiePolicyRouteImport } from './pages/cookie-policy'
-import { Route as ContactRouteImport } from './pages/contact'
-import { Route as AboutRouteImport } from './pages/about'
-import { Route as SplatRouteImport } from './pages/$'
-import { Route as IndexRouteImport } from './pages/index'
+import type { createStart } from '@tanstack/react-start'
+
+import type { getRouter } from './router.tsx'
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as SplatRouteImport } from './routes/$'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
+import { Route as GdprRouteImport } from './routes/gdpr'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as IntegrationsRouteImport } from './routes/integrations'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as SolutionsRouteImport } from './routes/solutions'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as UseCasesRouteImport } from './routes/use-cases'
 
 const UseCasesRoute = UseCasesRouteImport.update({
   id: '/use-cases',
@@ -292,3 +295,10 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
