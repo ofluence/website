@@ -5,7 +5,7 @@ import { LANDING_STATS } from '@/constants/landing.constants'
 
 function LandingSocialProof() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="cv-auto py-20 md:py-28">
       <FadeInView className="mx-auto max-w-5xl px-6 md:px-8">
         <div className="grid grid-cols-1 items-center sm:grid-cols-3">
           {LANDING_STATS.map((stat, index) => (

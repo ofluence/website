@@ -20,6 +20,7 @@ import { FadeInView } from '@/components/ui/animated-container'
 import { Badge } from '@/components/ui/badge'
 import { BentoGrid } from '@/components/ui/bento-grid'
 import { MagicCard } from '@/components/ui/magic-card'
+import { Picture } from '@/components/ui/picture'
 
 import { LANDING_FEATURES } from '@/constants/landing.constants'
 import type {
@@ -57,11 +58,12 @@ function CreatorCard({ creator, aspectRatio }: { creator: LocaleCreator; aspectR
     <div className="group/creator relative mb-2.5 cursor-default break-inside-avoid overflow-hidden rounded-xl">
       <div className={cn('relative w-full', aspectRatio)}>
         {creator.thumbnail ? (
-          <img
+          <Picture
             src={creator.thumbnail}
             alt={`${creator.name} content`}
+            width={400}
+            height={600}
             className="size-full object-cover transition-transform duration-300 group-hover/creator:scale-105"
-            loading="lazy"
           />
         ) : (
           <div className={cn('size-full bg-linear-to-br', creator.gradient)} />
@@ -341,9 +343,11 @@ function PaymentsMockup({
           className="bg-card flex justify-between gap-3 rounded-lg px-3 py-3 sm:px-4"
         >
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <img
+            <Picture
               src={payment.avatar}
               alt={payment.name}
+              width={32}
+              height={32}
               className="size-7 shrink-0 rounded-full object-cover sm:size-8"
             />
             <div className="min-w-0">

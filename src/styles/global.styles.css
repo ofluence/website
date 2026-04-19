@@ -8,6 +8,33 @@
 @import '@fontsource/geist-sans/500.css';
 @import '@fontsource/geist-sans/600.css';
 
+/*
+ * Metric-adjusted fallback faces. When Geist / Sora are still fetching,
+ * text renders in Arial / Arial Black with overrides that match the real
+ * font's box, so swap-in causes no layout shift (CLS).
+ *
+ * Values are approximate (computed against Arial metrics). Refine via
+ * https://fontsource.org/docs/getting-started/fallback if tightening CLS
+ * further is needed.
+ */
+@font-face {
+  font-family: 'Geist Sans Fallback';
+  src: local('Arial');
+  size-adjust: 100%;
+  ascent-override: 95%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Sora Fallback';
+  src: local('Arial Black'), local('Arial Bold'), local('Arial');
+  size-adjust: 113%;
+  ascent-override: 86%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -117,8 +144,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Geist Sans', system-ui, sans-serif;
-  --font-display: 'Sora', system-ui, sans-serif;
+  --font-sans: 'Geist Sans', 'Geist Sans Fallback', system-ui, sans-serif;
+  --font-display: 'Sora', 'Sora Fallback', system-ui, sans-serif;
 
   /* Shadows — soft and warm */
   --shadow-soft-sm: 0 1px 4px rgba(0, 0, 0, 0.03);
@@ -280,6 +307,14 @@
     border: 1px solid var(--border);
   }
 
+  /* Skip rendering below-fold sections until they scroll near the viewport.
+   * `contain-intrinsic-size` reserves an approximate height so the scrollbar
+   * and below sections don't jump when the section is materialized. */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+
   /* Hide scrollbar while keeping scroll functionality */
   .scrollbar-none {
     -ms-overflow-style: none;
@@ -298,5 +333,12 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* Disable View Transition cross-fades for users who ask for reduced motion. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

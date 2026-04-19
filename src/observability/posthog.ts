@@ -1,9 +1,9 @@
 // src/observability/posthog.ts
 //
-// PostHog analytics setup for the React frontend.
-// This module initializes posthog-js with autocapture, session recording,
-// and optional reverse proxy support for ad-blocker evasion.
-// Import this BEFORE the main application to enable analytics from first render.
+// PostHog analytics setup. Deferred to idle time so analytics never blocks
+// first paint / first interaction. Session replay is gated behind an explicit
+// call (see SESSION_RECORDING_DELAY_MS) — replay is the single biggest INP
+// contributor in the posthog-js bundle.
 
 import posthog from 'posthog-js'
 
@@ -14,10 +14,10 @@ import { POSTHOG_CONFIG } from '@/constants/posthog.constants'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 const API_PREFIX = import.meta.env.VITE_API_PREFIX as string
 
-/**
- * Masks sensitive input fields in session recordings.
- * Passwords and secret fields are replaced; all other inputs pass through.
- */
+// Delay before starting session recording after init. Keeps the replay
+// bundle off the critical path on short/bounced visits.
+const SESSION_RECORDING_DELAY_MS = 10_000
+
 function maskSensitiveInputs(text: string, element?: HTMLElement): string {
   if (!element) return text
 
@@ -25,7 +25,6 @@ function maskSensitiveInputs(text: string, element?: HTMLElement): string {
   const inputType = inputElement.type?.toLowerCase()
   const inputName = (inputElement.name || inputElement.id || '').toLowerCase()
 
-  // Mask password, secret, and token fields
   if (
     inputType === 'password' ||
     inputName.includes('password') ||
@@ -38,47 +37,64 @@ function maskSensitiveInputs(text: string, element?: HTMLElement): string {
   return text
 }
 
-// Initialize PostHog when enabled (guard against SSR/SSG environment)
-if (typeof window !== 'undefined' && POSTHOG_CONFIG.ENABLED) {
-  // Determine the API host: route through backend proxy or direct to PostHog cloud
+let initialized = false
+
+function runInit() {
+  if (initialized) return
+  initialized = true
+
   const apiHost = POSTHOG_CONFIG.REVERSE_PROXY
     ? `${API_BASE_URL}${API_PREFIX}/collect`
     : POSTHOG_CONFIG.HOST
 
   posthog.init(POSTHOG_CONFIG.API_KEY, {
     api_host: apiHost,
-    // Always point UI host to PostHog cloud so links (e.g. toolbar, surveys) work correctly
     ui_host: POSTHOG_CONFIG.HOST,
 
-    // Autocapture clicks, form submissions, and other interactions
-    autocapture: true,
+    // Autocapture is expensive on INP and low-signal on a marketing site.
+    // We emit pageviews manually from the router effect.
+    autocapture: false,
 
-    // Disable automatic pageview capture — we track manually on SPA route changes
-    // to get accurate page titles and URLs from TanStack Router
     capture_pageview: false,
     capture_pageleave: 'if_capture_pageview',
 
-    // Persistence strategy
     persistence: 'localStorage+cookie',
 
-    // Session recording configuration
+    // Start with replay off; opt-in after SESSION_RECORDING_DELAY_MS so short
+    // visits don't pay the replay cost.
+    disable_session_recording: true,
     session_recording: {
       maskAllInputs: false,
       maskInputFn: maskSensitiveInputs,
     },
 
-    // Post-init callback
     loaded: (ph) => {
-      if (POSTHOG_CONFIG.DEBUG) {
-        ph.debug(true)
-      }
+      if (POSTHOG_CONFIG.DEBUG) ph.debug(true)
       logger.info('[PostHog] SDK loaded', { host: apiHost })
+      setTimeout(() => ph.startSessionRecording(), SESSION_RECORDING_DELAY_MS)
     },
   })
 
   logger.info(
     `[PostHog] Initialized (debug=${POSTHOG_CONFIG.DEBUG}, proxy=${POSTHOG_CONFIG.REVERSE_PROXY})`
   )
-} else {
-  logger.info('[PostHog] Disabled — no API key configured')
+}
+
+/**
+ * Defer PostHog initialization until the browser is idle. Call once from a
+ * client-only effect in the root component. SSR-safe: no-op on the server.
+ */
+export function initPostHogDeferred() {
+  if (typeof window === 'undefined' || !POSTHOG_CONFIG.ENABLED) {
+    if (!POSTHOG_CONFIG.ENABLED && typeof window !== 'undefined') {
+      logger.info('[PostHog] Disabled — no API key configured')
+    }
+    return
+  }
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(runInit, { timeout: 3000 })
+  } else {
+    setTimeout(runInit, 1)
+  }
 }

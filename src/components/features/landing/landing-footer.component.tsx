@@ -87,7 +87,15 @@ function LandingFooter() {
           <div className="grid gap-8 sm:gap-12 lg:grid-cols-[1.5fr_1fr]">
             <div>
               <div className="flex items-center gap-3">
-                <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-10" />
+                <img
+                  src="/logos/logo-192x192.png"
+                  alt="Ofluence"
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                  decoding="async"
+                  className="size-10"
+                />
                 <span className="font-display text-4xl font-bold md:text-5xl">Ofluence</span>
               </div>
               <p className="text-muted-foreground mt-4 max-w-sm text-sm leading-relaxed">

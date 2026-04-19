@@ -16,10 +16,18 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 
 import { seo } from '@/utils/seo.utils'
 
-// Initialize PostHog (guarded against SSR via typeof window check in the module)
-import '@/observability/posthog'
+import { initPostHogDeferred } from '@/observability/posthog'
+import { reportWebVitals } from '@/observability/web-vitals'
+
+import { POSTHOG_CONFIG } from '@/constants/posthog.constants'
 
 import appCss from '@/styles/global.styles.css?url'
+
+// Preload the critical above-the-fold font files. Both are imported via ?url
+// so Vite resolves them to hashed asset paths that match what the @fontsource
+// CSS imports produce.
+import geistSans400Url from '@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2?url'
+import sora800Url from '@fontsource/sora/files/sora-latin-800-normal.woff2?url'
 
 const SITE_URL = 'https://ofluence.ai'
 
@@ -35,6 +43,20 @@ try {
   document.documentElement.classList.toggle('dark', dark);
 } catch (e) {}
 `
+
+// Prerender likely-next pages when the user hovers/focuses/pointerdowns a
+// link (Chrome's `moderate` heuristic). Complements TanStack Router's
+// `intent` preload (which only warms JS/data chunks) by prerendering the
+// full document — next-nav LCP drops close to zero. Browsers that don't
+// understand `type="speculationrules"` simply ignore this script.
+const speculationRules = JSON.stringify({
+  prerender: [
+    {
+      where: { href_matches: '/*' },
+      eagerness: 'moderate',
+    },
+  ],
+})
 
 const organizationSchema = {
   '@context': 'https://schema.org',
@@ -60,6 +82,11 @@ function AppShell({ children }: { children: ReactNode }) {
 
   const ph = usePostHog()
   const location = useLocation()
+
+  useEffect(() => {
+    initPostHogDeferred()
+    reportWebVitals()
+  }, [])
 
   useEffect(() => {
     if (ph) {
@@ -115,6 +142,27 @@ export const Route = createRootRoute({
       }),
     ],
     links: [
+      {
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
+        href: geistSans400Url,
+        crossOrigin: 'anonymous',
+      },
+      {
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
+        href: sora800Url,
+        crossOrigin: 'anonymous',
+      },
+      // Warm the DNS + TLS handshake to the PostHog host in parallel with
+      // the rest of the critical path. PostHog itself is deferred to idle
+      // (see initPostHogDeferred), so the request fires later — but by then
+      // the connection is already established.
+      ...(POSTHOG_CONFIG.ENABLED && !POSTHOG_CONFIG.REVERSE_PROXY
+        ? [{ rel: 'preconnect', href: POSTHOG_CONFIG.HOST, crossOrigin: 'anonymous' }]
+        : []),
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' },
       { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' },
@@ -124,6 +172,10 @@ export const Route = createRootRoute({
       {
         type: 'application/ld+json',
         children: JSON.stringify(organizationSchema),
+      },
+      {
+        type: 'speculationrules',
+        children: speculationRules,
       },
     ],
   }),

@@ -46,6 +46,9 @@ export default defineConfig(({ mode }: ConfigEnv) => {
           { path: '/about', prerender: { enabled: true } },
           { path: '/integrations', prerender: { enabled: true } },
           { path: '/use-cases', prerender: { enabled: true } },
+          // Emits /404/index.html so nginx `error_page 404 /404/index.html;`
+          // has a prerendered body to serve for unknown URLs.
+          { path: '/404', prerender: { enabled: true } },
         ],
         sitemap: {
           enabled: true,

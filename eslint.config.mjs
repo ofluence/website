@@ -66,6 +66,7 @@ export default defineConfig([
             prop: false, // React convention (single prop)
             ref: false, // React convention (useRef, forwardRef)
             args: false, // Common function arguments spread
+            src: false, // HTML attribute convention (img src, etc.)
           },
         },
       ],

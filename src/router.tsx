@@ -11,6 +11,7 @@ export function getRouter() {
     routeTree,
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
+    defaultViewTransition: true,
     defaultPendingComponent: DefaultPending,
     defaultErrorComponent: DefaultCatchBoundary,
     defaultNotFoundComponent: NotFound,

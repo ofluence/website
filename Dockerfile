@@ -18,9 +18,10 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm build --mode=${VITE_MODE}
 
-FROM nginx:1.29-alpine AS runtime
+# Use fholzer/nginx-brotli — community image with the ngx_brotli module
+# compiled in, required for `brotli_static on` in nginx.conf.
+FROM fholzer/nginx-brotli:latest AS runtime
 
-# Copy SPA-focused nginx config
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy compiled assets

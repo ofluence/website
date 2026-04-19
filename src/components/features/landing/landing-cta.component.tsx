@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 
 function LandingCta() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="cv-auto py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <div className="bg-card border-border rounded-xl border">
           <FadeInView className="mx-auto max-w-3xl px-6 py-20 text-center md:px-8 md:py-28">

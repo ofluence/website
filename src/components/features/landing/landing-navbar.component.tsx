@@ -143,7 +143,14 @@ function LandingNavbar() {
             className="flex items-center gap-2"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-7" />
+            <img
+              src="/logos/logo-192x192.png"
+              alt="Ofluence"
+              width={28}
+              height={28}
+              decoding="async"
+              className="size-7"
+            />
             <span className="font-display text-xl font-bold">Ofluence</span>
           </Link>
 
@@ -178,7 +185,14 @@ function LandingNavbar() {
               <SheetContent side="right" className="w-full sm:max-w-full">
                 <SheetHeader>
                   <SheetTitle className="flex items-center gap-2">
-                    <img src="/logos/logo-192x192.png" alt="Ofluence" className="size-7" />
+                    <img
+                      src="/logos/logo-192x192.png"
+                      alt="Ofluence"
+                      width={28}
+                      height={28}
+                      decoding="async"
+                      className="size-7"
+                    />
                     <span className="font-display text-xl font-bold">Ofluence</span>
                   </SheetTitle>
                 </SheetHeader>
