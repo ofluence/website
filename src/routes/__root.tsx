@@ -23,12 +23,6 @@ import { POSTHOG_CONFIG } from '@/constants/posthog.constants'
 
 import appCss from '@/styles/global.styles.css?url'
 
-// Preload the critical above-the-fold font files. Both are imported via ?url
-// so Vite resolves them to hashed asset paths that match what the @fontsource
-// CSS imports produce.
-import geistSans400Url from '@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2?url'
-import sora800Url from '@fontsource/sora/files/sora-latin-800-normal.woff2?url'
-
 const SITE_URL = 'https://ofluence.ai'
 
 // Inline script that applies the persisted theme class to <html> before React
@@ -139,20 +133,11 @@ export const Route = createRootRoute({
       }),
     ],
     links: [
-      {
-        rel: 'preload',
-        as: 'font',
-        type: 'font/woff2',
-        href: geistSans400Url,
-        crossOrigin: 'anonymous',
-      },
-      {
-        rel: 'preload',
-        as: 'font',
-        type: 'font/woff2',
-        href: sora800Url,
-        crossOrigin: 'anonymous',
-      },
+      // Fonts are not preloaded: metric-adjusted Arial/Arial-Black fallbacks
+      // in global.styles.css paint text instantly with correct widths on
+      // FCP, so the real woff2 files can swap in lazily via the @fontsource
+      // CSS rules (font-display: swap) without delaying paint.
+      //
       // Warm the DNS + TLS handshake to the PostHog host in parallel with
       // the rest of the critical path. PostHog itself is deferred to idle
       // (see initPostHogDeferred), so the request fires later — but by then

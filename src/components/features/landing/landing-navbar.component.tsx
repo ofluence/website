@@ -180,8 +180,10 @@ function LandingNavbar() {
           {/* Mobile — fullscreen overlay menu */}
           <div className="md:hidden">
             <Sheet>
-              <SheetTrigger render={<Button variant="ghost" size="icon" />}>
-                <HugeiconsIcon icon={Menu01Icon} size={20} />
+              <SheetTrigger
+                render={<Button variant="ghost" size="icon" aria-label="Open navigation menu" />}
+              >
+                <HugeiconsIcon icon={Menu01Icon} size={20} aria-hidden="true" />
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:max-w-full">
                 <SheetHeader>

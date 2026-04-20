@@ -158,7 +158,7 @@ function LandingFooter() {
             compliance.map((badge) => (
               <span
                 key={badge}
-                className="text-muted-foreground/60 inline-flex items-center gap-1 text-[10px] font-medium tracking-widest uppercase"
+                className="text-muted-foreground inline-flex items-center gap-1 text-[10px] font-medium tracking-widest uppercase"
               >
                 <HugeiconsIcon icon={SecurityCheckIcon} size={10} />
                 {badge}
@@ -168,7 +168,7 @@ function LandingFooter() {
 
         {/* Bottom bar */}
         <div className="border-border mt-8 flex flex-wrap items-center justify-between gap-4 border-t pt-8">
-          <p className="text-muted-foreground/50 text-xs tracking-wider">
+          <p className="text-muted-foreground text-xs tracking-wider">
             &copy; {new Date().getFullYear()} Ofluence
           </p>
           <div className="flex items-center gap-3">

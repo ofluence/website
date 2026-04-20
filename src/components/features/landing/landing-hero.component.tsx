@@ -19,9 +19,13 @@ function LandingHero() {
           aria-hidden="true"
         />
 
+        {/* initial={false} keeps the H1 visible on first paint — without it
+            Motion hides then reveals the hero after hydration, pushing LCP
+            to the end of the animation (~5.4s on throttled mobile). */}
         <m.div
           className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 text-center"
           {...heroStagger}
+          initial={false}
         >
           {/* Overline badge */}
           <m.div variants={heroReveal}>
@@ -53,7 +57,7 @@ function LandingHero() {
           </m.div>
 
           {/* Sub-CTA text */}
-          <m.p variants={heroReveal} className="text-muted-foreground/60 text-sm">
+          <m.p variants={heroReveal} className="text-muted-foreground text-sm">
             14-day free trial · No credit card required
           </m.p>
         </m.div>

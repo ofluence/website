@@ -79,7 +79,10 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     build: {
       assetsDir: 'pulse',
-      sourcemap: isDevelopmentBuild,
+      // 'hidden' in prod: emit .map files (so Lighthouse's source-map audit
+      // passes and error reports can be symbolicated) without appending a
+      // sourceMappingURL comment to the shipped JS.
+      sourcemap: isDevelopmentBuild ? true : 'hidden',
       minify: isDevelopmentBuild ? false : ('esbuild' as const),
       rollupOptions: {
         external: ['sharp'],

@@ -13,32 +13,70 @@ type PictureProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt' | 'l
    */
   priority?: boolean
   /**
-   * Render a `<picture>` with AVIF + WebP sources for URLs whose query
-   * params the format-negotiator helper understands (Unsplash, at present).
-   * Plain `<img>` otherwise.
+   * Standard `sizes` attribute for responsive selection. Required for
+   * `srcset` to do anything useful — without it, browsers assume 100vw.
    */
   sizes?: string
 }
 
 const UNSPLASH_HOST = 'images.unsplash.com'
 
-function withUnsplashFormat(src: string, format: 'avif' | 'webp'): string | null {
+// Widths used to generate srcset candidates for Unsplash URLs. Covers avatar
+// (~64px @ 2DPR) through hero (~800px @ 2DPR on large viewports).
+const SRCSET_WIDTHS = [64, 128, 200, 300, 400, 600, 800] as const
+
+function isUnsplash(src: string): URL | null {
   try {
     const url = new URL(src)
-    if (url.host !== UNSPLASH_HOST) return null
-    url.searchParams.set('fm', format)
-    return url.toString()
+    return url.host === UNSPLASH_HOST ? url : null
   } catch {
     return null
   }
 }
 
 /**
- * `<picture>` wrapper that negotiates AVIF/WebP for supported hosts
- * (Unsplash today) and always emits width/height to reserve layout.
+ * Builds a `srcset` string of multiple widths for an Unsplash URL, crop-locked
+ * to the caller-provided aspect ratio. Any pre-existing `w`/`h`/`fit` params
+ * are replaced.
+ */
+function buildUnsplashSrcSet(
+  base: URL,
+  aspectWidth: number,
+  aspectHeight: number,
+  format?: 'avif' | 'webp'
+): string {
+  return SRCSET_WIDTHS.map((w) => {
+    const url = new URL(base.toString())
+    const h = Math.round((w * aspectHeight) / aspectWidth)
+    url.searchParams.set('w', String(w))
+    url.searchParams.set('h', String(h))
+    url.searchParams.set('fit', 'crop')
+    if (format) url.searchParams.set('fm', format)
+    return `${url.toString()} ${w}w`
+  }).join(', ')
+}
+
+function buildUnsplashSrc(
+  base: URL,
+  aspectWidth: number,
+  aspectHeight: number,
+  format?: 'avif' | 'webp'
+): string {
+  const url = new URL(base.toString())
+  url.searchParams.set('w', String(aspectWidth))
+  url.searchParams.set('h', String(aspectHeight))
+  url.searchParams.set('fit', 'crop')
+  if (format) url.searchParams.set('fm', format)
+  return url.toString()
+}
+
+/**
+ * `<picture>` wrapper that negotiates AVIF/WebP for supported hosts (Unsplash
+ * today) and emits a multi-width `srcset` so the browser fetches a size that
+ * matches rendered pixels. Always emits width/height to reserve layout.
  *
  * Usage:
- *   <Picture src={url} alt="..." width={400} height={600} />
+ *   <Picture src={url} alt="..." width={400} height={600} sizes="(min-width: 768px) 33vw, 100vw" />
  *   <Picture src={hero} alt="..." width={1200} height={800} priority />
  */
 export function Picture({
@@ -51,8 +89,7 @@ export function Picture({
   sizes,
   ...rest
 }: PictureProps) {
-  const avifUrl = withUnsplashFormat(src, 'avif')
-  const webpUrl = withUnsplashFormat(src, 'webp')
+  const unsplash = isUnsplash(src)
 
   const common = {
     alt,
@@ -66,18 +103,23 @@ export function Picture({
     ...rest,
   }
 
-  if (!avifUrl && !webpUrl) {
+  if (!unsplash) {
     return <img src={src} alt={alt} {...common} />
   }
+
+  const avifSrcSet = buildUnsplashSrcSet(unsplash, width, height, 'avif')
+  const webpSrcSet = buildUnsplashSrcSet(unsplash, width, height, 'webp')
+  const fallbackSrc = buildUnsplashSrc(unsplash, width, height)
+  const fallbackSrcSet = buildUnsplashSrcSet(unsplash, width, height)
 
   return (
     // `display: contents` makes <picture> layout-transparent so `className`
     // styles on the <img> (e.g. `size-full`, `object-cover`) behave exactly
     // as they would on a bare <img>.
     <picture style={{ display: 'contents' }}>
-      {avifUrl && <source type="image/avif" srcSet={avifUrl} />}
-      {webpUrl && <source type="image/webp" srcSet={webpUrl} />}
-      <img src={src} alt={alt} {...common} />
+      <source type="image/avif" srcSet={avifSrcSet} sizes={sizes} />
+      <source type="image/webp" srcSet={webpSrcSet} sizes={sizes} />
+      <img src={fallbackSrc} srcSet={fallbackSrcSet} alt={alt} {...common} />
     </picture>
   )
 }

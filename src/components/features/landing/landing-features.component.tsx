@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { InstagramIcon, Search01Icon, TiktokIcon, YoutubeIcon } from '@hugeicons/core-free-icons'
 import type { IconSvgElement } from '@hugeicons/react'
@@ -53,7 +53,15 @@ const MASONRY_RATIOS = [
   'aspect-[4/5]',
 ] as const
 
-function CreatorCard({ creator, aspectRatio }: { creator: LocaleCreator; aspectRatio: string }) {
+function CreatorCard({
+  creator,
+  aspectRatio,
+  priority = false,
+}: {
+  creator: LocaleCreator
+  aspectRatio: string
+  priority?: boolean
+}) {
   return (
     <div className="group/creator relative mb-2.5 cursor-default break-inside-avoid overflow-hidden rounded-xl">
       <div className={cn('relative w-full', aspectRatio)}>
@@ -63,6 +71,8 @@ function CreatorCard({ creator, aspectRatio }: { creator: LocaleCreator; aspectR
             alt={`${creator.name} content`}
             width={400}
             height={600}
+            sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+            priority={priority}
             className="size-full object-cover transition-transform duration-300 group-hover/creator:scale-105"
           />
         ) : (
@@ -104,8 +114,16 @@ function CreatorCard({ creator, aspectRatio }: { creator: LocaleCreator; aspectR
 
 function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
   const [searchQuery, setSearchQuery] = useState('')
-  const [shuffledCreators] = useState(() => shuffle(creators))
-  const [shuffledRatios] = useState(() => shuffle([...MASONRY_RATIOS]))
+  const [shuffledCreators, setShuffledCreators] = useState<LocaleCreator[]>(creators)
+  const [shuffledRatios, setShuffledRatios] = useState<string[]>([...MASONRY_RATIOS])
+
+  // Shuffle after mount to keep SSR and first client render byte-identical —
+  // randomization in useState initializers causes hydration mismatches.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- defers randomization until after hydration
+    setShuffledCreators(shuffle(creators))
+    setShuffledRatios(shuffle([...MASONRY_RATIOS]))
+  }, [creators])
 
   const filtered = shuffledCreators.filter((creator) => {
     if (!searchQuery) return true
@@ -121,12 +139,17 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
     <div className="flex flex-col gap-5">
       {/* Search bar */}
       <div className="bg-card focus-within:ring-primary/40 ring-primary/30 flex items-center gap-3 rounded-xl px-4 py-3 ring-1 transition-shadow focus-within:ring-2">
-        <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground size-5 shrink-0" />
+        <HugeiconsIcon
+          icon={Search01Icon}
+          className="text-muted-foreground size-5 shrink-0"
+          aria-hidden="true"
+        />
         <input
           type="text"
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
           placeholder="Search by niche, location..."
+          aria-label="Search creators by niche or location"
           className="text-foreground placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent text-sm outline-none"
         />
         {searchQuery && (
@@ -147,6 +170,7 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
               key={creator.handle}
               creator={creator}
               aspectRatio={shuffledRatios[index % shuffledRatios.length]}
+              priority={index === 0}
             />
           ))}
         </div>
@@ -160,7 +184,11 @@ function DiscoverMockup({ creators }: { creators: LocaleCreator[] }) {
 /* ─── Campaign Mockup ─── */
 
 function CampaignMockup({ campaigns }: { campaigns: LocaleCampaign[] }) {
-  const [shuffledCampaigns] = useState(() => shuffle(campaigns))
+  const [shuffledCampaigns, setShuffledCampaigns] = useState<LocaleCampaign[]>(campaigns)
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- defers randomization until after hydration
+    setShuffledCampaigns(shuffle(campaigns))
+  }, [campaigns])
   const stages = [
     { label: 'Brief', status: 'done' },
     { label: 'Active', status: 'active' },
@@ -241,7 +269,13 @@ function generateRandomBars(): BarData[] {
   })
 }
 
-function generateRandomMetrics() {
+interface Metric {
+  label: string
+  value: string
+  change: string
+}
+
+function generateRandomMetrics(): Metric[] {
   const reach = randomInt(800_000, 2_500_000)
   const engagement = randomFloat(3.2, 6.8, 1)
   const roi = randomFloat(2.1, 5.5, 1)
@@ -252,10 +286,35 @@ function generateRandomMetrics() {
   ]
 }
 
+// Stable defaults so SSR and initial client render match — randomization in
+// useState initializers produces different values on server vs client and
+// triggers a full hydration re-render (React #418). Randomized after mount.
+const DEFAULT_BARS: BarData[] = [
+  { height: 45, value: '12.4K' },
+  { height: 68, value: '18.2K' },
+  { height: 38, value: '9.8K' },
+  { height: 82, value: '24.6K' },
+  { height: 55, value: '15.1K' },
+  { height: 72, value: '21.3K' },
+  { height: 60, value: '17.5K' },
+]
+
+const DEFAULT_METRICS: Metric[] = [
+  { label: 'Reach', value: '1.6M', change: '+18%' },
+  { label: 'Engagement', value: '4.8%', change: '+0.4%' },
+  { label: 'ROI', value: '3.2x', change: '+12%' },
+]
+
 function AnalyticsMockup() {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null)
-  const [bars] = useState(generateRandomBars)
-  const [metrics] = useState(generateRandomMetrics)
+  const [bars, setBars] = useState<BarData[]>(DEFAULT_BARS)
+  const [metrics, setMetrics] = useState<Metric[]>(DEFAULT_METRICS)
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- defers randomization until after hydration
+    setBars(generateRandomBars())
+    setMetrics(generateRandomMetrics())
+  }, [])
   return (
     <div className="flex flex-col gap-3">
       <div className="grid grid-cols-3 gap-3">
@@ -269,10 +328,17 @@ function AnalyticsMockup() {
       </div>
       <div className="bg-card rounded-lg p-3">
         <p className="text-muted-foreground mb-2 text-[10px] font-medium">Weekly Performance</p>
-        <div className="flex items-end gap-1.5" style={{ height: 'clamp(40px, 12vw, 60px)' }}>
+        <div
+          role="group"
+          aria-label="Weekly performance chart"
+          className="flex items-end gap-1.5"
+          style={{ height: 'clamp(40px, 12vw, 60px)' }}
+        >
           {bars.map((bar, index_) => (
             <div
               key={index_}
+              role="img"
+              aria-label={`Week ${index_ + 1}: ${bar.value}`}
               className="relative flex-1"
               style={{ height: '100%' }}
               onMouseEnter={() => setHoveredBar(index_)}
@@ -317,11 +383,17 @@ function PaymentsMockup({
   currencySymbol: string
   regionCode: string
 }) {
-  const [visiblePayments] = useState(() => {
+  // Server-render the first N deterministically; shuffle + vary count on the
+  // client post-hydration to avoid an SSR/client divergence.
+  const [visiblePayments, setVisiblePayments] = useState<LocalePayment[]>(() =>
+    payments.slice(0, Math.min(4, payments.length))
+  )
+  useEffect(() => {
     const shuffled = shuffle(payments)
     const count = randomInt(3, Math.min(4, shuffled.length))
-    return shuffled.slice(0, count)
-  })
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- defers randomization until after hydration
+    setVisiblePayments(shuffled.slice(0, count))
+  }, [payments])
 
   const total = visiblePayments.reduce((sum, payment) => sum + payment.amountValue, 0)
   const formattedTotal = formatCurrency(total, currencySymbol, regionCode)
@@ -348,6 +420,7 @@ function PaymentsMockup({
               alt={payment.name}
               width={32}
               height={32}
+              sizes="32px"
               className="size-7 shrink-0 rounded-full object-cover sm:size-8"
             />
             <div className="min-w-0">
@@ -365,7 +438,8 @@ function PaymentsMockup({
                     <HugeiconsIcon
                       key={platform}
                       icon={icon}
-                      className="text-muted-foreground/60 size-3.5"
+                      aria-label={platform}
+                      className="text-muted-foreground size-3.5"
                     />
                   )
                 })}
