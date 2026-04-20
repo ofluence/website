@@ -1,14 +1,35 @@
 #!/usr/bin/env node
-// Emit .br and .gz siblings for every compressible file under .output/public/.
-// nginx's `brotli_static on; gzip_static on;` will then serve the precompressed
-// variant, avoiding runtime compression CPU.
+// Emit .br and .gz siblings for every compressible file in the Nitro static
+// output. nginx's `brotli_static on; gzip_static on;` will then serve the
+// precompressed variant, avoiding runtime compression CPU.
+//
+// Skipped on Vercel — their CDN handles brotli/gzip natively, so the siblings
+// would just bloat the deployment.
 
 import { createBrotliCompress, createGzip, constants as zlibConstants } from 'node:zlib'
-import { createReadStream, createWriteStream, promises as fs } from 'node:fs'
+import { accessSync, createReadStream, createWriteStream, promises as fs } from 'node:fs'
 import { pipeline } from 'node:stream/promises'
 import { resolve, extname, join } from 'node:path'
 
-const ROOT = resolve(process.cwd(), '.output/public')
+if (process.env.VERCEL) {
+  console.log('[compress-output] Skipped: Vercel CDN handles compression.')
+  process.exit(0)
+}
+
+// Nitro writes to different paths depending on the preset:
+//   - default node-server preset → .output/public
+//   - vercel preset → .vercel/output/static
+const CANDIDATE_ROOTS = ['.output/public', '.vercel/output/static']
+const ROOT = (() => {
+  for (const candidate of CANDIDATE_ROOTS) {
+    const path = resolve(process.cwd(), candidate)
+    try {
+      accessSync(path)
+      return path
+    } catch {}
+  }
+  return resolve(process.cwd(), CANDIDATE_ROOTS[0])
+})()
 const MIN_BYTES = 1024
 const COMPRESSIBLE = new Set([
   '.html', '.css', '.js', '.mjs', '.cjs', '.json', '.xml',
