@@ -6,44 +6,6 @@
 /** Default spring — natural, smooth */
 export const defaultSpring = { stiffness: 100, damping: 15 } as const
 
-/** Snappy spring — buttons, quick interactions */
-export const snappySpring = { stiffness: 200, damping: 20 } as const
-
-/** Page enter/exit transitions */
-export const pageTransition = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -12 },
-  transition: { type: 'spring' as const, ...defaultSpring },
-} as const
-
-/** Stagger container — apply to parent grid/flex */
-export const staggerContainer = {
-  initial: 'hidden' as const,
-  animate: 'visible' as const,
-  variants: {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.1,
-      },
-    },
-  },
-} as const
-
-/** Stagger item — apply to each child in a stagger container */
-export const staggerItem = {
-  variants: {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: 'spring' as const, ...defaultSpring },
-    },
-  },
-} as const
-
 /** Hero section stagger */
 export const heroStagger = {
   initial: 'hidden' as const,
@@ -101,17 +63,5 @@ export const scrollStaggerItem = {
       y: 0,
       transition: { type: 'spring' as const, ...defaultSpring },
     },
-  },
-} as const
-
-
-/** Button hover — scale */
-export const buttonHover = {
-  whileHover: {
-    scale: 1.02,
-    transition: { type: 'spring' as const, ...snappySpring },
-  },
-  whileTap: {
-    scale: 0.98,
   },
 } as const

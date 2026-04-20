@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export type SystemTheme = 'dark' | 'light'
+type SystemTheme = 'dark' | 'light'
 
 /**
  * Tracks the OS-level color-scheme preference. Initial state is `light` so the

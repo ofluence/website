@@ -6,7 +6,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import type { IconSvgElement } from '@hugeicons/react'
 
-export interface LandingFeature {
+interface LandingFeature {
   number: string
   title: string
   headline: string
@@ -15,12 +15,12 @@ export interface LandingFeature {
   icon: IconSvgElement
 }
 
-export interface LandingStep {
+interface LandingStep {
   title: string
   description: string
 }
 
-export interface LandingPricingTier {
+interface LandingPricingTier {
   name: string
   price: string
   annualPrice?: string
@@ -32,14 +32,14 @@ export interface LandingPricingTier {
   highlighted: boolean
 }
 
-export interface LandingStat {
+interface LandingStat {
   value: number
   label: string
   prefix?: string
   suffix?: string
 }
 
-export interface LandingFooterLinkGroup {
+interface LandingFooterLinkGroup {
   title: string
   links: { label: string; href: string }[]
 }
@@ -246,9 +246,7 @@ export const LANDING_FOOTER_LINKS: LandingFooterLinkGroup[] = [
   },
   {
     title: 'Company',
-    links: [
-      { label: 'Contact', href: '/contact' },
-    ],
+    links: [{ label: 'Contact', href: '/contact' }],
   },
   {
     title: 'Legal',

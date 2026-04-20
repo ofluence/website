@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { seo } from '@/utils/seo.utils'
 
@@ -217,9 +217,9 @@ const PrivacyPolicyPage = () => {
           <p className="text-muted-foreground mt-4 leading-relaxed">
             We use cookies and similar technologies to operate the platform and analyze usage. For
             details, see our{' '}
-            <a href="/cookie-policy" className="text-primary hover:underline">
+            <Link to="/cookie-policy" className="text-primary hover:underline">
               Cookie Policy
-            </a>
+            </Link>
             .
           </p>
         </section>

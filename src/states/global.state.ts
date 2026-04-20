@@ -4,7 +4,7 @@ import { immer } from 'zustand/middleware/immer'
 
 export type Theme = 'light' | 'dark' | 'system'
 
-export interface InitialGlobalState {
+interface InitialGlobalState {
   theme: Theme
 }
 
@@ -33,7 +33,7 @@ const ssrSafeStorage = createJSONStorage(() => {
   return localStorage
 })
 
-export const useGlobalState = create<GlobalState>()(
+const useGlobalState = create<GlobalState>()(
   devtools(
     persist(
       immer((set) => ({

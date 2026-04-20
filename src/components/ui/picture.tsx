@@ -67,7 +67,7 @@ export function Picture({
   }
 
   if (!avifUrl && !webpUrl) {
-    return <img src={src} {...common} />
+    return <img src={src} alt={alt} {...common} />
   }
 
   return (
@@ -77,7 +77,7 @@ export function Picture({
     <picture style={{ display: 'contents' }}>
       {avifUrl && <source type="image/avif" srcSet={avifUrl} />}
       {webpUrl && <source type="image/webp" srcSet={webpUrl} />}
-      <img src={src} {...common} />
+      <img src={src} alt={alt} {...common} />
     </picture>
   )
 }

@@ -62,17 +62,16 @@ function ContactForm() {
     },
   })
 
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    form.handleSubmit().catch(() => {
+      // form surfaces field-level errors via meta; swallow the rejection
+    })
+  }
+
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault()
-        event.stopPropagation()
-        form.handleSubmit().catch(() => {
-          // form handles errors internally
-        })
-      }}
-      className="flex flex-col gap-6 sm:gap-10"
-    >
+    <form onSubmit={handleFormSubmit} className="flex flex-col gap-6 sm:gap-10">
       <div className="grid grid-cols-1 gap-6 sm:gap-10 md:grid-cols-2">
         <form.Field
           name="name"

@@ -24,9 +24,10 @@ function useActiveTocSection(sectionIds: string[]) {
   const [activeId, setActiveId] = useState<string | null>(null)
 
   useEffect(() => {
-    const elements = sectionIds
-      .map((id) => document.querySelector(`#${id}`))
-      .filter(Boolean) as Element[]
+    const elements = sectionIds.flatMap((id) => {
+      const element = document.querySelector(`#${id}`)
+      return element ? [element] : []
+    })
 
     if (elements.length === 0) return
 

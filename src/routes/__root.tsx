@@ -89,11 +89,8 @@ function AppShell({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    if (ph) {
-      ph.capture('$pageview', {
-        $current_url: window.location.href,
-      })
-    }
+    if (!ph) return
+    ph.capture('$pageview', { $current_url: window.location.href })
   }, [location.pathname, ph])
 
   return (

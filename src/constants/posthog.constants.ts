@@ -12,7 +12,7 @@
  * @example
  * VITE_POSTHOG_API_KEY=phc_xxxxxxxxxx
  */
-export const POSTHOG_API_KEY = import.meta.env.VITE_POSTHOG_API_KEY as string
+const POSTHOG_API_KEY = import.meta.env.VITE_POSTHOG_API_KEY as string
 
 /**
  * PostHog host URL
@@ -23,8 +23,7 @@ export const POSTHOG_API_KEY = import.meta.env.VITE_POSTHOG_API_KEY as string
  * @example
  * VITE_POSTHOG_HOST=https://us.i.posthog.com
  */
-export const POSTHOG_HOST =
-  (import.meta.env.VITE_POSTHOG_HOST as string) || 'https://us.i.posthog.com'
+const POSTHOG_HOST = (import.meta.env.VITE_POSTHOG_HOST as string) || 'https://us.i.posthog.com'
 
 /**
  * Enable PostHog debug logging
@@ -35,7 +34,7 @@ export const POSTHOG_HOST =
  * @example
  * VITE_POSTHOG_DEBUG=true
  */
-export const POSTHOG_DEBUG = import.meta.env.VITE_POSTHOG_DEBUG === 'true'
+const POSTHOG_DEBUG = import.meta.env.VITE_POSTHOG_DEBUG === 'true'
 
 /**
  * Route PostHog requests through the backend reverse proxy
@@ -46,7 +45,7 @@ export const POSTHOG_DEBUG = import.meta.env.VITE_POSTHOG_DEBUG === 'true'
  * @example
  * VITE_POSTHOG_REVERSE_PROXY=true
  */
-export const POSTHOG_REVERSE_PROXY = import.meta.env.VITE_POSTHOG_REVERSE_PROXY === 'true'
+const POSTHOG_REVERSE_PROXY = import.meta.env.VITE_POSTHOG_REVERSE_PROXY === 'true'
 
 /**
  * Whether PostHog is enabled
@@ -55,7 +54,7 @@ export const POSTHOG_REVERSE_PROXY = import.meta.env.VITE_POSTHOG_REVERSE_PROXY 
  * @export
  * @constant {boolean} POSTHOG_ENABLED
  */
-export const POSTHOG_ENABLED = !!POSTHOG_API_KEY
+const POSTHOG_ENABLED = !!POSTHOG_API_KEY
 
 /**
  * Aggregate configuration object for convenience

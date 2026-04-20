@@ -14,7 +14,7 @@
  * but there is no global minimum level gating; enable/disable
  * is controlled solely by the `enabled` flag.
  */
-export type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'trace'
+type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'trace'
 
 /**
  * Initialization options for the logger singleton.
@@ -22,7 +22,7 @@ export type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'trace'
  * - prefix: label added to every log line, useful to identify the source/app
  * - useColors: apply CSS color styles to the console output
  */
-export interface LoggerOptions {
+interface LoggerOptions {
   enabled?: boolean
   prefix?: string
   useColors?: boolean
@@ -31,7 +31,7 @@ export interface LoggerOptions {
 /**
  * Structured record delivered to custom handlers.
  */
-export interface LogRecord {
+interface LogRecord {
   level: LogLevel
   message: string
   args: unknown[]
@@ -361,21 +361,3 @@ class LoggerService {
 
 // Singleton instance for app-wide use
 export const logger = new LoggerService({})
-
-// Named helpers mirroring console API
-export const trace = (message: string, ...args: unknown[]) => logger.trace(message, ...args)
-export const debug = (message: string, ...args: unknown[]) => logger.debug(message, ...args)
-export const info = (message: string, ...args: unknown[]) => logger.info(message, ...args)
-export const warn = (message: string, ...args: unknown[]) => logger.warn(message, ...args)
-export const error = (message: string, ...args: unknown[]) => logger.error(message, ...args)
-export const log = (message: string, ...args: unknown[]) => logger.log(message, ...args)
-export const group = (label: string, ...args: unknown[]) => logger.group(label, ...args)
-export const groupCollapsed = (label: string, ...args: unknown[]) =>
-  logger.groupCollapsed(label, ...args)
-export const groupEnd = () => logger.groupEnd()
-
-// Console override controls
-export const installConsoleOverrides = () => logger.installConsoleOverrides()
-export const uninstallConsoleOverrides = () => logger.uninstallConsoleOverrides()
-
-// export default logger
